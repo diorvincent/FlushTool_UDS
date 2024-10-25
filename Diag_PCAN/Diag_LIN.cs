@@ -889,7 +889,7 @@ namespace Diag_BUS
         /// </summary>
         /// <param name="reqMsg">UDS request message</param>
         /// <param name="respMsg">UDS response message</param>
-        public int Send5TimeReqMsg(byte[] reqMsg, ref byte[] respMsg)
+        public int Send5TimeReqMsg(byte[] reqMsg, ref byte[] respMsg, byte ID=0x00)
         {
             int k = 0, nResult = -1;
             for (int i = 0; i < respMsg.Length; i++)
@@ -897,7 +897,7 @@ namespace Diag_BUS
 
             while (++k < 6)
             {
-                nResult = Write_Message(reqMsg);
+                nResult = Write_Message(reqMsg, ID);
                 if (nResult != 0)
                     return nResult;
 
@@ -4400,7 +4400,7 @@ namespace Diag_BUS
 
             // Send the message
             //
-            nResult =  WriteFrame(msgs);
+            nResult =  WriteFrame(msgs, ID);
 
             // The message was successfully sent
             //
@@ -4645,9 +4645,13 @@ namespace Diag_BUS
                 // The message is sent to the configured hardware
                 //
                 linMsg.WaitTime = 100;
-                linMsg.lin_uds_addr.NAD = Convert.ToByte(numUpDownNAD.Text, 16);   //0x77; //0x65; //0x42;
+                if(ID == 0x10 || ID == 0x14 || ID == 0x28 || ID == 0x3E || ID == 0x85)
+                    linMsg.lin_uds_addr.NAD = 0x7E;
+                else
+                    linMsg.lin_uds_addr.NAD = Convert.ToByte(numUpDownNAD.Text, 16);   //0x77; //0x65; //0x42; //0x7E;
+
                 linMsg.lin_uds_addr.CheckType = 0; //0:standard verify  1:enhance verify
-                if(PRODUCT_TYPE == PRJTYPE._7Kw)
+                if(PRODUCT_TYPE == PRJTYPE._7Kw || PRODUCT_TYPE == PRJTYPE._Chery_CBF)
                     linMsg.lin_uds_addr.STmin = 5;
                 else if(PRODUCT_TYPE == PRJTYPE._LINHex)
                     linMsg.lin_uds_addr.STmin = 10;
@@ -7030,6 +7034,7 @@ namespace Diag_BUS
             int k = 0;
             string strIniKeyValueT = string.Empty;
             string strIniKeyValue = string.Empty;
+            string strIniDateValue = string.Empty;
             byte[] kValue = new byte[nValueLen];
 
             if(nBusType == 0)
@@ -7050,6 +7055,7 @@ namespace Diag_BUS
                 }
                 else if (strIniKey == "008C")
                 {
+                    bool bSameProductDay = true;
                     string strBaseRegVal, strDate;
                     //Part number type encoding + Vendor code type encoding + Vendor code + Supplier produces batch type code
                     //strBaseRegVal = "31305F33303230303333383241415F31315F5A4A305F31325F";
@@ -7058,6 +7064,8 @@ namespace Diag_BUS
                     byte[] BaseRegVal = Encoding.ASCII.GetBytes(strBaseRegVal);
 
                     //Year/month/day ASCII code
+                    strIniDateValue = fConvert.ReadIniKeys("DID_LIN", "product_date", "241001", strIniFile);
+
                     DateTime dt = DateTime.Now;
                     strDate = dt.Date.ToString("yy/MM/dd");
                     string[] strDates = strDate.Split('/');
@@ -7069,16 +7077,31 @@ namespace Diag_BUS
                         else
                             strDate += "0" + s;
                     }
-
+                    //for check PTC was producted on one day or ? reset 'SerialNumberDataIdentifier' If product date changed.
+                    if (strIniDateValue != strDate)
+                    {
+                        bSameProductDay = false;
+                        fConvert.WriteIniKeys("DID_LIN", "product_date", strDate, strIniFile);
+                    }
+                    else
+                    {
+                        bSameProductDay = true;
+                    }
+                    
                     //@2
                     byte[] pDataTime = Encoding.ASCII.GetBytes(strDate);                 
 
                     //SerialNumberDataIdentifier
+                    if(!bSameProductDay)
+                    {
+                        fConvert.WriteIniKeys("DID_LIN", strIniKey, "10000", strIniFile);
+                    }
+
                     strIniKeyValue = fConvert.ReadIniKeys("DID_LIN", strIniKey, "10000", strIniFile);
                     int nFlushTimes = int.Parse(strIniKeyValue) + 1;
                     strIniKeyValue = nFlushTimes.ToString();
 
-                    //@3
+                    //@3 combine together all of ascii bytes
                     byte[] FlushTimes = Encoding.ASCII.GetBytes(strIniKeyValue);
                     byte[] part = Combine(BaseRegVal, pDataTime);
                     kValue = Combine(part, FlushTimes);
@@ -7092,9 +7115,8 @@ namespace Diag_BUS
                     //    string byteString = hexString.Substring(i * 2, 2);
                     //    byteArray[i] = Convert.ToByte(byteString, 16);
                     //}
-                    //_
-
                     //strIniKeyValue = BitConverter.ToString(kValue).Replace("-", "");
+                    //_
                 }
                 else if (strIniKey == "F184")
                 {
@@ -7149,6 +7171,7 @@ namespace Diag_BUS
                 }
 
                 fConvert.WriteIniKeys("DID_LIN", strIniKey, strIniKeyValue, strIniFile);
+
             }
            
             if(nBusType == 1)
@@ -8739,7 +8762,7 @@ namespace Diag_BUS
                 if (/*PRODUCT_TYPE == PRJTYPE._7Kw &&*/ m_bEnable_0x3E)
                 {
                     byte[] ReqMsg0 = new byte[] { 0x3E, 0x80 };
-                    Write_Message(ReqMsg0);
+                    Write_Message(ReqMsg0, 0x3E);
                 }
             }
         }

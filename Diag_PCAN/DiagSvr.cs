@@ -5430,6 +5430,10 @@ namespace Diag_BUS
                 gDiag_Lin.SetDonwloadingStatus(true);//disable all of button which accoiate with diag message func when download start
 
                 m_ReqMsg = new byte[] { 0x10, 0x01 }; //Default session
+#if _0x7E                
+                gDiag_Lin.Write_Message(m_ReqMsg, 0x10);
+                Thread.Sleep(10);
+#else
                 if (gDiag_Lin.Send5TimeReqMsg(m_ReqMsg, ref respMsg) == 0)
                 {
                     gDiag_Lin.IncludeTextMessage("Message ID not correct.");
@@ -5437,9 +5441,10 @@ namespace Diag_BUS
                 }
 
                 if (gDiag_Lin.m_RespMsg[0] == 0x50 && gDiag_Lin.m_RespMsg[1] == 0x01)
+#endif
                 {
                     m_ReqMsg = new byte[] { 0x10, 0x83 }; //Extension session
-                    gDiag_Lin.Write_Message(m_ReqMsg);
+                    gDiag_Lin.Write_Message(m_ReqMsg, 0x10);
                     //During the reprogramming process, a functional addressing message of $10 83 needs to be sent first to 
                     //request all ECUs in the network to enter the extended session mode. After sending the message, the
                     //Tester waits for 1s and then performs the subsequent operations.
@@ -5451,21 +5456,13 @@ namespace Diag_BUS
                     bGetPositiveResp = Resp_TH(ref nBlocks, 350);
                     if (bGetPositiveResp)
                     {
-                        m_ReqMsg = new byte[] { 0x28, 0x83, 0x03 }; //Communication Control
-                        gDiag_Lin.Write_Message(m_ReqMsg);
+                        m_ReqMsg = new byte[] { 0x85, 0x82 }; //Control DTC setting
+                        gDiag_Lin.Write_Message(m_ReqMsg, 0x85);
                         Thread.Sleep(10);
 
-                        /* Read Data By Identifier*/
-                        //byte[] Resp = new byte[20];
-                        //m_ReqMsg = new byte[] { 0x22, 0xF0, 0x13 }; // PartNumber                         
-                        //ManauallyReadMessage(m_ReqMsg, ref Resp, 20);
-                        //m_ReqMsg = new byte[] { 0x22, 0xF1, 0x87 }; // hardware fingerprint                         
-                        //ManauallyReadMessage(m_ReqMsg, ref Resp, 20);
-                        //m_ReqMsg = new byte[] { 0x22, 0xF1, 0x89 }; // software version 
-                        //ManauallyReadMessage(m_ReqMsg, ref Resp, 20);
-                        //m_ReqMsg = new byte[] { 0x22, 0xF1, 0x8A }; // SystemSupplier
-                        //ManauallyReadMessage(m_ReqMsg, ref Resp, 20);
-                        //_
+                        m_ReqMsg = new byte[] { 0x28, 0x83, 0x03 }; //Communication Control
+                        gDiag_Lin.Write_Message(m_ReqMsg, 0x28);
+                        Thread.Sleep(10);
 
                         m_ReqMsg = new byte[] { 0x10, 0x02 }; //Programme session
                         gDiag_Lin.Send5TimeReqMsg(m_ReqMsg, ref respMsg);
@@ -5514,20 +5511,25 @@ namespace Diag_BUS
 
                                     //Enable TestPresent 0x3E  & message view rolling
                                     m_ReqMsg = new byte[] { 0x3E, 0x00 };
-
+#if _0x7E
+                                    gDiag_Lin.Write_Message(m_ReqMsg, 0x3E);
+                                    Thread.Sleep(10);
+                                    gDiag_Lin.m_bEnable_0x3E = true;
+#else
                                     gDiag_Lin.Write_Message(m_ReqMsg);
                                     Thread.Sleep(10);
                                     gDiag_Lin.ReadMessage(ref respMsg);
                                     if (respMsg[0] == 0x7E && respMsg[1] == 0x00)
                                     {
-                                         //gDiag_Lin.m_bEnable_0x3E = true;
+                                         gDiag_Lin.m_bEnable_0x3E = true;
                                     }
                                     else
                                     {
                                         gDiag_Lin.IncludeTextMessage("0x3E service not work normally.");
                                         return false;
                                     }
-                                 
+#endif                          
+                                    //write DID( 0x008C, 0xF184)
                                     strIniFile = Directory.GetCurrentDirectory() + @"\DIDInfo.ini";
                                     //write DID(F18C, 008C）
                                     writeDID[0] = 0x2E;
@@ -5576,9 +5578,12 @@ namespace Diag_BUS
                         }
                     }
                 }
+#if _0x7E
+                
+#else
                 else
                     gDiag_Lin.NegativeMessage(0x10, gDiag_Lin.m_RespMsg);
-
+#endif
                 //Back flashing step
                 if (bMainFlashOK)
                 {
@@ -5587,7 +5592,7 @@ namespace Diag_BUS
 
                     //CommunicationControl switch on
                     m_ReqMsg = new byte[] { 0x28, 0x80, 0x03 };
-                    gDiag_Lin.Write_Message(m_ReqMsg);
+                    gDiag_Lin.Write_Message(m_ReqMsg, 0x28);
                     Thread.Sleep(10);
 
                     gDiag_Lin.IncludeTextMessage("ECU will reboot,please wait for a moment.");
@@ -5603,16 +5608,22 @@ namespace Diag_BUS
                         Thread.Sleep(500);
 
                         m_ReqMsg = new byte[] { 0x10, 0x03 }; //Extended Session
-                        gDiag_Lin.Write_Message(m_ReqMsg);
-
+                        gDiag_Lin.Write_Message(m_ReqMsg, 0x10);
+#if _0x7E                        
+                        Thread.Sleep(10);
+#else
                         bGetPositiveResp = Resp_TH(ref nBlockNum, 50);
                         if (bGetPositiveResp)
+#endif
                         {
                             m_ReqMsg = new byte[] { 0x14, 0xFF, 0xFF, 0xFF }; //Clear DTC
-                            gDiag_Lin.Write_Message(m_ReqMsg);
+                            gDiag_Lin.Write_Message(m_ReqMsg, 0x14);
+                            Thread.Sleep(10);
+                            m_ReqMsg = new byte[] { 0x85, 0x81 }; //Enable diagnostic trouble code
+                            gDiag_Lin.Write_Message(m_ReqMsg, 0x85);
                             Thread.Sleep(10);
                             m_ReqMsg = new byte[] { 0x10, 0x81 }; //Default Session
-                            gDiag_Lin.Write_Message(m_ReqMsg);
+                            gDiag_Lin.Write_Message(m_ReqMsg, 0x10);
 
                             gDiag_Lin.m_bEnable_0x3E = false;
 
