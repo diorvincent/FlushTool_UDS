@@ -35,7 +35,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;_SecurityAccess;_Com_Switch;</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;_SecurityAccess;_Com_Switch;_0x7E;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

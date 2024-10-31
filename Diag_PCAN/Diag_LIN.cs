@@ -889,7 +889,9 @@ namespace Diag_BUS
         /// </summary>
         /// <param name="reqMsg">UDS request message</param>
         /// <param name="respMsg">UDS response message</param>
-        public int Send5TimeReqMsg(byte[] reqMsg, ref byte[] respMsg, byte ID=0x00)
+        /// <param name="ID">request message ID</param>
+        /// <param name="MsgLen">receive message length</param>
+        public int Send5TimeReqMsg(byte[] reqMsg, ref byte[] respMsg, byte ID=0x0, int MsgLen=8)
         {
             int k = 0, nResult = -1;
             for (int i = 0; i < respMsg.Length; i++)
@@ -908,13 +910,13 @@ namespace Diag_BUS
                 else
                     Thread.Sleep(10);
 
-                nResult = (int)ReadMessage(ref respMsg);
+                nResult = (int)ReadMessage(ref respMsg, MsgLen);
                 if (respMsg[0] == 0x78)
                 {
                     for(int x = 0; x<5; x++)
                     {
                         Thread.Sleep(500);
-                        nResult = (int)ReadMessage(ref respMsg);
+                        nResult = (int)ReadMessage(ref respMsg, MsgLen);
 
                         if (nResult > 0 && respMsg[0] != 0x7F)
                             break;
@@ -5050,8 +5052,10 @@ namespace Diag_BUS
         /// <summary>
         /// overload Function for reading CAN/LIN messages on bus adapter device(for thread create way2)
         /// </summary>
+        /// <param name="respMsg">output received message buffer</param>
+        /// <param name="MsgLen">mark receive message buffer length</param>
         /// <returns>A TPCANStatus error code</returns>
-        public uint ReadMessage(ref byte[] respMsg)
+        public uint ReadMessage(ref byte[] respMsg, int MsgLen = 0)
         {
             Int32 nResult = -1;
             int iLength = 8;
@@ -5065,6 +5069,8 @@ namespace Diag_BUS
 
                 // We execute the "Read" function of the USBXXX
                 //
+                iLength = MsgLen > iLength ? MsgLen : iLength;
+                linMsg.DLC = iLength;
                 linMsg.data = new byte[iLength];
                 linMsg.lin_uds_addr.ReqID = Convert.ToByte(nudIdTo.Text, 16);
                 linMsg.lin_uds_addr.ResID = Convert.ToByte(nudIdFrom.Text, 16);
@@ -5073,16 +5079,16 @@ namespace Diag_BUS
                 linMsg.Dir = "Rx";
 
                 object LINMSG = (object)linMsg;
-                nResult = m_linBus.ReceiveMessage(out LINMSG);
+                nResult = m_linBus.ReceiveMessage(out LINMSG, iLength);
 
                 if (nResult > 0 && LINMSG != null)
                 {
                     respMsg = ((LINMsg)LINMSG).lin_ex_msg.Data;
                     linMsg.data = ((LINMsg)LINMSG).lin_ex_msg.Data;
                     if (linMsg.data != null)
-                        linMsg.DLC = Convert.ToByte(linMsg.data.Length);
+                        linMsg.DLC = linMsg.data.Length;
                     else
-                        linMsg.DLC = Convert.ToByte(iLength);
+                        linMsg.DLC = iLength;
                     uID = ((LINMsg)LINMSG).lin_uds_addr.ResID;
 
                     if (m_DisplayAppMsg)
@@ -7467,6 +7473,7 @@ namespace Diag_BUS
         /// <returns></returns>
         private int Write_Read_DID(byte[] writeDID, byte[] ReadDID, ref byte[] respMsg, int nBusType = 0, int nRespMsgLen = 0)
         {
+            byte respLen = 0x0;
             int nMaxNumOfBlock = 0;
             bool bGetPositiveResp = false;
             int k = 0, nResult = -1;
@@ -7515,17 +7522,18 @@ namespace Diag_BUS
                         else if (PRODUCT_TYPE == PRJTYPE._7Kw || PRODUCT_TYPE == PRJTYPE._Chery_CBF) 
                             Thread.Sleep(10);
 
-                        nResult = (int)ReadMessage(ref respMsg);
+                        respLen = Convert.ToByte(nRespMsgLen + 3);
+                        nResult = (int)ReadMessage(ref respMsg, respLen);
 
                         if (PRODUCT_TYPE == PRJTYPE._7Kw && respMsg[0] == 0x78)
                         {
                             Thread.Sleep(500);
-                            nResult = (int)ReadMessage(ref respMsg);
+                            nResult = (int)ReadMessage(ref respMsg, respLen);
                         }
                         else if (PRODUCT_TYPE == PRJTYPE._Chery_CBF && respMsg[2] == 0x78)
                         {
-                            Thread.Sleep(500);
-                            nResult = (int)ReadMessage(ref respMsg);
+                            Thread.Sleep(500);                     
+                            nResult = (int)ReadMessage(ref respMsg, respLen);
                         }
 
                         if (nResult > 0 && respMsg[0] != 0x7F)

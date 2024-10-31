@@ -5453,7 +5453,7 @@ namespace Diag_BUS
                     m_ReqMsg = new byte[] { 0x31, 0x01, 0x02, 0x03 }; // Programming Condition Check
                     gDiag_Lin.Write_Message(m_ReqMsg); 
 
-                    bGetPositiveResp = Resp_TH(ref nBlocks, 350);
+                    bGetPositiveResp = Resp_TH(ref nBlocks, 20);
                     if (bGetPositiveResp)
                     {
                         m_ReqMsg = new byte[] { 0x85, 0x82 }; //Control DTC setting
@@ -5471,7 +5471,7 @@ namespace Diag_BUS
                         {
                             byte[] resp0x27 = new byte[18];
                             m_ReqMsg = new byte[] { 0x27, 0x11 }; //SubFunc11
-                            gDiag_Lin.Send5TimeReqMsg(m_ReqMsg, ref resp0x27);
+                            gDiag_Lin.Send5TimeReqMsg(m_ReqMsg, ref resp0x27, 0x27, 0x12);
 
                             if (gDiag_Lin.m_RespMsg[0] == 0x67 && gDiag_Lin.m_RespMsg[1] == 0x11) //SubFunc11
                             {
@@ -6006,6 +6006,7 @@ namespace Diag_BUS
                 {
                     resp[0] = 0x0;
                     resp[1] = 0x0;
+                    resp[2] = 0x0;//
                     resp[3] = 0x0;
                     nNegResp++;
                 }

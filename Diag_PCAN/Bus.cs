@@ -56,6 +56,12 @@ namespace Diag_BUS
             BusMsg = new object();
             return 0;
         }
+        
+        public virtual int ReceiveMessage(out object BusMsg, int MsgLen=8)
+        {
+            BusMsg = new object();
+            return 0;
+        }
 
         public static Bus Initialize(ref string strmsg, ushort BaudRate)
         {
@@ -433,11 +439,11 @@ namespace Diag_BUS
             return nRet;        // base.SendMessage(LinMsg);
         }
 
-        public override int ReceiveMessage(out object BusMsg)
+        public override int ReceiveMessage(out object BusMsg, int nMsgLen=8)
         {
             int nRet = -1;
-
-             m_lin_msg.lin_ex_msg.Data = new byte[30];//for receive DID response msg, which max length of response msg is "DID 0xF0B4"
+            
+             m_lin_msg.lin_ex_msg.Data = new byte[nMsgLen];//for receive DID response msg, which max length of response msg is "DID 0xF0B4"
             nRet = LIN_UDS.LIN_UDS_Response(m_DevHandle, 0, ref m_lin_msg.lin_uds_addr, m_lin_msg.lin_ex_msg.Data, m_lin_msg.WaitTime);
             
             if (nRet > 0)
