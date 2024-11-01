@@ -36,7 +36,7 @@ namespace Diag_BUS
         /// </summary>
         private delegate void ReadDelegateHandler(/*byte[] respMsg*/);
         private delegate bool FlashFirewareHandler(int nCurrIndex, int n0x36PackCnt, int nMaxBlockSize);
-        
+
         private delegate bool DoChkUDSSvrDelegate(DataTable data, string strUDSFilePath, int nRow, int nColumn);
         private delegate int FlashFirewareHandlerForTP90(byte[] buff, int nCurrIndex, int n0x36PackCnt);
 
@@ -239,7 +239,7 @@ namespace Diag_BUS
         /// </summary>
         bool m_b1stFrm;
         int m_n36SvrPackNum; //0x36 service send data counter
-        
+
         int gCurrPackPos; //0x36 service frame index;
         /// <summary>
         /// mutiple frame on CAN
@@ -416,7 +416,7 @@ namespace Diag_BUS
                 SetConnectionStatus(true);
             }
 
-            if(m_bus.BusType == Bus.Type.LIN_BUS)
+            if (m_bus.BusType == Bus.Type.LIN_BUS)
             {
                 // Clears the Channel comboBox and fill it again with 
                 // the PCAN-Basic handles for no-Plug&Play hardware and
@@ -425,7 +425,7 @@ namespace Diag_BUS
                 try
                 {
                     #region Insert USBXXX(tomoss can device into list)
-                    if(m_linBus.State)
+                    if (m_linBus.State)
                     {
                         bool bInfo = false;
                         StringBuilder sbr = null;
@@ -433,9 +433,9 @@ namespace Diag_BUS
                         USB_DEVICE.DEVICE_INFO DevInfo;
                         DevInfo = m_linBus.DevInfo;
                         sbr = new StringBuilder(256);
-                        
+
                         bInfo = USB_DEVICE.DEV_GetDeviceInfo(m_linBus.DeviceHandle, ref DevInfo, sbr);
-                        if(bInfo)
+                        if (bInfo)
                         {
                             String strFireware = Encoding.Default.GetString(DevInfo.FirmwareName);
                             cbbChannel.Items.Add(strFireware);
@@ -466,7 +466,7 @@ namespace Diag_BUS
                     MessageBox.Show("Unable to find the library: USB2XXX.dll !", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Environment.Exit(-1);
                 }
-            }  
+            }
         }
 
         #region Help functions
@@ -530,7 +530,7 @@ namespace Diag_BUS
             m_ReqMsg = new byte[8];
             m_RespMsg = new byte[8];
             m_LINMsg = new byte[8];
-            
+
             // Fills and configures the Data of several comboBox components
             //
             FillComboBoxData();
@@ -545,8 +545,8 @@ namespace Diag_BUS
             //USBXXX
             m_DevHandle = 0;
             m_LINIndex = 0;
-            m_LINDevNum = 0; 
-            
+            m_LINDevNum = 0;
+
             m_MSGTypeStr = new String[10] { "UN", "MW", "MR", "SW", "SR", "BK", "SY", "ID", "DT", "CK" };
             m_CKTypeStr = new String[5] { "STD", "EXT", "USER", "NONE", "ERROR" };
 
@@ -644,7 +644,7 @@ namespace Diag_BUS
         {
             // Channels will be check
             //
-           // btnHwRefresh_Click(this, new EventArgs());
+            // btnHwRefresh_Click(this, new EventArgs());
 
             // FD Bitrate: 
             //      Arbitration: 1 Mbit/sec 
@@ -736,7 +736,7 @@ namespace Diag_BUS
             btnTest.Enabled = !bDonwloading;
             btnResetDID.Enabled = !bDonwloading;
             cbEnAPPMsg.Enabled = !bDonwloading;
-            btnResetECU.Enabled= !bDonwloading;
+            btnResetECU.Enabled = !bDonwloading;
             //btnExportTrace.Enabled = !bDonwloading;
         }
 
@@ -746,14 +746,14 @@ namespace Diag_BUS
         {
             m_MsgCount = 0;
             //if file not exists,then notify error
-            if (File.Exists(m_strHexFileName) && m_bus!=null)
+            if (File.Exists(m_strHexFileName) && m_bus != null)
             {
                 Flashing falshingObj = new Flashing();
                 if (m_bus.BusType == Bus.Type.LIN_BUS)
                 {
                     if (PRODUCT_TYPE == PRJTYPE._xc2234 && m_strHexBinExtension == ".hex")
                     {
-                        LINWriteThreadFunc(); 
+                        LINWriteThreadFunc();
                     }
                     else if (PRODUCT_TYPE == PRJTYPE._7Kw && m_strHexBinExtension == ".bin" ||
                                PRODUCT_TYPE == PRJTYPE._Chery_CBF && m_strHexBinExtension == ".cbf" ||
@@ -762,10 +762,6 @@ namespace Diag_BUS
                         //LINWriteThreadFunc_TP90();
                         falshingObj = new Flashing(this, (byte)PRODUCT_TYPE);
                     }
-                    //else if (PRODUCT_TYPE == PRJTYPE._LINHex && m_strHexBinExtension == ".hex")
-                    //{
-                    //    falshingObj = new Flashing(this, (byte)PRODUCT_TYPE);
-                    //}
                     else
                         IncludeTextMessage("Bus adapter connect not correct,please connect P-CAN for flashing app file.");
                 }
@@ -782,8 +778,8 @@ namespace Diag_BUS
                     }
                     else if (PRODUCT_TYPE == PRJTYPE._CANUDS40 ||           //CAN UDS(ac7840)
                             PRODUCT_TYPE == PRJTYPE._CANUDS01 ||            //CAN UDS(ac7801)
-                             PRODUCT_TYPE == PRJTYPE._SplitFlash_CAN ||     //split flash on CAN
-                             PRODUCT_TYPE == PRJTYPE._Chery_CBF)             //Chery CBF
+                             PRODUCT_TYPE == PRJTYPE._SplitFlash_CAN)     //split flash on CAN
+                                                                          //PRODUCT_TYPE == PRJTYPE._Chery_CBF             //Chery CBF
                     {
                         falshingObj = new Flashing(this, (byte)PRODUCT_TYPE);
                     }
@@ -814,10 +810,10 @@ namespace Diag_BUS
             Console.WriteLine(string.Format("BlockNum::{0:d}", nBlockNum));
 
             FlashFirewareHandler ffHandler = new FlashFirewareHandler(FlashFirmware_TH);
-            
+
             for (int x = 1; x < nBlockNum; x++)
             {
-                this.BeginInvoke(ffHandler, new object[] { x, n0x36PackNum++, nBlockNum});
+                this.BeginInvoke(ffHandler, new object[] { x, n0x36PackNum++, nBlockNum });
                 Thread.Sleep(260);
 
                 //wait for single block write response
@@ -876,7 +872,7 @@ namespace Diag_BUS
             byte[] _36Svr_Times = new byte[] { 0 };
             byte bTimes0 = Convert.ToByte(nCurrIndex >> 8);
             byte bTimes1 = Convert.ToByte(nCurrIndex & 0xFF);
-            _36Svr_Times = Combine(new byte[] { 0x36 }, new byte[] { bTimes0, bTimes1 }); 
+            _36Svr_Times = Combine(new byte[] { 0x36 }, new byte[] { bTimes0, bTimes1 });
 
             DataBuffer = Combine(_36Svr_Times, DataBuffer);
             Write_Message(DataBuffer);
@@ -891,7 +887,7 @@ namespace Diag_BUS
         /// <param name="respMsg">UDS response message</param>
         /// <param name="ID">request message ID</param>
         /// <param name="MsgLen">receive message length</param>
-        public int Send5TimeReqMsg(byte[] reqMsg, ref byte[] respMsg, byte ID=0x0, int MsgLen=8)
+        public int Send5TimeReqMsg(byte[] reqMsg, ref byte[] respMsg, byte ID = 0x0, int MsgLen = 8)
         {
             int k = 0, nResult = -1;
             for (int i = 0; i < respMsg.Length; i++)
@@ -903,9 +899,9 @@ namespace Diag_BUS
                 if (nResult != 0)
                     return nResult;
 
-                if(PRODUCT_TYPE == PRJTYPE._xc2234)
+                if (PRODUCT_TYPE == PRJTYPE._xc2234)
                     Thread.Sleep(30);
-                else if(PRODUCT_TYPE == PRJTYPE._7Kw)
+                else if (PRODUCT_TYPE == PRJTYPE._7Kw)
                     Thread.Sleep(10);
                 else
                     Thread.Sleep(10);
@@ -913,7 +909,7 @@ namespace Diag_BUS
                 nResult = (int)ReadMessage(ref respMsg, MsgLen);
                 if (respMsg[0] == 0x78)
                 {
-                    for(int x = 0; x<5; x++)
+                    for (int x = 0; x < 5; x++)
                     {
                         Thread.Sleep(500);
                         nResult = (int)ReadMessage(ref respMsg, MsgLen);
@@ -923,7 +919,7 @@ namespace Diag_BUS
                     }
                 }
 
-                if (nResult > 0 && respMsg[0]!=0x7F)
+                if (nResult > 0 && respMsg[0] != 0x7F)
                     break;
             }
             return nResult;
@@ -938,7 +934,7 @@ namespace Diag_BUS
             bool bMainFlashOK = false;
             byte[] respMsg = new byte[8];
             try
-            {            
+            {
                 #region CAN UDS INIT OPEARATION
                 /*
                 //Pre flashing step
@@ -1018,7 +1014,7 @@ namespace Diag_BUS
                     //m_bStartDownload = true; //Enable TestPresent 0x3E
 
                     m_ReqMsg = new byte[] { 0x10, 0x02 }; //Programe session
-                    if(Send5TimeReqMsg(m_ReqMsg, ref respMsg) == 0)
+                    if (Send5TimeReqMsg(m_ReqMsg, ref respMsg) == 0)
                     {
                         MessageBox.Show("Message ID not correct.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -1065,7 +1061,7 @@ namespace Diag_BUS
                                 //if(bMainFlashOK)
                                 {
                                     IncludeTextMessage("Bootloader file download succeed.");
-                                            
+
                                     //EraseMemory
                                     //uint uBaseAddr = m_RecInfo[0].uBaseAddress;
                                     //int nHexTotalLen = m_RecInfo[m_RecInfo.Count - 1].nTotalLen;
@@ -1091,7 +1087,7 @@ namespace Diag_BUS
                                     int nBlocks = 0;
                                     bool bGetPositiveResp = false;
 
-                                    bGetPositiveResp = Resp_TH(ref nBlocks, 350);                    
+                                    bGetPositiveResp = Resp_TH(ref nBlocks, 350);
                                     if (bGetPositiveResp)
                                     {
                                         IncludeTextMessage("Ecu's application be earsed.");
@@ -1108,7 +1104,7 @@ namespace Diag_BUS
                                     {
                                         NegativeMessage(0x31, m_RespMsg);
                                         IncludeTextMessage("Some issue occure when earse ecu's application file.");
-                                            
+
                                         return;
                                     }
                                 }
@@ -1117,13 +1113,13 @@ namespace Diag_BUS
                                 //    IncludeTextMessage("Some issue occure when download bootloader file.");
                                 //    return;
                                 //}
+                            }
+                            //else
+                            //    NegativeMessage(0x27, m_RespMsg);
                         }
                         //else
                         //    NegativeMessage(0x27, m_RespMsg);
                     }
-                    //else
-                    //    NegativeMessage(0x27, m_RespMsg);
-                }
                     else
                         NegativeMessage(0x10, m_RespMsg);
                 }
@@ -1132,7 +1128,7 @@ namespace Diag_BUS
                 if (bMainFlashOK)
                 {
                     m_ReqMsg = new byte[] { 0x31, 0x01, 0xFF, 0x01 }; //CheckProgrammingDependencies
-                    Write_Message(m_ReqMsg);                 
+                    Write_Message(m_ReqMsg);
 
                     int nBlockNum = 0;
                     bool bGetPositiveResp = false;
@@ -1159,10 +1155,10 @@ namespace Diag_BUS
                         if (bGetPositiveResp)
                         {
                             IncludeTextMessage("ECU hard reset succeed.");      //this.Invoke(new MethodInvoker(delegate () { IncludeTextMessage("ECU hard reset succeed.");}));
-                                
+
                             m_ReqMsg = new byte[] { 0x14, 0xFF, 0xFF, 0xFF }; // Clear dianostic info
                             Write_Message(m_ReqMsg);    //this.Invoke(new MethodInvoker(delegate () { Write_Message(m_ReqMsg);}));
-                                
+
                             //m_RespMsg = m_lin_msg.data;
                             //m_bStartDownload = false; //stop send 0x3E
                             //m_ReqMsg = new byte[] { 0x85, 0x01 }; // Open DTC
@@ -1190,14 +1186,14 @@ namespace Diag_BUS
                         }
                         else
                             NegativeMessage(0x11, m_RespMsg);
-                           
+
                     }
                     else if (m_RespMsg[1] == 0x71 && m_RespMsg[4] == 0x05)
                         NegativeMessage(0x31, m_RespMsg);
                 }
 
                 IncludeTextMessage("Fireware download succeed.");
-                
+
                 //SetConnectionStatus(true);
             }
             catch (IOException ep)
@@ -1242,7 +1238,7 @@ namespace Diag_BUS
             #endregion
 
             //memory address for download fireware
-            m_ReqMsg = new byte[] { 0x34,0x00,0x44 }; 
+            m_ReqMsg = new byte[] { 0x34, 0x00, 0x44 };
             string strDownloadAddr = Convert.ToString(MEMORY_ADDR, 16);
             byte[] DownloadAddr0 = HexStringToByteArray(strDownloadAddr); // ConvertHexStr2ByteArray(strDownloadAddr);
             byte[] DownloadAddr = Combine(m_ReqMsg, DownloadAddr0);
@@ -1258,19 +1254,19 @@ namespace Diag_BUS
 
             int nMaxNumOfBlock = 0;
             bool bGetPositiveResp = false;
-            bGetPositiveResp = Resp_TH(ref nMaxNumOfBlock, 5); 
+            bGetPositiveResp = Resp_TH(ref nMaxNumOfBlock, 5);
             if (bGetPositiveResp)
             {
                 IncludeTextMessage("Data transfer start.");
                 try
-                {                    
+                {
                     m_WriteThread = new System.Threading.Thread(UpgrateFirmware);
                     m_WriteThread.IsBackground = true;
-                    m_WriteThread.Start(nMaxNumOfBlock);                    
+                    m_WriteThread.Start(nMaxNumOfBlock);
 
                     bool IfTimesEnd = false;
                     bool IfRunOver = false;
-                    while (!IfRunOver && m_WriteThread!=null)
+                    while (!IfRunOver && m_WriteThread != null)
                     {
                         IfTimesEnd = m_WriteThread.IsAlive;
                         Application.DoEvents();
@@ -1286,20 +1282,20 @@ namespace Diag_BUS
                 }
                 catch (Exception ex)
                 {
-                    IncludeTextMessage(string.Format("Some issue occured::{0:s} when transfer data.", ex.Message));                    
+                    IncludeTextMessage(string.Format("Some issue occured::{0:s} when transfer data.", ex.Message));
                 }
                 finally
                 {
-                    IncludeTextMessage(string.Format("Transfer data succeed."));                    
+                    IncludeTextMessage(string.Format("Transfer data succeed."));
                 }
             }
             else
                 NegativeMessage(0x34, m_RespMsg);
-           
+
             //download finish
             byte[] respMsg = new byte[] { 0 };
             m_ReqMsg = new byte[] { 0x37 }; //Security access,request seed
-            
+
             Write_Message(m_ReqMsg);
             Send5TimeReqMsg(m_ReqMsg, ref respMsg);
 
@@ -1332,7 +1328,7 @@ namespace Diag_BUS
             }
             else
                 NegativeMessage(0x37, respMsg);
-            
+
 
             return false;
         }
@@ -1355,7 +1351,7 @@ namespace Diag_BUS
                 ReadMessage(ref resp);
 
                 //finish 0x31 routine control wait
-                if (resp[0] == 0x71 && resp[1] == 0x01 && resp[2] == 0xFF 
+                if (resp[0] == 0x71 && resp[1] == 0x01 && resp[2] == 0xFF
                     && resp[3] == 0x44 && resp[4] == 0x00)
                 {
                     return true;
@@ -1365,11 +1361,11 @@ namespace Diag_BUS
                     nMaxNumOfBlockLen = resp[5] - 2;        //(resp[1] >> 4) + resp[5] - 2; 
                     return true;
                 }
-                if(resp[0] == 0x36 + 0x40 /*&& resp[1] == nDownloadTimes*/)//finish file data transfer
+                if (resp[0] == 0x36 + 0x40 /*&& resp[1] == nDownloadTimes*/)//finish file data transfer
                 {
                     return true;
                 }
-                if(resp[0] == 0x37 + 0x40)
+                if (resp[0] == 0x37 + 0x40)
                 {
                     return true;
                 }
@@ -1395,7 +1391,7 @@ namespace Diag_BUS
                 }
 
                 if (resp[0] == 0x7F)
-                        nNegResp++;
+                    nNegResp++;
                 if (nNegResp > 5)
                     return false;
 
@@ -1414,12 +1410,12 @@ namespace Diag_BUS
         ///<paramref name="nMaxBlockSize"/>singal block byte numbers<paramref >
         /// </summary>
         private void UpgrateFirmware_TP90(object BINADDRINFO)
-        {                    
+        {
             try
-            {                
+            {
                 FileStream FS = null;
                 int n0x36PackNum0 = 1;
-                int nMaxNumOfBlock = 0;               
+                int nMaxNumOfBlock = 0;
                 int nProgressStep = 0;
                 int read_data_num = 0;
                 int AddrOffset = 0;
@@ -1434,11 +1430,11 @@ namespace Diag_BUS
                 FS = binAddrInfo.FS;
 
                 if (m_nTP90_ReadAddr_Times == 0)
-                { 
+                {
                     FS.Seek(0, SeekOrigin.Begin);
                     m_FirmwareFileSize = binAddrInfo.BlockLen;
                 }
-                else if(m_nTP90_ReadAddr_Times == 1)
+                else if (m_nTP90_ReadAddr_Times == 1)
                 {
                     FS.Seek(m_FirmwareFileSize, SeekOrigin.Begin);
                     m_FirmwareFileSize = binAddrInfo.BlockLen;
@@ -1484,10 +1480,10 @@ namespace Diag_BUS
                         AddrOffset += read_data_num;
                     }
                 }
-                
+
                 m_nTP90_ReadAddr_Times++;
             }
-            catch(IOException ioEx)
+            catch (IOException ioEx)
             {
                 MessageBox.Show(this, ioEx.Message, "Warnning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -1520,7 +1516,7 @@ namespace Diag_BUS
             //    buffer = Combine(_36Svr_Times, LastBlock);
             //}
             //else
-                buffer = Combine(_36Svr_Times, buffer);
+            buffer = Combine(_36Svr_Times, buffer);
 
             Write_Message(buffer);
             UpdateProgerss(nCurrIndex);
@@ -1556,7 +1552,7 @@ namespace Diag_BUS
 
                         byte[] resp0x27 = new byte[18];
                         Send5TimeReqMsg(m_ReqMsg, ref resp0x27);
- 
+
                         if (m_RespMsg[0] == 0x67 && m_RespMsg[1] == 0x05) //SubFunc05、06
                         {
                             byte[] reqKEY = new byte[18];
@@ -1636,14 +1632,14 @@ namespace Diag_BUS
 
                                             int nBlocks = 0;
                                             bool bGetPositiveResp = false;
-                                             bGetPositiveResp = Resp_TH_TP90(ref nBlocks, 350);
+                                            bGetPositiveResp = Resp_TH_TP90(ref nBlocks, 350);
                                             if (bGetPositiveResp)
                                             {
                                                 IncludeTextMessage("Ecu's application be earsed.");
                                                 IncludeTextMessage("System will download application file.");
 
                                                 bMainFlashOK = Resp_Download_Finish_TP90();
-                                                if(bMainFlashOK)
+                                                if (bMainFlashOK)
                                                     IncludeTextMessage("Application file has been finished download.");
                                             }
                                             else
@@ -1694,9 +1690,9 @@ namespace Diag_BUS
                         bGetPositiveResp = Resp_TH_TP90(ref nBlockNum, 50);
                         if (bGetPositiveResp)
                         {
-                            IncludeTextMessage("ECU soft reset succeed."); 
+                            IncludeTextMessage("ECU soft reset succeed.");
                             IncludeTextMessage("Fireware download succeed.");
-                            
+
                             lock (this)
                             {
                                 m_bEnable_0x3E = false;
@@ -1724,7 +1720,7 @@ namespace Diag_BUS
             }
             finally
             {
-               
+
             }
         }
 
@@ -1952,7 +1948,7 @@ namespace Diag_BUS
             int n0x36PackNum = 0x01;
             //bool bHasRemainder = false;
             bool bGetPositiveResp = false;
-            
+
             //ECU feedback max number of block size.
             PACK_SIZE = (int)nMaxBlockSize;
             if (PACK_SIZE == 0)
@@ -2024,9 +2020,9 @@ namespace Diag_BUS
                     //}
                     ////for waitting 0x34 service response
                     //Invoke(new MethodInvoker(delegate () { bGetPositiveResp = canResp_TH(ref nMaxNumOfBlock, 50, 0, 0x34); }));
-                    
+
                     //if (n0x34Result == 0 && bGetPositiveResp)
-#endregion
+                    #endregion
                     {
                         this.BeginInvoke(ffHandler, new object[] { x, n0x36PackNum++, nBlockNum });
 
@@ -2042,10 +2038,10 @@ namespace Diag_BUS
 #endif
 
                         //wait for single block write response(0x36)
-                        Invoke(new MethodInvoker(delegate () { bGetPositiveResp = canResp_TH(ref nMaxNumOfBlock, 50, x+1, 0x36); }));
+                        Invoke(new MethodInvoker(delegate () { bGetPositiveResp = canResp_TH(ref nMaxNumOfBlock, 50, x + 1, 0x36); }));
                         Invoke(new MethodInvoker(delegate () { IncludeTextMessage(string.Format("Now downloading fireware block::{0:d}", x)); }));
 
-                        if(!bGetPositiveResp)
+                        if (!bGetPositiveResp)
                         {
                             Invoke(new MethodInvoker(delegate () { IncludeTextMessage(string.Format("Can not receive 0x36 service positive response in transfering data, thread exited.")); }));
                             break;
@@ -2089,10 +2085,10 @@ namespace Diag_BUS
             int nCurrPackPos = 0;
             int nLastMsgByteCount = PACK_SIZE;
             byte[] DataBuffer = new byte[] { };
-            
-            nCurrPackPos = nCurrIndex;           
+
+            nCurrPackPos = nCurrIndex;
             nPack = PACK_SIZE / m_RecData[nCurrPackPos].uRecordLength;
-            if (nCurrIndex < nMaxBlockSize-1)
+            if (nCurrIndex < nMaxBlockSize - 1)
             {
                 for (gAddrOffset = nCurrPackPos * nPack; gAddrOffset < (nCurrPackPos + 1) * nPack; gAddrOffset++)
                     DataBuffer = Combine(DataBuffer, m_RecData[gAddrOffset].Data);
@@ -2143,10 +2139,10 @@ namespace Diag_BUS
                 bool bGetPositiveResp = false;
                 bGetPositiveResp = canResp_TH(ref nMaxNumOfBlock, 5, 0, 0x10);
 
-                if(bGetPositiveResp)
+                if (bGetPositiveResp)
                 {
                     //Enable TestPresent 0x3E  & message view rolling
-                    m_ReqMsg = new byte[] { 0x3E, 0x00 };                  
+                    m_ReqMsg = new byte[] { 0x3E, 0x00 };
                     Write_CANMessage(m_ReqMsg, true);
                     Thread.Sleep(100);
                     if (m_RespMsg[1] == 0x7E && m_RespMsg[2] == 0x00)
@@ -2155,10 +2151,10 @@ namespace Diag_BUS
                         Write_CANMessage(m_ReqMsg, true);
                         Thread.Sleep(100);
 
-                        lock(this)
+                        lock (this)
                         {
                             m_bEnable_0x3E = true;
-                        }                    
+                        }
                     }
                     else
                     {
@@ -2219,7 +2215,7 @@ namespace Diag_BUS
                                 Thread.Sleep(REQ_3E_INTERVAL);
                                 nWaitTime++;
                             }
-                          
+
                             int nBlocks = 0;
                             bGetPositiveResp = false;
                             bGetPositiveResp = canResp_TH(ref nBlocks, 100, 0, 0x31);
@@ -2242,11 +2238,11 @@ namespace Diag_BUS
                                 return;
                             }
 #if _SecurityAccess
-                    }
+                        }
                         else
                             NegativeMessage(0x27, m_RespMsg);
 #endif
-                   }
+                    }
                 }
                 else
                     NegativeMessage(0x10, m_RespMsg);
@@ -2369,7 +2365,7 @@ namespace Diag_BUS
                 gCurrPackPos++;
             }
 
-            if(m_bTransferDataOK)
+            if (m_bTransferDataOK)
             {
                 //download finish
                 int nResult = -1;
@@ -2388,7 +2384,7 @@ namespace Diag_BUS
                 }
                 else
                     NegativeMessage(0x37, m_RespMsg);
-            }        
+            }
 
             return false;
         }
@@ -2403,7 +2399,7 @@ namespace Diag_BUS
         private int Send34Request(uint startAddr, uint dataLen, int nRequestTime)
         {
             //memory address for download fireware
-            if(nRequestTime == 0)
+            if (nRequestTime == 0)
                 m_ReqMsg = new byte[] { 0x34, 0x00, 0x44 };
             else
                 m_ReqMsg = new byte[] { 0x34, 0x01, 0x44 };
@@ -2431,7 +2427,7 @@ namespace Diag_BUS
         public bool canResp_TH(ref int nMaxNumOfBlockLen, int nBlocks, int nDownloadTimes = 0, byte reqID = 0x00)
         {
             bool bResult = false;
-            byte[] resp = new byte[8]; 
+            byte[] resp = new byte[8];
             int nLoop = 0, nNegResp = 0;
             while (true)
             {
@@ -2463,7 +2459,7 @@ namespace Diag_BUS
                     bResult = true;
                     break;
                 }
-                if(resp[1] == 0x74 && resp[2] == 0x10) //for CAN bus
+                if (resp[1] == 0x74 && resp[2] == 0x10) //for CAN bus
                 {
                     nMaxNumOfBlockLen = /*(resp[1] & 0x0F) +*/ resp[3];
                     bResult = true;
@@ -2577,7 +2573,7 @@ namespace Diag_BUS
                     nBlockNum = m_RecData.Count / nPerPackDataNum + 1;
                 }
             }
-            else if(PACK_SIZE == 0x3A)
+            else if (PACK_SIZE == 0x3A)
             {
                 PACK_SIZE -= 2;
                 if (m_Total36Data.Length % PACK_SIZE == 0)
@@ -2586,7 +2582,7 @@ namespace Diag_BUS
                     nBlockNum = Total36Data.Length / PACK_SIZE + 1;
             }
             Console.WriteLine(string.Format("BlockNum::{0:d}", nBlockNum));
-            
+
             N2S_FlashFirewareHandler ffHandler = new N2S_FlashFirewareHandler(N2S_canFlashFirmware_TH);
             lock (m_obj)
             {
@@ -2596,7 +2592,7 @@ namespace Diag_BUS
                         m_b1stFrm = true;
                     else
                         m_b1stFrm = false;
-                    
+
                     this.BeginInvoke(ffHandler, new object[] { x, n0x36PackNum++, nBlockNum, Total36Data });
 
                     while (!m_b36SvrOneBlockOver)
@@ -2610,14 +2606,14 @@ namespace Diag_BUS
                     //Thread.Sleep(10);
 #endif
                     //wait for single block write response(0x36)
-                    Invoke(new MethodInvoker(delegate () { bGetPositiveResp = N2S_canResp_TH(ref nMaxNumOfBlock, P2_ServerTime*10, x + 1, 0x36); }));
-                    Invoke(new MethodInvoker(delegate () { IncludeTextMessage(string.Format("Now downloading fireware block::{0:d}", x+1)); }));
+                    Invoke(new MethodInvoker(delegate () { bGetPositiveResp = N2S_canResp_TH(ref nMaxNumOfBlock, P2_ServerTime * 10, x + 1, 0x36); }));
+                    Invoke(new MethodInvoker(delegate () { IncludeTextMessage(string.Format("Now downloading fireware block::{0:d}", x + 1)); }));
 
                     if (!bGetPositiveResp)
                     {
                         Invoke(new MethodInvoker(delegate () { IncludeTextMessage(string.Format("Can not receive 0x36 service positive response in transfering data, thread exited.")); }));
                         break;
-                    }                    
+                    }
 
                     if (!bGetPositiveResp)
                         break;
@@ -2670,12 +2666,12 @@ namespace Diag_BUS
                     UpdateProgerss(100);
                 }
             }
-            else if(PACK_SIZE == 0x38)
+            else if (PACK_SIZE == 0x38)
             {
                 int nLastPackSize = 0;
                 nLastPackSize = _0x36DataPack.Length % nLastMsgByteCount;
 
-                if(nLastPackSize == 0)
+                if (nLastPackSize == 0)
                 {
                     DataBuffer = new byte[nLastMsgByteCount];
                     m_nSourceIndex = nCurrPackPos * nLastMsgByteCount;
@@ -2715,7 +2711,7 @@ namespace Diag_BUS
             _36Svr_Times = Combine(new byte[] { 0x36 }, new byte[] { bTimes });
             DataBuffer = Combine(_36Svr_Times, DataBuffer);
 
-            if(nLastMsgByteCount>4)
+            if (nLastMsgByteCount > 4)
                 Write_CANMessage(DataBuffer, false, true, nLastMsgByteCount);
             else
                 Write_CANMessage(DataBuffer, true, true, nLastMsgByteCount);
@@ -2753,7 +2749,7 @@ namespace Diag_BUS
 
                     m_ReqMsg = new byte[] { 0x27, 0x01 }; //Security access,request seed
                     nSendResult = Write_CANMessage(m_ReqMsg, true);
-                    Thread.Sleep(3* P2_ServerTime);
+                    Thread.Sleep(3 * P2_ServerTime);
 
                     if (m_RespMsg[1] == 0x67 && m_RespMsg[2] == 0x01) //Not support 0x27 service now.
                     {
@@ -2772,7 +2768,7 @@ namespace Diag_BUS
                         m_ReqMsg[5] = KeyArray[3];
 
                         nSendResult = Write_CANMessage(m_ReqMsg, true);
-                        Thread.Sleep(2* P2_ServerTime);
+                        Thread.Sleep(2 * P2_ServerTime);
                         if (m_RespMsg[1] == 0x67 && m_RespMsg[2] == 0x02)
 #endif
                         {
@@ -2790,7 +2786,7 @@ namespace Diag_BUS
                                 {
                                     m_ReqMsg = new byte[] { 0x3E, 0x80 };
                                     Write_CANMessage(m_ReqMsg, true);
-                                    Thread.Sleep(2* P2_ServerTime);
+                                    Thread.Sleep(2 * P2_ServerTime);
 
                                     //lock (this)
                                     //{
@@ -2807,8 +2803,8 @@ namespace Diag_BUS
                                 m_ReqMsg = new byte[] { 0x27, 0x01 }; //Security access,request seed
                                 nSendResult = Write_CANMessage(m_ReqMsg, true);
 
-                                Thread.Sleep(3* P2_ServerTime);
-                                if (m_RespMsg[1] == 0x67 && m_RespMsg[2] == 0x01) 
+                                Thread.Sleep(3 * P2_ServerTime);
+                                if (m_RespMsg[1] == 0x67 && m_RespMsg[2] == 0x01)
                                 {
                                     SeedArray = new byte[4];
                                     KeyArray = new byte[4] { 0x0, 0x0, 0x0, 0x0 };
@@ -2826,7 +2822,7 @@ namespace Diag_BUS
 
                                     nSendResult = Write_CANMessage(m_ReqMsg, true);
 
-                                    Thread.Sleep(2* P2_ServerTime);
+                                    Thread.Sleep(2 * P2_ServerTime);
                                     if (m_RespMsg[1] == 0x67 && m_RespMsg[2] == 0x02)
 #endif
                                     {
@@ -2834,7 +2830,7 @@ namespace Diag_BUS
                                         m_ReqMsg = new byte[] { 0x27, 0x09 }; //Security access,request seed
                                         nSendResult = Write_CANMessage(m_ReqMsg, true);
 
-                                        Thread.Sleep(3* P2_ServerTime);
+                                        Thread.Sleep(3 * P2_ServerTime);
                                         if (m_RespMsg[1] == 0x67 && m_RespMsg[2] == 0x09)
                                         {
                                             SeedArray = new byte[4] { 0x0, 0x0, 0x0, 0x0 };
@@ -2853,16 +2849,16 @@ namespace Diag_BUS
 
                                             nSendResult = Write_CANMessage(m_ReqMsg, true);
 
-                                            Thread.Sleep(2* P2_ServerTime);
+                                            Thread.Sleep(2 * P2_ServerTime);
                                             if (m_RespMsg[1] == 0x67 && m_RespMsg[2] == 0x0A)
 #endif
                                             {
                                                 IncludeTextMessage("Security access pass.");
 
                                                 //write DIDs value(F15A) in Programing session
-                                                bool bDID_F15A_Right = false, bDID_008C_Right = false ;
+                                                bool bDID_F15A_Right = false, bDID_008C_Right = false;
                                                 string strIniFile;
-                                                byte[] writeDID_F15A = new byte[3] { 0x2E, 0xF1, 0x5A};
+                                                byte[] writeDID_F15A = new byte[3] { 0x2E, 0xF1, 0x5A };
                                                 byte[] writeDID_008C = new byte[3] { 0x2E, 0x00, 0x8C };
 
                                                 strIniFile = Directory.GetCurrentDirectory() + @"\DIDInfo.ini";
@@ -2881,7 +2877,7 @@ namespace Diag_BUS
                                                     IncludeTextMessage(string.Format("Write DID::{0} failured.", BitConverter.ToString(writeDID_F15A)));
                                                     return;
                                                 }
-                                                else if(!bDID_008C_Right)
+                                                else if (!bDID_008C_Right)
                                                 {
                                                     IncludeTextMessage(string.Format("Write DID::{0} failured.", BitConverter.ToString(writeDID_008C)));
                                                     return;
@@ -2913,7 +2909,7 @@ namespace Diag_BUS
 
                                                 int nWaitTime = 0;
                                                 m_ReqMsg = new byte[] { 0x3E, 0x80 };
-                                                while (nWaitTime * REQ_3E_INTERVAL < RESP_0x31_WAITTING_TIME/10) //earsing need expenditure about 6000ms
+                                                while (nWaitTime * REQ_3E_INTERVAL < RESP_0x31_WAITTING_TIME / 10) //earsing need expenditure about 6000ms
                                                 {
                                                     Write_CANMessage(m_ReqMsg, true);
                                                     Thread.Sleep(REQ_3E_INTERVAL * 10);
@@ -2965,12 +2961,12 @@ namespace Diag_BUS
                                 uint cCheckSum = fConvert.N2S_CheckSum(m_Total36Data, N2S_MASK);
                                 byte[] bCheckSum = BitConverter.GetBytes(cCheckSum);
                                 //big ending convert
-                                for (int z = bCheckSum.Length-1; z >= 0; z--)
+                                for (int z = bCheckSum.Length - 1; z >= 0; z--)
                                     CheckSumR[y++] = bCheckSum[z];
 
                                 m_ReqMsg = new byte[] { 0x31, 0x01, 0x02, 0x02 }; //CheckSum verify
                                 Byte[] n2s_checksum = Combine(m_ReqMsg, CheckSumR);
-                                Write_CANMessage(n2s_checksum);                                
+                                Write_CANMessage(n2s_checksum);
 
                                 int nBlockNum = 0;
                                 bGetPositiveResp = false;
@@ -3063,7 +3059,7 @@ namespace Diag_BUS
                 NegativeMessage(0x34, m_RespMsg);
 
             gCurrPackPos++;
-            
+
 
             if (m_bTransferDataOK)
             {
@@ -3079,11 +3075,11 @@ namespace Diag_BUS
                     IncludeTextMessage("Download finished!");
                     //stop 0x3E service
                     lock (this)
-                    { 
+                    {
                         m_bEnable_0x3E = false;
                         m_nWriteDID_Times++;//after write DID F0F0, F199 in extended mode and finish flash App, then permit write residue DIDs
                     }
-                    
+
                     return true;
                 }
                 else
@@ -3121,7 +3117,7 @@ namespace Diag_BUS
 
             return Write_CANMessage(Total34Req);
         }
-        
+
         ///<summary>
         ///wait response message complete
         /// </summary>
@@ -3154,7 +3150,7 @@ namespace Diag_BUS
                     ReadMessage(ref resp);
                     m_RespMsg = resp;
                 }
-                else if(reqID == 0x19)
+                else if (reqID == 0x19)
                 {
                     Thread.Sleep(P2_ServerTime);
                     ReadMessage(ref resp);
@@ -3186,7 +3182,7 @@ namespace Diag_BUS
                 }
                 else if (resp[1] == 0x74 && resp[2] == 0x40)//for LIN bus //get MaxNumberOfBlockLength in 0x34 service response msg
                 {
-                    nMaxNumOfBlockLen = (resp[3] << 24) + (resp[4] << 16) + (resp[5] << 8) + resp[6];                    
+                    nMaxNumOfBlockLen = (resp[3] << 24) + (resp[4] << 16) + (resp[5] << 8) + resp[6];
 
                     bResult = true;
                     break;
@@ -3308,7 +3304,7 @@ namespace Diag_BUS
         /// <param name="req0">be splited byte array number 1</param>
         /// <param name="req1">be splited byte array number 2</param>
         /// <param name="req2">be splited byte array number 3</param>
-        private void Split_ReqData(byte[] inByteArray,int nSegSize, ref byte[] req0, ref byte[] req1, ref byte[] req2)
+        private void Split_ReqData(byte[] inByteArray, int nSegSize, ref byte[] req0, ref byte[] req1, ref byte[] req2)
         {
             int j = 0, k = 0, l = 0;
             int nSeg = inByteArray.Length / nSegSize;
@@ -3347,10 +3343,10 @@ namespace Diag_BUS
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine("worte byte out of range::"+ex.Message);
-            }           
+                Console.WriteLine("worte byte out of range::" + ex.Message);
+            }
         }
 
         /// <summary>
@@ -3375,7 +3371,7 @@ namespace Diag_BUS
             }
             else
             {
-                if(byteLength%2 > 0)
+                if (byteLength % 2 > 0)
                 {
                     strTemp += "0";
                     HexString = HexString + strTemp;
@@ -3403,12 +3399,12 @@ namespace Diag_BUS
             try
             {
                 byteLength = hexString.Length;
-                if(!bReadDTC)
+                if (!bReadDTC)
                 {
-                    if(byteLength < 8)
+                    if (byteLength < 8)
                     {
                         byteLength = 8 - byteLength;
-                        for(int i = 0; i< byteLength; i++)
+                        for (int i = 0; i < byteLength; i++)
                         {
                             strTemp += "0";
                         }
@@ -3423,7 +3419,7 @@ namespace Diag_BUS
                         hexString += "0";
                     }
                 }
-             
+
                 byteCount = hexString.Length / 2;
                 byteArray = new byte[byteCount];
 
@@ -3433,10 +3429,10 @@ namespace Diag_BUS
                     byteArray[i] = Convert.ToByte(byteString, 16);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 IncludeTextMessage("An error occoured when string request convert to hex byte array:" + ex.Message);
-            }            
+            }
 
             return byteArray;
         }
@@ -3457,7 +3453,7 @@ namespace Diag_BUS
         /// </summary>
         private void SweepByteArr(ref byte[] BR)
         {
-            for (int i =0; i< BR.Length; i++)
+            for (int i = 0; i < BR.Length; i++)
                 BR[i] = 0x0;
         }
 
@@ -3518,13 +3514,13 @@ namespace Diag_BUS
                         IncludeTextMessage("sub-functionNotSupported - This NRC shall be sent if the sub-function parameter is not supported.");
                     else if (negMsg[1] == baseID && negMsg[2] == 0x13)
                         IncludeTextMessage("incorrectMessageLengthOrInvalidFormat - This NRC shall be sent if the length of the message is wrong.");
-                    else if (negMsg[1] == baseID  && negMsg[2] == 0x22)
+                    else if (negMsg[1] == baseID && negMsg[2] == 0x22)
                         IncludeTextMessage("conditionsNotCorrect - Used when the server is in a critical normal mode activity and therefore cannot disable / enable the requested communication type.");
                     else if (negMsg[1] == baseID && negMsg[2] == 0x24)
                         IncludeTextMessage("requestSequenceError - Send if the ‘sendKey’ sub-function is received without first receiving a ‘requestSeed’ request messag");
                     else if (negMsg[1] == baseID && negMsg[2] == 0x31)
                         IncludeTextMessage("requestOutOfRange - The server shall use this response code, if it detects an error in the communicationType or nodeIdentificationNumber parameter.");
-                    else if ((negMsg[1] == baseID  && negMsg[2] == 0x33) || (negMsg[1] == 0x10 && negMsg[2] == 0x02))
+                    else if ((negMsg[1] == baseID && negMsg[2] == 0x33) || (negMsg[1] == 0x10 && negMsg[2] == 0x02))
                         IncludeTextMessage("securityAccessDenied - This NRC shall be returned if the server is secure (for server’s that support the SecurityAccess service) when a request for this service has been received.");
                     else if (negMsg[1] == baseID && negMsg[2] == 0x35)
                         IncludeTextMessage("invalidKey - Send if an expected 'sendKey' sub-function value is received and the value of the key does not match the server's internally stored/calculated key.");
@@ -3536,7 +3532,7 @@ namespace Diag_BUS
                         IncludeTextMessage("generalProgrammingFailure - This NRC shall be returned if the server detects an error when finalizing the data transfer between the client and server(e.g., via an integrity check).");
                     else if (negMsg[1] == baseID + 0x4E)
                         IncludeTextMessage("generalProgrammingFailure - This NRC shall be returned if the server detects an error when finalizing the data transfer between the client and server(e.g., via an integrity check).");
-                    else if (negMsg[1] == baseID  && negMsg[2] != 0x01)
+                    else if (negMsg[1] == baseID && negMsg[2] != 0x01)
                         IncludeTextMessage("InvalidKey on security access service.");
                 }
                 else
@@ -3567,7 +3563,7 @@ namespace Diag_BUS
                         IncludeTextMessage("InvalidKey on security access service.");
 
                 }
-                
+
                 tmrDisplay.Enabled = false;
             }
             //enable buttons when flash action failure.
@@ -3582,7 +3578,7 @@ namespace Diag_BUS
         private int ProcessFollowCtrl(byte reqID)
         {
             int nResult = -1;
-                   
+
             m_FollowControl = m_RespMsg[0];
             m_BlockSize = m_RespMsg[1];
             m_WaitTime = m_RespMsg[2];
@@ -3593,7 +3589,7 @@ namespace Diag_BUS
             if (m_FC0 != 0x30) //not follow ctrl
             {
                 nResult = 0;
-                return nResult;                   
+                return nResult;
             }
 
             if (m_FC0 == 0x30 && m_BlockSize == 0x12 && m_WaitTime == 0x0A)//block size:0x12
@@ -3623,7 +3619,7 @@ namespace Diag_BUS
                 IncludeTextMessage("Current send data over flollow(Resp:0x30 0x02...)");
                 return nResult;
             }
-            
+
             return nResult;
         }
 
@@ -3713,15 +3709,15 @@ namespace Diag_BUS
 
                         if (svrID != 0x36 || m_b1stFrm)
                         {
-                           new_msg0[0] = Convert.ToByte(loBitDataLen + 0x10);
-                           bReConter36 = true;
+                            new_msg0[0] = Convert.ToByte(loBitDataLen + 0x10);
+                            bReConter36 = true;
                         }
                         else
                         {
                             if (m_n36SvrPackNum == 0)
                             {
                                 m_n36SvrPackNum = 0x10;
-                                new_msg0[0] = Convert.ToByte(m_n36SvrPackNum++);                     
+                                new_msg0[0] = Convert.ToByte(m_n36SvrPackNum++);
                                 bReConter36 = true;
                             }
                             else
@@ -3733,12 +3729,12 @@ namespace Diag_BUS
                             if (nLastMsgByteCount == 0x80)
                                 hiBitDataLen = (PACK_SIZE + 2) & 0xFF;
                             else
-                                hiBitDataLen = (nLastMsgByteCount + 2) & 0xFF;   
+                                hiBitDataLen = (nLastMsgByteCount + 2) & 0xFF;
                         }
                         else
                             hiBitDataLen = (nDatalen & 0x00FF);
 
-                         new_msg0[1] = Convert.ToByte(hiBitDataLen);
+                        new_msg0[1] = Convert.ToByte(hiBitDataLen);
 
                         //copy 1st frame residue bytes(except 1st frame mark and frame length 2 byte)
                         for (k = 0; k < (new_msg.Length - new_msg0.Length); k++)
@@ -3749,7 +3745,7 @@ namespace Diag_BUS
                         Write_Message(new_msg);
 
                         Thread.Sleep(P2_ServerTime);
-                        
+
                     }
                     //backward frame
                     {
@@ -4082,7 +4078,7 @@ namespace Diag_BUS
                                 Console.Write("0x36 svr block{0:d},result{1:d}", x, nSingleFrmOfOneBlockSent);
                                 //waitting for incoming message
                                 Thread.Sleep(P2_ServerTime);
-                                
+
                             }
 
                             //last bytes of message block
@@ -4105,7 +4101,7 @@ namespace Diag_BUS
                                 nEndBytes = 0;
                             }
                         }
-                        else 
+                        else
                         {
                             //caculate checksum byte
                             int nEndBytes = 0;
@@ -4122,11 +4118,11 @@ namespace Diag_BUS
                                 bReConter36 = false;
                             }
 
-                        #region  //combine residue bytes way2
+                            #region  //combine residue bytes way2
 
                             int t = k;
                             int n7ByteGroups = nAfter1stFrameSent / BlockSize;
-                            for(x = 0; x < n7ByteGroups; x++)
+                            for (x = 0; x < n7ByteGroups; x++)
                             {
                                 if (m_n36SvrPackNum > 0x2F)
                                     m_n36SvrPackNum = 0x20;
@@ -4144,14 +4140,14 @@ namespace Diag_BUS
                                 {
                                     if (t < msgs.Length)
                                     {
-                                        new_msgX[y + 1] = msgs[t++];                                        
+                                        new_msgX[y + 1] = msgs[t++];
                                     }
                                 }
                                 // Send the message
-                                nResult = WriteFrame(new_msgX);                             
+                                nResult = WriteFrame(new_msgX);
                                 Thread.Sleep(P2_ServerTime);
                             }
-                            if(nEndBytes>0) //tail block(less than 7 bytes)
+                            if (nEndBytes > 0) //tail block(less than 7 bytes)
                             {
                                 if (m_n36SvrPackNum > 0x2F)
                                     m_n36SvrPackNum = 0x20;
@@ -4167,9 +4163,9 @@ namespace Diag_BUS
 
                                 int p = 0;
                                 k = t;
-                                for (; p< nEndBytes; p++)
+                                for (; p < nEndBytes; p++)
                                 {
-                                    if(k<msgs.Length)
+                                    if (k < msgs.Length)
                                         new_msgX[p + 1] = msgs[k++];
                                 }
 
@@ -4177,8 +4173,8 @@ namespace Diag_BUS
                                 nResult = WriteFrame(new_msgX);
                                 Thread.Sleep(P2_ServerTime);
                             }
-                        #endregion
-                        
+                            #endregion
+
                         }
 
                         #region  old way (process last package not equal 0x80,will apear issue usually)
@@ -4261,9 +4257,9 @@ namespace Diag_BUS
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Invoke(new MethodInvoker(delegate() { IncludeTextMessage(string.Format("Issue occured when send message{0}", ex.Message)); }));
+                Invoke(new MethodInvoker(delegate () { IncludeTextMessage(string.Format("Issue occured when send message{0}", ex.Message)); }));
             }
 
             return nResult;
@@ -4311,7 +4307,7 @@ namespace Diag_BUS
 
                         loBitDataLen = ((nDatalen >> 8) & 0x0F);
                         new_msg0[0] = Convert.ToByte(loBitDataLen + 0x10);
-                        
+
                         hiBitDataLen = (nDatalen & 0x00FF);
                         new_msg0[1] = Convert.ToByte(hiBitDataLen);
                         //copy 1st frame residue bytes(except 1st frame mark and frame length 2 byte)
@@ -4347,7 +4343,7 @@ namespace Diag_BUS
                             new_msgX = new byte[BlockSize + 1];
                             for (int u = 0; u < new_msgX.Length; u++)
                                 new_msgX[u] = 0xFF;
-                          
+
                             new_msgX[0] = Convert.ToByte(n1stByteTimes++);
 
                             for (y = 0; y < BlockSize; y++)
@@ -4396,13 +4392,13 @@ namespace Diag_BUS
         ///Write message to CAN/LIN bus
         ///<param name="msgs"/> diag request message</param>
         ///</summary>
-        public int Write_Message(byte[] msgs, uint ID=0x00)
+        public int Write_Message(byte[] msgs, uint ID = 0x00)
         {
             int nResult;
 
             // Send the message
             //
-            nResult =  WriteFrame(msgs, ID);
+            nResult = WriteFrame(msgs, ID);
 
             // The message was successfully sent
             //
@@ -4416,14 +4412,14 @@ namespace Diag_BUS
                     else
                         strSendMsg += " 0x" + string.Format("{0:X}", msgs[i]);
                 }
-                
+
                 Invoke(new MethodInvoker(delegate () { IncludeTextMessage("SENT Message:" + strSendMsg); }));
                 return nResult;
             }
             // An error occurred.  We show the error.
             //			
             else
-                MessageBox.Show("Message send failured.","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Message send failured.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return nResult;
         }
 
@@ -4508,7 +4504,7 @@ namespace Diag_BUS
             if (m_bus == null)
                 return;
 
-            TPCANStatus stsResult = ((CAN_Bus)m_bus).MessageFillter(uToID, uFromID,  out strIfErr, bExtendedFrm,  bFillter);
+            TPCANStatus stsResult = ((CAN_Bus)m_bus).MessageFillter(uToID, uFromID, out strIfErr, bExtendedFrm, bFillter);
             if (stsResult == TPCANStatus.PCAN_ERROR_OK && bFillter)
             {
                 IncludeTextMessage(string.Format("The filter was customized. IDs from {0:X} to {1:X}", nudIdTo.Text, nudIdFrom.Text));
@@ -4595,7 +4591,7 @@ namespace Diag_BUS
             if (m_bus.BusType == Bus.Type.LIN_BUS)
             {
                 m_linBus = (LIN_Bus)m_bus;
-                if(m_linBus == null)
+                if (m_linBus == null)
                 {
                     IncludeTextMessage("Please connect lin bus adapter first!");
                     return false;
@@ -4604,7 +4600,7 @@ namespace Diag_BUS
                 {
                     m_lstLINMsg = new List<LINMsg>();
                     return true;
-                }                    
+                }
             }
             return false;
         }
@@ -4619,16 +4615,16 @@ namespace Diag_BUS
             int nRet = -1;
             iLength = msgs.Length;
 
-            if(m_bus.BusType == Bus.Type.LIN_BUS)
+            if (m_bus.BusType == Bus.Type.LIN_BUS)
             {
                 // We create a LINMsg message structure 
                 //
                 LINMsg linMsg = new LINMsg();
                 // We get so much data as the Len of the message
                 //
-                 iLength = GetLengthFromDLC(msgs.Length, false);
+                iLength = GetLengthFromDLC(msgs.Length, false);
 
-                if (nudIdTo.Text.Length>2 || nudIdFrom.Text.Length>2)
+                if (nudIdTo.Text.Length > 2 || nudIdFrom.Text.Length > 2)
                 {
                     MessageBox.Show("LIN message id not correct.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return -1;
@@ -4647,15 +4643,15 @@ namespace Diag_BUS
                 // The message is sent to the configured hardware
                 //
                 linMsg.WaitTime = 100;
-                if(ID == 0x10 || ID == 0x14 || ID == 0x28 || ID == 0x3E || ID == 0x85)
+                if (ID == 0x10 || ID == 0x14 || ID == 0x28 || ID == 0x3E || ID == 0x85)
                     linMsg.lin_uds_addr.NAD = 0x7E;
                 else
                     linMsg.lin_uds_addr.NAD = Convert.ToByte(numUpDownNAD.Text, 16);   //0x77; //0x65; //0x42; //0x7E;
 
                 linMsg.lin_uds_addr.CheckType = 0; //0:standard verify  1:enhance verify
-                if(PRODUCT_TYPE == PRJTYPE._7Kw || PRODUCT_TYPE == PRJTYPE._Chery_CBF)
+                if (PRODUCT_TYPE == PRJTYPE._7Kw || PRODUCT_TYPE == PRJTYPE._Chery_CBF)
                     linMsg.lin_uds_addr.STmin = 5;
-                else if(PRODUCT_TYPE == PRJTYPE._LINHex)
+                else if (PRODUCT_TYPE == PRJTYPE._LINHex)
                     linMsg.lin_uds_addr.STmin = 10;
 
                 for (int i = 0; i < iLength; i++)
@@ -4670,7 +4666,7 @@ namespace Diag_BUS
                     //add request message into message display list(m_LastsMsgList)
                     //
                     GetMsgTimeStamp(ref T_timestamp);
-                    this.Invoke(new MethodInvoker(delegate (){ProcessMessage(linMsg, T_timestamp);}));
+                    this.Invoke(new MethodInvoker(delegate () { ProcessMessage(linMsg, T_timestamp); }));
                 }
             }
 
@@ -4699,7 +4695,7 @@ namespace Diag_BUS
                     canMsg.CANMsg.ID = ID;
                 }
                 canMsg.CANMsg.LEN = Convert.ToByte(iLength);
-                canMsg.CANMsg.MSGTYPE = (nTxIDLen<=3) ? TPCANMessageType.PCAN_MESSAGE_STANDARD : TPCANMessageType.PCAN_MESSAGE_EXTENDED;
+                canMsg.CANMsg.MSGTYPE = (nTxIDLen <= 3) ? TPCANMessageType.PCAN_MESSAGE_STANDARD : TPCANMessageType.PCAN_MESSAGE_EXTENDED;
 
                 for (int i = 0; i < iLength; i++)
                 {
@@ -4709,13 +4705,13 @@ namespace Diag_BUS
                 object CANMSG = (object)canMsg;
                 nRet = m_canBus.SendMessage(CANMSG);
 
-                if(nRet == (int)TPCANStatus.PCAN_ERROR_OK)
+                if (nRet == (int)TPCANStatus.PCAN_ERROR_OK)
                 {
                     //add request message into message display list(m_LastsMsgList)
                     //
                     GetMsgTimeStamp(ref T_timestamp);
 
-                    if(PRODUCT_TYPE == PRJTYPE._CANUDS40 || PRODUCT_TYPE == PRJTYPE._CANUDS01)
+                    if (PRODUCT_TYPE == PRJTYPE._CANUDS40 || PRODUCT_TYPE == PRJTYPE._CANUDS01)
                         ProcessMessage(canMsg, T_timestamp);
                     else
                         this.Invoke(new MethodInvoker(delegate () { ProcessMessage(canMsg, T_timestamp); }));
@@ -4763,7 +4759,7 @@ namespace Diag_BUS
                     LINMsg newMsg = (LINMsg)Msg;
                     // We add this status in the last message list
                     //
-                    msgStsCurrentMsg = new MessageStatus(newMsg, timeStamp, m_LastMsgsList.Count+1);
+                    msgStsCurrentMsg = new MessageStatus(newMsg, timeStamp, m_LastMsgsList.Count + 1);
                     msgStsCurrentMsg.ShowingPeriod = chbShowPeriod.Checked;
                     m_LastMsgsList.Add(msgStsCurrentMsg);
                     m_MsgCount++;
@@ -4786,14 +4782,14 @@ namespace Diag_BUS
                     CANMsgs canMsg = (CANMsgs)Msg;
                     // We add this status in the last message list
                     //
-                    msgStsCurrentMsg = new MessageStatus(canMsg, timeStamp, m_LastMsgsList.Count+1);
+                    msgStsCurrentMsg = new MessageStatus(canMsg, timeStamp, m_LastMsgsList.Count + 1);
                     msgStsCurrentMsg.ShowingPeriod = chbShowPeriod.Checked;
                     m_LastMsgsList.Add(msgStsCurrentMsg);
                     m_MsgCount++;
                     //delete 0 position message when size of message list greater than RT_MaxNumber
                     if (!m_WholeTrace)
                     {
-                        if (m_lstCANMsg.Count >= RT_MaxNumber-1)
+                        if (m_lstCANMsg.Count >= RT_MaxNumber - 1)
                         {
                             m_lstCANMsg.RemoveAt(0);
                             m_LastMsgsList.RemoveAt(0);
@@ -4825,7 +4821,7 @@ namespace Diag_BUS
                 // Message not found. It will created
                 //
                 InsertMsgEntry(Msg, itsTimeStamp);
-            }           
+            }
         }
 
         /// <summary>
@@ -4864,7 +4860,7 @@ namespace Diag_BUS
             // Create and start the tread to read CAN Message using SetRcvEvent()
             //
             if (m_DisplayAppMsg)
-            {                
+            {
                 m_ReadThread = new Thread(() => CANReadThreadFunc());
                 m_ReadThread.IsBackground = true;
                 m_ReadThread.Start();
@@ -4916,7 +4912,7 @@ namespace Diag_BUS
                         // function ReadMessages)
                         // 
                         //if (m_DisplayAppMsg)
-                            ReadMessages(ref resp);
+                        ReadMessages(ref resp);
                         //else
                         //    this.Invoke(m_ReadDelegate);
                     }
@@ -4945,34 +4941,30 @@ namespace Diag_BUS
                 linMsg.data = new byte[iLength];
                 linMsg.lin_uds_addr.ReqID = Convert.ToByte(nudIdTo.Text, 16);
                 linMsg.lin_uds_addr.ResID = Convert.ToByte(nudIdFrom.Text, 16);
-                
+
                 linMsg.ID = linMsg.lin_uds_addr.ResID;
                 linMsg.Dir = "Rx";
 
                 object LINMSG = (object)linMsg;
                 nResult = m_linBus.ReceiveMessage(out LINMSG);
-                
-                if (nResult > 0 && LINMSG!=null)
+
+                if (nResult > 0 && LINMSG != null)
                 {
-                    respMsg = ((LINMsg)LINMSG).lin_ex_msg.Data; 
+                    respMsg = ((LINMsg)LINMSG).lin_ex_msg.Data;
                     linMsg.data = ((LINMsg)LINMSG).lin_ex_msg.Data;
-                    if (linMsg.data!=null)
+                    if (linMsg.data != null)
                         linMsg.DLC = Convert.ToByte(linMsg.data.Length);
                     else
                         linMsg.DLC = Convert.ToByte(iLength);
                     uID = ((LINMsg)LINMSG).lin_uds_addr.ResID;
 
                     if (m_DisplayAppMsg)
-                    { 
+                    {
                         GetMsgTimeStamp(ref T_timestamp);
-                        this.Invoke(new MethodInvoker(delegate (){ ProcessMessage(linMsg, T_timestamp); }));
+                        this.Invoke(new MethodInvoker(delegate () { ProcessMessage(linMsg, T_timestamp); }));
                         m_lin_msg.data = respMsg;
                         m_RespMsg = respMsg;
 
-                        //**********####$$$$$IMPORTANT(INDISPENSABLE)$$$$$####**********// !!!
-                        //tell read dtc thread DTC has be found.
-                        //if (uID == (uint)nudIdFrom.Value)
-                        //    m_ReadDTCEvent.Set();
                     }
                     else
                     {
@@ -4983,10 +4975,6 @@ namespace Diag_BUS
                             this.Invoke(new MethodInvoker(delegate () { ProcessMessage(linMsg, T_timestamp); }));
                             m_lin_msg.data = respMsg;
                             m_RespMsg = respMsg;
-
-                            //**********####$$$$$IMPORTANT(INDISPENSABLE)$$$$$###**********// !!!
-                            //tell read dtc thread DTC has be found.
-                            //m_ReadDTCEvent.Set();
                         }
                     }
                 }
@@ -4999,7 +4987,7 @@ namespace Diag_BUS
 
                 object CANMSG;
                 nResult = m_canBus.ReceiveMessage(out CANMSG);
-                
+
                 if ((nResult != (int)TPCANStatus.PCAN_ERROR_QRCVEMPTY) || nResult == (int)TPCANStatus.PCAN_ERROR_OK)
                 {
                     respMsg = ((CANMsgs)CANMSG).CANMsg.DATA;
@@ -5061,7 +5049,10 @@ namespace Diag_BUS
             int iLength = 8;
             uint uID;
 
-            if (m_bus.BusType == Bus.Type.LIN_BUS)
+            if ((m_bus.BusType == Bus.Type.LIN_BUS) &&
+                (PRODUCT_TYPE == PRJTYPE._7Kw || 
+                 PRODUCT_TYPE == PRJTYPE._LINHex ||
+                 PRODUCT_TYPE == PRJTYPE._Chery_CBF))
             {
                 // We create a LINMsg message structure 
                 //
@@ -5153,8 +5144,14 @@ namespace Diag_BUS
 
                 #endregion
             }
-
-            if (m_bus.BusType == Bus.Type.CAN_BUS)
+                
+            if ((m_bus.BusType == Bus.Type.CAN_BUS) &&
+                (PRODUCT_TYPE == PRJTYPE._CANUDS01 ||
+                PRODUCT_TYPE == PRJTYPE._CANUDS40 ||
+                PRODUCT_TYPE == PRJTYPE._N2S||
+                PRODUCT_TYPE == PRJTYPE._SplitFlash_CAN||
+                PRODUCT_TYPE == PRJTYPE._320vCompresor||
+                PRODUCT_TYPE == PRJTYPE._400vCompresor) )
             {
                 CANMsgs canMsg = new CANMsgs();
                 canMsg.Dir = "Rx";
@@ -9317,7 +9314,6 @@ namespace Diag_BUS
 
                 return bResult;
             }
-
 
             /// <summary>
             /// read CBF file content(splilt flashdriver / app data into two .cbf file)

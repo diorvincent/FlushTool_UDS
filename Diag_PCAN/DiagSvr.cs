@@ -2297,7 +2297,6 @@ namespace Diag_BUS
                                             m_ReqMsg = new byte[] { 0x3E, 0x80 };
                                             Write_CANMessage(m_ReqMsg, true);
                                             Thread.Sleep(2 * P2_ServerTime);
-
                                             {
                                                 //gDiag_Lin.m_bEnable_0x3E = true;
                                                 //gDiag_Lin.m_bEnable_Trace = true;
@@ -2720,8 +2719,6 @@ namespace Diag_BUS
                 gDiag_Lin.NegativeMessage(0x34, gDiag_Lin.m_RespMsg);
 
             gCurrPackPos++;
-
-
             if (gDiag_Lin.m_bTransferDataOK && bGetPositiveResp)
             {
                 //download finish
@@ -5769,12 +5766,8 @@ namespace Diag_BUS
             byte[] newBlockSize = new byte[4];
 
             //cause app.hex data be CBF tool fill in list first, second fill with flasshdrive.hex data(we need download flashdriver.hex data first)
-            //CBFParserBase.DataBlock DB;
-            //for (int i = gDiag_Lin.m_CBFParser.m_FlashDataLst.Count - 1; i>=0; i--) //for 1 .cbf that include 2 block data file use only 
-
             foreach (Diag_LIN.CBFParser.DataBlock DB in gDiag_Lin.m_CBFParser.m_FlashDataLst)
             {
-                //DB = gDiag_Lin.m_CBFParser.m_FlashDataLst[i];
                 //'Release' button pressed when downloading
                 if (gDiag_Lin.m_bBreakInDownloading)
                 {
@@ -5895,7 +5888,7 @@ namespace Diag_BUS
                     {
                         //Security Signature Verification (CheckSum verify)
                         m_ReqMsg = new byte[] { 0x31, 0x01, 0xDD, 0x02 };
-                        byte[] LardgeBytes = new byte[32];      //[384];
+                        byte[] LardgeBytes = new byte[32];
                         m_ReqMsg = gDiag_Lin.Combine(m_ReqMsg, LardgeBytes);
 
                         gDiag_Lin.Write_Message(m_ReqMsg);
@@ -5907,12 +5900,16 @@ namespace Diag_BUS
                         }
                         else
                         {
+                            gDiag_Lin.UpdateProgerss(100);
+                            gDiag_Lin.m_bEnable_0x3E = false;
                             gDiag_Lin.IncludeTextMessage("Security Signature Verification fauilure!");
                             return false;
                         }
                     }
                     else
                     {
+                        gDiag_Lin.UpdateProgerss(100);
+                        gDiag_Lin.m_bEnable_0x3E = false;
                         gDiag_Lin.NegativeMessage(0x37, respMsg);
                         return false;
                     }
@@ -6004,13 +6001,9 @@ namespace Diag_BUS
 
                 if (resp[0] == 0x7F)
                 {
-                    resp[0] = 0x0;
-                    resp[1] = 0x0;
-                    resp[2] = 0x0;//
-                    resp[3] = 0x0;
                     nNegResp++;
                 }
-                if (nNegResp > 20)
+                if (nNegResp > 50)//20 waitting time not enough?
                     return false;
 
                 Thread.Sleep(10);
