@@ -70,6 +70,7 @@ namespace Diag_BUS
             _LINHex = 7,
             _SplitFlash_CAN = 8,
             _Chery_CBF = 9,
+            _DSPIC33 = 10,
         }
         PRJTYPE PRODUCT_TYPE;
         int P2_ServerTime = 30;
@@ -559,7 +560,7 @@ namespace Diag_BUS
 
             FristEnterRT_ticks = 0;
             cbbChannel.SelectedIndex = 0;
-            cbProject.SelectedIndex = 9;
+            cbProject.SelectedIndex = 10;//DSPIC33   // 6; //CAN UDS(ac7801)
 
             //m_nDynStartAddr = 0;
             m_n36SvrPackNum = 0x21;
@@ -777,9 +778,9 @@ namespace Diag_BUS
                         //falshingObj = new Flashing(this, (byte)PRODUCT_TYPE);
                     }
                     else if (PRODUCT_TYPE == PRJTYPE._CANUDS40 ||           //CAN UDS(ac7840)
-                            PRODUCT_TYPE == PRJTYPE._CANUDS01 ||            //CAN UDS(ac7801)
-                             PRODUCT_TYPE == PRJTYPE._SplitFlash_CAN)     //split flash on CAN
-                                                                          //PRODUCT_TYPE == PRJTYPE._Chery_CBF             //Chery CBF
+                             PRODUCT_TYPE == PRJTYPE._CANUDS01 ||            //CAN UDS(ac7801)
+                             PRODUCT_TYPE == PRJTYPE._SplitFlash_CAN ||     //split flash on CAN
+                             PRODUCT_TYPE == PRJTYPE._DSPIC33)               //dspic33
                     {
                         falshingObj = new Flashing(this, (byte)PRODUCT_TYPE);
                     }
@@ -4711,7 +4712,9 @@ namespace Diag_BUS
                     //
                     GetMsgTimeStamp(ref T_timestamp);
 
-                    if (PRODUCT_TYPE == PRJTYPE._CANUDS40 || PRODUCT_TYPE == PRJTYPE._CANUDS01)
+                    if (PRODUCT_TYPE == PRJTYPE._CANUDS40 || 
+                        PRODUCT_TYPE == PRJTYPE._CANUDS01 ||
+                        PRODUCT_TYPE == PRJTYPE._DSPIC33)
                         ProcessMessage(canMsg, T_timestamp);
                     else
                         this.Invoke(new MethodInvoker(delegate () { ProcessMessage(canMsg, T_timestamp); }));
@@ -4879,7 +4882,7 @@ namespace Diag_BUS
         /// </summary>
         private void CANReadThreadFunc()
         {
-            int nWaitTime = 0;
+            //int nWaitTime = 0;
             byte[] resp = new byte[8];
             // While flash action on
             if (m_bus.BusType == Bus.Type.CAN_BUS)
@@ -4901,11 +4904,11 @@ namespace Diag_BUS
                 //                
                 while (true)
                 {
-                    if (m_bAppAddr_Enable)
-                        nWaitTime = 50;
-                    else
-                        nWaitTime = 10;
-                    if (m_ReceiveEvent.WaitOne(nWaitTime) && !m_bReadWriteDID)
+                    //if (m_bAppAddr_Enable)
+                    //    nWaitTime = 50;
+                    //else
+                    //    nWaitTime = 10;
+                    if (m_ReceiveEvent.WaitOne(/*nWaitTime*/) && !m_bReadWriteDID)
                     {
                         // Process Receive-Event using .NET Invoke function
                         // in order to interact with Winforms UI (calling the 
@@ -5151,7 +5154,8 @@ namespace Diag_BUS
                 PRODUCT_TYPE == PRJTYPE._N2S||
                 PRODUCT_TYPE == PRJTYPE._SplitFlash_CAN||
                 PRODUCT_TYPE == PRJTYPE._320vCompresor||
-                PRODUCT_TYPE == PRJTYPE._400vCompresor) )
+                PRODUCT_TYPE == PRJTYPE._400vCompresor||
+                PRODUCT_TYPE == PRJTYPE._DSPIC33) )
             {
                 CANMsgs canMsg = new CANMsgs();
                 canMsg.Dir = "Rx";
@@ -5168,11 +5172,12 @@ namespace Diag_BUS
 
                     if (m_DisplayAppMsg)
                     {
-                        m_RespMsg = respMsg;
+                        //m_RespMsg = respMsg;
                         //**********####$$$$$IMPORTANT(INDISPENSABLE)$$$$$####**********// !!!
                         //tell read dtc thread DTC has be found.
                         if (canMsg.ID == Convert.ToUInt32(nudIdFrom.Value))
                         {
+                            m_RespMsg = respMsg;
                             m_ReadDTCEvent.Set();
                         }
 
@@ -5628,8 +5633,11 @@ namespace Diag_BUS
             oFD.InitialDirectory = Environment.CurrentDirectory;
             oFD.Title = "Open flash files";            //"Open config file";
             oFD.RestoreDirectory = true;
-            oFD.Filter = "CBF File(*.cbf)|*.cbf;| HEX File(*.hex)|*.hex; |BIN File(*.bin)|*.bin; |H86 File(*.h86)|*.H86;";
-            oFD.Multiselect = true;
+            oFD.Filter = "HEX File(*.hex)|*.hex; |BIN File(*.bin)|*.bin; |H86 File(*.h86)|*.H86;|CBF File(*.cbf)|*.cbf;";
+            if (PRODUCT_TYPE == PRJTYPE._Chery_CBF) //Only chery .cbf format file need select Drv&Asw file, so ...
+                oFD.Multiselect = true;
+            else
+                oFD.Multiselect = false;
 
             if (oFD.ShowDialog() == DialogResult.OK)
             {
@@ -5816,6 +5824,7 @@ namespace Diag_BUS
                         if (PRODUCT_TYPE == PRJTYPE._N2S ||
                            PRODUCT_TYPE == PRJTYPE._CANUDS40 ||
                            PRODUCT_TYPE == PRJTYPE._CANUDS01 ||
+                           PRODUCT_TYPE == PRJTYPE._DSPIC33 ||
                            PRODUCT_TYPE == PRJTYPE._LINHex)
                         {
                             #region Copy all of .hex file data into global byte array(at end of flash follow,use to check dependency of tansfer data)
@@ -5824,7 +5833,11 @@ namespace Diag_BUS
                             uBaseAddr = m_RecInfo[0].uBaseAddress;
                             nHexTotalLen = m_RecInfo[m_RecInfo.Count - 1].nTotalLen;
                             nLastDataLen = m_RecData[m_RecData.Count - 1].uRecordLength;
-                            MEMORY_ADDR = uBaseAddr;
+
+                            if(PRODUCT_TYPE == PRJTYPE._DSPIC33)
+                                MEMORY_ADDR = uBaseAddr / 2;
+                            else
+                                MEMORY_ADDR = uBaseAddr;
 
                             //load flash(app, cal) enable status and address
                             FlashAdressSet fs = new FlashAdressSet();
@@ -5967,7 +5980,7 @@ namespace Diag_BUS
 
                 if (m_bus.BusType == Bus.Type.CAN_BUS)
                 {
-                    MEMORY_SIZE = (uint)nHexTotalLen;
+                     MEMORY_SIZE = (uint)nHexTotalLen;
                 }
                 else if (m_bus.BusType == Bus.Type.LIN_BUS) //make data length integer for LIN
                 {
@@ -6808,6 +6821,25 @@ namespace Diag_BUS
                 //btnResetDID.Visible = true;
                 //cbEnAPPMsg.Visible = true;
 
+            }
+            else if (cbProject.SelectedIndex == 10) //dspIC33
+            {
+                MEMORY_ADDR = 0x200;
+                MEMORY_SIZE = 0x8600;
+
+                //AC7801
+                CAN_ADDR = 0x8800;
+                CAN_SIZE = 0x23000;
+
+                PRODUCT_TYPE = PRJTYPE._DSPIC33;
+
+                nudIdTo.Value = 0x757;
+                nudIdFrom.Value = 0x75F;
+                cbbBaudrates.SelectedIndex = 1;
+
+                cbEnAPPMsg.Visible = true;
+                //btnWriteDID.Visible = true;
+                //btnResetDID.Visible = true
             }
         }
 

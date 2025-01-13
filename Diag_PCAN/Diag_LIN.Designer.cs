@@ -188,7 +188,7 @@ namespace Diag_BUS
             "USB-Channel 6",
             "USB-Channel 7",
             "USB-Channel 8"});
-            this.cbbChannel.Location = new System.Drawing.Point(595, 28);
+            this.cbbChannel.Location = new System.Drawing.Point(626, 28);
             this.cbbChannel.Margin = new System.Windows.Forms.Padding(4);
             this.cbbChannel.Name = "cbbChannel";
             this.cbbChannel.Size = new System.Drawing.Size(199, 33);
@@ -198,7 +198,7 @@ namespace Diag_BUS
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(497, 32);
+            this.label4.Location = new System.Drawing.Point(528, 32);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(91, 25);
             this.label4.TabIndex = 60;
@@ -243,11 +243,12 @@ namespace Diag_BUS
             "CAN UDS(7801)",
             "LIN Hex",
             "Split Flash(CAN)",
-            "Chery CBF"});
+            "Chery CBF",
+            "DSPIC33"});
             this.cbProject.Location = new System.Drawing.Point(303, 28);
             this.cbProject.Margin = new System.Windows.Forms.Padding(4);
             this.cbProject.Name = "cbProject";
-            this.cbProject.Size = new System.Drawing.Size(176, 33);
+            this.cbProject.Size = new System.Drawing.Size(218, 33);
             this.cbProject.TabIndex = 49;
             this.cbProject.SelectedIndexChanged += new System.EventHandler(this.cbProject_SelectedIndexChanged);
             // 
@@ -273,7 +274,7 @@ namespace Diag_BUS
             this.cbbBaudrates.Location = new System.Drawing.Point(303, 78);
             this.cbbBaudrates.Margin = new System.Windows.Forms.Padding(4);
             this.cbbBaudrates.Name = "cbbBaudrates";
-            this.cbbBaudrates.Size = new System.Drawing.Size(176, 33);
+            this.cbbBaudrates.Size = new System.Drawing.Size(218, 33);
             this.cbbBaudrates.TabIndex = 49;
             // 
             // laBaudrate
@@ -1035,7 +1036,7 @@ namespace Diag_BUS
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Diag_LIN";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Mannhui technology UDS flush test tool";
+            this.Text = "Mannhui technology UDS flush tool (by Jingchi.He)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Diag_PCAN_FormClosing);
             this.Load += new System.EventHandler(this.Diag_PCAN_Load);
             this.groupBox1.ResumeLayout(false);
