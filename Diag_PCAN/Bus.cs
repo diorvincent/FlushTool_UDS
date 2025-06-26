@@ -20,6 +20,8 @@ using USB2XXX;
 using Peak.Can.Basic;
 using TPCANHandle = System.UInt16;
 using System.Runtime.InteropServices;
+using TPCANBitrateFD = System.String;
+using TPCANTimestampFD = System.UInt64;
 
 namespace Diag_BUS
 {
@@ -31,12 +33,23 @@ namespace Diag_BUS
             LIN_BUS
         }
 
+        public struct CANParam
+        {
+            public bool bCANFD;
+            public string Bitrate;
+            public string IO;
+            public string Interrupt;
+            public TPCANType HwType;
+        }
+
+        public static CANParam cCANParams;
+
         public virtual Type BusType
         {
             get;
         }
 
-        public virtual uint Init(ref string strmsg, ushort BaudRate = 500)
+        public virtual uint Init(ref string strmsg, ushort BaudRate = 500, object canOBJ=null)
         {
             return 0;
         }
@@ -63,15 +76,14 @@ namespace Diag_BUS
             return 0;
         }
 
-        public static Bus Initialize(ref string strmsg, ushort BaudRate)
+        public static Bus Initialize(ref string strmsg, ushort BaudRate, object canOBJ)
         {
             ushort nConnected = 0;
             Bus bus = null;
             CAN_Bus CANBus = new CAN_Bus();
             LIN_Bus LINBus = new LIN_Bus();
 
-
-            if (nConnected == CANBus.Init(ref strmsg, BaudRate))
+            if (nConnected == CANBus.Init(ref strmsg, BaudRate, canOBJ))
             {
                 bus = (Bus)CANBus;
                 return bus;
@@ -92,7 +104,7 @@ namespace Diag_BUS
         /// <summary>
         /// Saves the handle of a PCAN hardware
         /// </summary>
-        private TPCANHandle m_PcanHandle;
+        public TPCANHandle m_PcanHandle;
         private CANMsgs m_CANMsg;
 
         public override Bus.Type BusType
@@ -131,7 +143,7 @@ namespace Diag_BUS
 
         }
 
-        public override uint Init(ref string strmsg, ushort BaudRate)
+        public override uint Init(ref string strmsg, ushort BaudRate, object canOBJ)
         {
             TPCANStatus strResult;
 
@@ -145,11 +157,23 @@ namespace Diag_BUS
                 return (uint)strResult;
             }
 
-            strResult = PCANBasic.Initialize(m_PcanHandle,
-                                            (TPCANBaudrate)BaudRate,
-                                            TPCANType.PCAN_TYPE_ISA, //PCAN_TYPE_DNG,
-                                            0x64,
-                                            0x3);
+            cCANParams = (CANParam)canOBJ;
+
+            if (cCANParams.bCANFD)
+            {
+                strResult = PCANBasic.InitializeFD(m_PcanHandle, cCANParams.Bitrate);
+            }
+            else
+            {
+                strResult = PCANBasic.Initialize(m_PcanHandle,
+                                                                (TPCANBaudrate)BaudRate,
+                                                                 cCANParams.HwType, //TPCANType.PCAN_TYPE_ISA,
+                                                                 Convert.ToUInt32(cCANParams.IO, 16),
+                                                                 Convert.ToUInt16(cCANParams.Interrupt));
+                                                                //0x64,
+                                                                //0x3); 
+            }
+
             
             strmsg = string.Format("{0:g}", strResult);
 
@@ -174,6 +198,16 @@ namespace Diag_BUS
             return (int)status;      // base.SendMessage(CanMsg);
         }
 
+        public  int SendFDMessage(object CanMsg)
+        {
+            TPCANStatus status;
+            m_CANMsg = (CANMsgs)CanMsg;
+
+            status = PCANBasic.WriteFD(m_PcanHandle, ref m_CANMsg.CANFDMsg);
+
+            return (int)status; 
+        }
+
         public override int ReceiveMessage(out object BusMsg)
         {
             TPCANMsg CANMsg;
@@ -195,6 +229,33 @@ namespace Diag_BUS
                 BusMsg = null;
 
             return (int)status;      //base.ReceiveMessage(out BusMsg);
+        }
+
+        /// <summary>
+        /// Function for reading messages on FD devices
+        /// </summary>
+        /// <returns>A TPCANStatus error code</returns>
+        public int ReadMessageFD(out object BusMsg)
+        {
+            TPCANMsgFD CANMsg;
+            TPCANTimestampFD CANTimeStamp;
+            TPCANStatus stsResult;
+
+            // We execute the "ReadFD" function of the PCANBasic                
+            //
+            stsResult = PCANBasic.ReadFD(m_PcanHandle, out CANMsg, out CANTimeStamp);
+            if (stsResult != TPCANStatus.PCAN_ERROR_QRCVEMPTY)
+            {
+                m_CANMsg = new CANMsgs();
+                m_CANMsg.CANFDMsg = CANMsg;
+                m_CANMsg.CANFDTimeStamp = CANTimeStamp;
+                m_CANMsg.stsResult = stsResult;
+                BusMsg = (object)m_CANMsg;
+            }
+            else
+                BusMsg = null;
+
+            return (int)stsResult;
         }
 
         /// <summary>
@@ -332,7 +393,7 @@ namespace Diag_BUS
             get { return Type.LIN_BUS; }
         }
 
-        public override uint Init(ref string strmsg, ushort BaudRate)
+        public override uint Init(ref string strmsg, ushort BaudRate, object canOBJ = null)
         {
             // Sets the connection status of the main-form
             //

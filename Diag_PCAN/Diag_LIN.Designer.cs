@@ -30,12 +30,15 @@ namespace Diag_BUS
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Diag_LIN));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chbBRS = new System.Windows.Forms.CheckBox();
+            this.chbFD = new System.Windows.Forms.CheckBox();
+            this.chbRemote = new System.Windows.Forms.CheckBox();
+            this.chbExtended = new System.Windows.Forms.CheckBox();
             this.cbbChannel = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.btnRelease = new System.Windows.Forms.Button();
             this.chbCanFD = new System.Windows.Forms.CheckBox();
             this.cbProject = new System.Windows.Forms.ComboBox();
@@ -124,8 +127,11 @@ namespace Diag_BUS
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chbBRS);
+            this.groupBox1.Controls.Add(this.chbFD);
+            this.groupBox1.Controls.Add(this.chbRemote);
+            this.groupBox1.Controls.Add(this.chbExtended);
             this.groupBox1.Controls.Add(this.cbbChannel);
-            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btnRelease);
             this.groupBox1.Controls.Add(this.chbCanFD);
             this.groupBox1.Controls.Add(this.cbProject);
@@ -150,10 +156,62 @@ namespace Diag_BUS
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(1419, 115);
+            this.groupBox1.Size = new System.Drawing.Size(1419, 146);
             this.groupBox1.TabIndex = 43;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Connection ";
+            // 
+            // chbBRS
+            // 
+            this.chbBRS.Cursor = System.Windows.Forms.Cursors.Default;
+            this.chbBRS.Enabled = false;
+            this.chbBRS.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.chbBRS.Location = new System.Drawing.Point(1165, 24);
+            this.chbBRS.Margin = new System.Windows.Forms.Padding(4);
+            this.chbBRS.Name = "chbBRS";
+            this.chbBRS.Size = new System.Drawing.Size(84, 33);
+            this.chbBRS.TabIndex = 64;
+            this.chbBRS.Text = "BRS";
+            this.toolTip.SetToolTip(this.chbBRS, "The PCAN message represents a FD bit rate switch (CAN data at a higher bit rate)");
+            this.chbBRS.Visible = false;
+            // 
+            // chbFD
+            // 
+            this.chbFD.Cursor = System.Windows.Forms.Cursors.Default;
+            this.chbFD.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.chbFD.Location = new System.Drawing.Point(1101, 24);
+            this.chbFD.Margin = new System.Windows.Forms.Padding(4);
+            this.chbFD.Name = "chbFD";
+            this.chbFD.Size = new System.Drawing.Size(56, 33);
+            this.chbFD.TabIndex = 63;
+            this.chbFD.Text = "FD";
+            this.toolTip.SetToolTip(this.chbFD, "The PCAN message represents a FD frame in terms of CiA Specs");
+            this.chbFD.Visible = false;
+            this.chbFD.CheckedChanged += new System.EventHandler(this.chbFD_CheckedChanged);
+            // 
+            // chbRemote
+            // 
+            this.chbRemote.Cursor = System.Windows.Forms.Cursors.Default;
+            this.chbRemote.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.chbRemote.Location = new System.Drawing.Point(1015, 24);
+            this.chbRemote.Margin = new System.Windows.Forms.Padding(4);
+            this.chbRemote.Name = "chbRemote";
+            this.chbRemote.Size = new System.Drawing.Size(66, 33);
+            this.chbRemote.TabIndex = 62;
+            this.chbRemote.Text = "RTR";
+            this.toolTip.SetToolTip(this.chbRemote, "The PCAN message is a CAN Remote-Transfer-Request Frame");
+            // 
+            // chbExtended
+            // 
+            this.chbExtended.Cursor = System.Windows.Forms.Cursors.Default;
+            this.chbExtended.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.chbExtended.Location = new System.Drawing.Point(868, 24);
+            this.chbExtended.Margin = new System.Windows.Forms.Padding(4);
+            this.chbExtended.Name = "chbExtended";
+            this.chbExtended.Size = new System.Drawing.Size(131, 33);
+            this.chbExtended.TabIndex = 61;
+            this.chbExtended.Text = "Extended";
+            this.toolTip.SetToolTip(this.chbExtended, "The PCAN message is a CAN Extended Frame (29-bit identifier)");
             // 
             // cbbChannel
             // 
@@ -188,28 +246,20 @@ namespace Diag_BUS
             "USB-Channel 6",
             "USB-Channel 7",
             "USB-Channel 8"});
-            this.cbbChannel.Location = new System.Drawing.Point(626, 28);
+            this.cbbChannel.Location = new System.Drawing.Point(646, 28);
             this.cbbChannel.Margin = new System.Windows.Forms.Padding(4);
             this.cbbChannel.Name = "cbbChannel";
             this.cbbChannel.Size = new System.Drawing.Size(199, 33);
             this.cbbChannel.TabIndex = 32;
+            this.toolTip.SetToolTip(this.cbbChannel, "The type of hardware ");
             this.cbbChannel.SelectedIndexChanged += new System.EventHandler(this.cbbChannel_SelectedIndexChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(528, 32);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(91, 25);
-            this.label4.TabIndex = 60;
-            this.label4.Text = "Adapter";
             // 
             // btnRelease
             // 
             this.btnRelease.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnRelease.Enabled = false;
             this.btnRelease.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnRelease.Location = new System.Drawing.Point(34, 76);
+            this.btnRelease.Location = new System.Drawing.Point(34, 73);
             this.btnRelease.Margin = new System.Windows.Forms.Padding(4);
             this.btnRelease.Name = "btnRelease";
             this.btnRelease.Size = new System.Drawing.Size(142, 32);
@@ -220,14 +270,14 @@ namespace Diag_BUS
             // chbCanFD
             // 
             this.chbCanFD.AutoSize = true;
-            this.chbCanFD.Location = new System.Drawing.Point(1288, 29);
+            this.chbCanFD.Location = new System.Drawing.Point(1288, 24);
             this.chbCanFD.Margin = new System.Windows.Forms.Padding(4);
             this.chbCanFD.Name = "chbCanFD";
             this.chbCanFD.Size = new System.Drawing.Size(117, 29);
             this.chbCanFD.TabIndex = 59;
             this.chbCanFD.Text = "CAN-FD";
+            this.toolTip.SetToolTip(this.chbCanFD, "CANFD frame active");
             this.chbCanFD.UseVisualStyleBackColor = true;
-            this.chbCanFD.Visible = false;
             this.chbCanFD.CheckedChanged += new System.EventHandler(this.chbCanFD_CheckedChanged);
             // 
             // cbProject
@@ -245,11 +295,12 @@ namespace Diag_BUS
             "Split Flash(CAN)",
             "Chery CBF",
             "DSPIC33"});
-            this.cbProject.Location = new System.Drawing.Point(303, 28);
+            this.cbProject.Location = new System.Drawing.Point(292, 28);
             this.cbProject.Margin = new System.Windows.Forms.Padding(4);
             this.cbProject.Name = "cbProject";
             this.cbProject.Size = new System.Drawing.Size(218, 33);
             this.cbProject.TabIndex = 49;
+            this.toolTip.SetToolTip(this.cbProject, "The name of project");
             this.cbProject.SelectedIndexChanged += new System.EventHandler(this.cbProject_SelectedIndexChanged);
             // 
             // label6
@@ -271,11 +322,12 @@ namespace Diag_BUS
             "125 kBit/sec",
             "100 kBit/sec",
             "19.2 kBit/sec"});
-            this.cbbBaudrates.Location = new System.Drawing.Point(303, 78);
+            this.cbbBaudrates.Location = new System.Drawing.Point(291, 76);
             this.cbbBaudrates.Margin = new System.Windows.Forms.Padding(4);
             this.cbbBaudrates.Name = "cbbBaudrates";
             this.cbbBaudrates.Size = new System.Drawing.Size(218, 33);
             this.cbbBaudrates.TabIndex = 49;
+            this.toolTip.SetToolTip(this.cbbBaudrates, "The speed for the communication (BTR0BTR1 code)");
             // 
             // laBaudrate
             // 
@@ -289,7 +341,7 @@ namespace Diag_BUS
             // laBitrate
             // 
             this.laBitrate.AutoSize = true;
-            this.laBitrate.Location = new System.Drawing.Point(522, 28);
+            this.laBitrate.Location = new System.Drawing.Point(188, 83);
             this.laBitrate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.laBitrate.Name = "laBitrate";
             this.laBitrate.Size = new System.Drawing.Size(97, 25);
@@ -301,7 +353,7 @@ namespace Diag_BUS
             // 
             this.btnHwRefresh.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnHwRefresh.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnHwRefresh.Location = new System.Drawing.Point(1138, 30);
+            this.btnHwRefresh.Location = new System.Drawing.Point(1269, 73);
             this.btnHwRefresh.Margin = new System.Windows.Forms.Padding(4);
             this.btnHwRefresh.Name = "btnHwRefresh";
             this.btnHwRefresh.Size = new System.Drawing.Size(142, 32);
@@ -312,13 +364,12 @@ namespace Diag_BUS
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(1143, 74);
+            this.label1.Location = new System.Drawing.Point(527, 30);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(201, 32);
+            this.label1.Size = new System.Drawing.Size(120, 32);
             this.label1.TabIndex = 40;
             this.label1.Text = "Hardware:";
-            this.label1.Visible = false;
             // 
             // btnInit
             // 
@@ -342,25 +393,23 @@ namespace Diag_BUS
             "DNG-82C200",
             "DNG-82C200 EPP",
             "DNG-SJA1000",
-            "DNG-SJA1000 EPP",
-            "PCAN",
-            "TOMOSS"});
-            this.cbbHwType.Location = new System.Drawing.Point(595, 70);
+            "DNG-SJA1000 EPP"});
+            this.cbbHwType.Location = new System.Drawing.Point(646, 76);
             this.cbbHwType.Margin = new System.Windows.Forms.Padding(4);
             this.cbbHwType.Name = "cbbHwType";
             this.cbbHwType.Size = new System.Drawing.Size(199, 33);
             this.cbbHwType.TabIndex = 50;
-            this.cbbHwType.Visible = false;
+            this.toolTip.SetToolTip(this.cbbHwType, "The type of hardware and operation mode");
+            this.cbbHwType.SelectedIndexChanged += new System.EventHandler(this.cbbHwType_SelectedIndexChanged);
             // 
             // laHwType
             // 
-            this.laHwType.Location = new System.Drawing.Point(487, 73);
+            this.laHwType.Location = new System.Drawing.Point(527, 78);
             this.laHwType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.laHwType.Name = "laHwType";
-            this.laHwType.Size = new System.Drawing.Size(111, 32);
+            this.laHwType.Size = new System.Drawing.Size(112, 61);
             this.laHwType.TabIndex = 54;
             this.laHwType.Text = "Hardware Type:";
-            this.laHwType.Visible = false;
             // 
             // cbbInterrupt
             // 
@@ -375,22 +424,21 @@ namespace Diag_BUS
             "11",
             "12",
             "15"});
-            this.cbbInterrupt.Location = new System.Drawing.Point(1033, 70);
+            this.cbbInterrupt.Location = new System.Drawing.Point(1182, 76);
             this.cbbInterrupt.Margin = new System.Windows.Forms.Padding(4);
             this.cbbInterrupt.Name = "cbbInterrupt";
             this.cbbInterrupt.Size = new System.Drawing.Size(80, 33);
             this.cbbInterrupt.TabIndex = 52;
-            this.cbbInterrupt.Visible = false;
+            this.toolTip.SetToolTip(this.cbbInterrupt, "Interrupt number of the parallel por");
             // 
             // laInterrupt
             // 
-            this.laInterrupt.Location = new System.Drawing.Point(945, 70);
+            this.laInterrupt.Location = new System.Drawing.Point(1057, 78);
             this.laInterrupt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.laInterrupt.Name = "laInterrupt";
-            this.laInterrupt.Size = new System.Drawing.Size(80, 32);
+            this.laInterrupt.Size = new System.Drawing.Size(115, 32);
             this.laInterrupt.TabIndex = 56;
             this.laInterrupt.Text = "Interrupt:";
-            this.laInterrupt.Visible = false;
             // 
             // cbbIO
             // 
@@ -420,32 +468,32 @@ namespace Diag_BUS
             "03E0",
             "03E8",
             "03F8"});
-            this.cbbIO.Location = new System.Drawing.Point(857, 70);
+            this.cbbIO.Location = new System.Drawing.Point(971, 76);
             this.cbbIO.Margin = new System.Windows.Forms.Padding(4);
             this.cbbIO.Name = "cbbIO";
-            this.cbbIO.Size = new System.Drawing.Size(80, 33);
+            this.cbbIO.Size = new System.Drawing.Size(79, 33);
             this.cbbIO.TabIndex = 51;
-            this.cbbIO.Visible = false;
+            this.toolTip.SetToolTip(this.cbbIO, "The I/O address for the parallel port");
             // 
             // laIOPort
             // 
-            this.laIOPort.Location = new System.Drawing.Point(796, 70);
+            this.laIOPort.Location = new System.Drawing.Point(858, 78);
             this.laIOPort.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.laIOPort.Name = "laIOPort";
-            this.laIOPort.Size = new System.Drawing.Size(53, 32);
+            this.laIOPort.Size = new System.Drawing.Size(105, 32);
             this.laIOPort.TabIndex = 55;
             this.laIOPort.Text = "I/O Port:";
-            this.laIOPort.Visible = false;
             // 
             // txtBitrate
             // 
-            this.txtBitrate.Location = new System.Drawing.Point(527, 59);
+            this.txtBitrate.Location = new System.Drawing.Point(292, 74);
             this.txtBitrate.Margin = new System.Windows.Forms.Padding(4);
             this.txtBitrate.Multiline = true;
             this.txtBitrate.Name = "txtBitrate";
             this.txtBitrate.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBitrate.Size = new System.Drawing.Size(544, 46);
+            this.txtBitrate.Size = new System.Drawing.Size(544, 65);
             this.txtBitrate.TabIndex = 48;
+            this.toolTip.SetToolTip(this.txtBitrate, resources.GetString("txtBitrate.ToolTip"));
             this.txtBitrate.Visible = false;
             // 
             // tcDownloader
@@ -454,10 +502,10 @@ namespace Diag_BUS
             this.tcDownloader.Controls.Add(this.Trace);
             this.tcDownloader.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcDownloader.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tcDownloader.Location = new System.Drawing.Point(0, 115);
+            this.tcDownloader.Location = new System.Drawing.Point(0, 146);
             this.tcDownloader.Name = "tcDownloader";
             this.tcDownloader.SelectedIndex = 0;
-            this.tcDownloader.Size = new System.Drawing.Size(1419, 782);
+            this.tcDownloader.Size = new System.Drawing.Size(1419, 759);
             this.tcDownloader.TabIndex = 44;
             // 
             // tpDownloader
@@ -467,7 +515,7 @@ namespace Diag_BUS
             this.tpDownloader.Location = new System.Drawing.Point(4, 34);
             this.tpDownloader.Name = "tpDownloader";
             this.tpDownloader.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDownloader.Size = new System.Drawing.Size(1411, 744);
+            this.tpDownloader.Size = new System.Drawing.Size(1411, 721);
             this.tpDownloader.TabIndex = 0;
             this.tpDownloader.Text = "Flash";
             this.tpDownloader.UseVisualStyleBackColor = true;
@@ -487,7 +535,7 @@ namespace Diag_BUS
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.lbxInfo);
-            this.splitContainer2.Size = new System.Drawing.Size(1405, 738);
+            this.splitContainer2.Size = new System.Drawing.Size(1405, 715);
             this.splitContainer2.SplitterDistance = 83;
             this.splitContainer2.TabIndex = 64;
             // 
@@ -648,7 +696,7 @@ namespace Diag_BUS
             this.lbxInfo.Location = new System.Drawing.Point(0, 0);
             this.lbxInfo.Name = "lbxInfo";
             this.lbxInfo.ScrollAlwaysVisible = true;
-            this.lbxInfo.Size = new System.Drawing.Size(1405, 651);
+            this.lbxInfo.Size = new System.Drawing.Size(1405, 628);
             this.lbxInfo.TabIndex = 6;
             // 
             // lbPath
@@ -665,7 +713,7 @@ namespace Diag_BUS
             this.Trace.Location = new System.Drawing.Point(4, 34);
             this.Trace.Name = "Trace";
             this.Trace.Padding = new System.Windows.Forms.Padding(3);
-            this.Trace.Size = new System.Drawing.Size(1411, 744);
+            this.Trace.Size = new System.Drawing.Size(1411, 721);
             this.Trace.TabIndex = 1;
             this.Trace.Text = "Trace";
             this.Trace.UseVisualStyleBackColor = true;
@@ -685,7 +733,7 @@ namespace Diag_BUS
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dgView);
-            this.splitContainer1.Size = new System.Drawing.Size(1405, 738);
+            this.splitContainer1.Size = new System.Drawing.Size(1405, 715);
             this.splitContainer1.SplitterDistance = 82;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -935,12 +983,12 @@ namespace Diag_BUS
             this.dgView.AllowUserToAddRows = false;
             this.dgView.AllowUserToDeleteRows = false;
             this.dgView.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.MediumSeaGreen;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.dgView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.MediumSeaGreen;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.dgView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -955,14 +1003,14 @@ namespace Diag_BUS
             this.dgView.Name = "dgView";
             this.dgView.ReadOnly = true;
             this.dgView.RowHeadersWidth = 62;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.DodgerBlue;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.dgView.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.DodgerBlue;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.dgView.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgView.RowTemplate.Height = 30;
             this.dgView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgView.Size = new System.Drawing.Size(1405, 652);
+            this.dgView.Size = new System.Drawing.Size(1405, 629);
             this.dgView.TabIndex = 2;
             this.dgView.VirtualMode = true;
             this.dgView.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dgView_CellValueNeeded);
@@ -1030,13 +1078,13 @@ namespace Diag_BUS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1419, 897);
+            this.ClientSize = new System.Drawing.Size(1419, 905);
             this.Controls.Add(this.tcDownloader);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Diag_LIN";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Mannhui technology UDS flush tool (by Jingchi.He)";
+            this.Text = "Manhui technology UDS flush tool";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Diag_PCAN_FormClosing);
             this.Load += new System.EventHandler(this.Diag_PCAN_Load);
             this.groupBox1.ResumeLayout(false);
@@ -1118,7 +1166,6 @@ namespace Diag_BUS
         public System.Windows.Forms.ProgressBar pBar;
         private System.Windows.Forms.Label lbFilePath;
         private System.Windows.Forms.Button btnExportTrace;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnReadHexFile;
         private System.Windows.Forms.ComboBox cbProject;
         private System.Windows.Forms.Label label6;
@@ -1138,6 +1185,10 @@ namespace Diag_BUS
         private System.Windows.Forms.DataGridViewTextBoxColumn CoData;
         private System.Windows.Forms.Button btnFlashAddr;
         private System.Windows.Forms.Button btnResetECU;
+        private System.Windows.Forms.CheckBox chbBRS;
+        private System.Windows.Forms.CheckBox chbFD;
+        private System.Windows.Forms.CheckBox chbRemote;
+        private System.Windows.Forms.CheckBox chbExtended;
     }
 }
 

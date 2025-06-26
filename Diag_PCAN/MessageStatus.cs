@@ -24,6 +24,7 @@ namespace Diag_BUS
         private int m_Count;
         private bool m_bShowPeriod;
         private bool m_bWasChanged;
+        private bool m_bFD;
 
         public MessageStatus(LINMsg linMsg, String canTimestamp, int listIndex)
         {
@@ -36,7 +37,7 @@ namespace Diag_BUS
             m_bWasChanged = false;
         }
 
-        public MessageStatus(CANMsgs canMsg, String canTimestamp, int listIndex)
+        public MessageStatus(CANMsgs canMsg, String canTimestamp, int listIndex, bool isFD = false)
         {
             m_MsgCAN = canMsg;
             m_TimeStamp = canTimestamp;
@@ -45,6 +46,7 @@ namespace Diag_BUS
             m_Count += 1;
             m_bShowPeriod = true;
             m_bWasChanged = false;
+            m_bFD = isFD;
         }
 
         public void Update(LINMsg canMsg = null, String canTimestamp = "")
@@ -129,8 +131,16 @@ namespace Diag_BUS
             }
             else if(m_MsgCAN != null)
             {
-                for (int i = 0; i < Diag_LIN.GetLengthFromDLC(m_MsgCAN.CANMsg.LEN, false); i++)
-                    strTemp += string.Format("{0:X2} ", m_MsgCAN.CANMsg.DATA[i]);
+                if (!m_bFD)
+                {
+                    for (int i = 0; i < Diag_LIN.GetLengthFromDLC(m_MsgCAN.CANMsg.LEN, false); i++)
+                        strTemp += string.Format("{0:X2} ", m_MsgCAN.CANMsg.DATA[i]);
+                }
+                else
+                {
+                    for (int i = 0; i < Diag_LIN.GetLengthFromDLC(m_MsgCAN.CANFDMsg.DLC, false); i++)
+                        strTemp += string.Format("{0:X2} ", m_MsgCAN.CANFDMsg.DATA[i]);
+                }
             }
 
             return strTemp;
@@ -144,10 +154,20 @@ namespace Diag_BUS
                 return string.Format("0x{0:X3}", m_Msg.ID);
             else if(m_MsgCAN != null)
             {
-                if((m_MsgCAN.CANMsg.MSGTYPE & Peak.Can.Basic.TPCANMessageType.PCAN_MESSAGE_STANDARD) ==0)
-                    return string.Format("0x{0:X3}", m_MsgCAN.CANMsg.ID);
+                if ((m_MsgCAN.CANMsg.MSGTYPE & Peak.Can.Basic.TPCANMessageType.PCAN_MESSAGE_STANDARD) == 0)
+                {
+                    if (!m_bFD)
+                        return string.Format("0x{0:X3}", m_MsgCAN.CANMsg.ID);
+                    else
+                        return string.Format("0x{0:X3}", m_MsgCAN.CANFDMsg.ID);
+                }
                 else
-                    return string.Format("{0:X8}h", m_MsgCAN.CANMsg.ID);
+                {
+                    if (!m_bFD)
+                        return string.Format("{0:X8}h", m_MsgCAN.CANMsg.ID);
+                    else
+                        return string.Format("{0:X8}h", m_MsgCAN.CANFDMsg.ID);
+                }
             }
                             
             return string.Empty;

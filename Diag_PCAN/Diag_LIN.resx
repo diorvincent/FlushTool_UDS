@@ -120,6 +120,18 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>305, 17</value>
   </metadata>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>305, 17</value>
+  </metadata>
+  <data name="txtBitrate.ToolTip" xml:space="preserve">
+    <value>The speed for the communication (FD bit rate string)
+ // Bit rate string must follow the following construction rules:
+* parameters and values must be separated by '='
+* Couples of Parameter/value must be separated by ','
+* Following Parameter must be filled out: f_clock, data_brp, data_sjw, data_tseg1, data_tseg2,
+  nom_brp, nom_sjw, nom_tseg1, nom_tseg2.
+* Following Parameters are optional (not used yet): data_ssp_offset, nom_sam</value>
+  </data>
   <metadata name="CoID.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

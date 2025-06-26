@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using USB2XXX;
 using Peak.Can.Basic;
+using TPCANTimestampFD = System.UInt64;
 
 namespace Diag_BUS
 {
@@ -39,9 +40,12 @@ namespace Diag_BUS
     {
         public uint ID;
         public string Dir;
-        public TPCANMsg CANMsg;
+        public TPCANMsg CANMsg;   
         public TPCANTimestamp CANTimeStamp;
         public TPCANStatus stsResult;
+
+        public TPCANMsgFD CANFDMsg;
+        public TPCANTimestampFD CANFDTimeStamp;
 
         public string msgID;
         public string MsgLen;
