@@ -20,6 +20,7 @@ using System.Windows.Forms;
 using USB2XXX;
 using TPCANHandle = System.UInt16;
 using TPCANTimestampFD = System.UInt64;
+using System.Diagnostics;
 
 namespace Diag_BUS
 {
@@ -347,6 +348,14 @@ namespace Diag_BUS
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
         public byte[] m_RespMsg;
         /// <summary>
+        /// application message alive or not
+        /// </summary>
+        public bool m_bAppMsgAlive;
+        /// <summary>
+        /// response message ID
+        /// </summary>
+        public uint m_RespID;
+        /// <summary>
         /// Use to store response message
         /// </summary>
         //TPCANMsg m_CANMsg;
@@ -565,7 +574,7 @@ namespace Diag_BUS
 
             FristEnterRT_ticks = 0;
             cbbChannel.SelectedIndex = 0;
-            cbProject.SelectedIndex = 9;//DSPIC33   // 6; //CAN UDS(ac7801)
+            cbProject.SelectedIndex = 9; //9;chery cbf  //6;CAN UDS(ac7801)
 
             //m_nDynStartAddr = 0;
             m_n36SvrPackNum = 0x21;
@@ -586,7 +595,8 @@ namespace Diag_BUS
             m_WholeTrace = true;
 
             m_bBreakInDownloading = false;
-            ST_MIN = 50;
+            ST_MIN = 5;
+            m_bAppMsgAlive = false;
         }
 
         /// <summary>
@@ -719,6 +729,11 @@ namespace Diag_BUS
             //
             chbCanFD.Enabled = !bConnected;
 
+            chbExtended.Enabled = !bConnected;
+            chbRemote.Enabled = !bConnected;
+            chbFD.Enabled = !bConnected;
+            chbBRS.Enabled = !bConnected;
+
             // Hardware configuration and read mode
             //
             if (!bConnected)
@@ -752,6 +767,7 @@ namespace Diag_BUS
         private void tbDownload_Click(object sender, EventArgs e)
         {
             m_MsgCount = 0;
+            m_RespID = Convert.ToUInt32(nudIdFrom.Value);
             //if file not exists,then notify error
             if (File.Exists(m_strHexFileName) && m_bus != null)
             {
@@ -2759,14 +2775,14 @@ namespace Diag_BUS
 
                 m_ReqMsg = new byte[] { 0x10, 0x03 }; //Extension session
                 nSendResult = Write_CANMessage(m_ReqMsg, true);
-               // Thread.Sleep(5 * P2_ServerTime);
+                // Thread.Sleep(5 * P2_ServerTime);
 
-                if(N2S_canResp_TH(ref nMaxNumOfBlock, 50, 0, 0x10))
+                if (N2S_canResp_TH(ref nMaxNumOfBlock, 50, 0, 0x10))
                 {
 #if _Com_Switch
                     m_ReqMsg = new byte[] { 0x28, 0x03, 0x03 }; //Disable APP message
                     nSendResult = Write_CANMessage(m_ReqMsg, true);
-                    Thread.Sleep(2*P2_ServerTime);
+                    Thread.Sleep(2 * P2_ServerTime);
 #endif
 
 #if _SecurityAccess
@@ -2848,10 +2864,10 @@ namespace Diag_BUS
                                     nSendResult = Write_CANMessage(m_ReqMsg, true);
 
                                     Thread.Sleep(2 * P2_ServerTime);
-                                   // if (m_RespMsg[1] == 0x67 && m_RespMsg[2] == 0x02)
-                                   if (N2S_canResp_TH(ref nMaxNumOfBlock, 50, 0, 0x27))
+                                    // if (m_RespMsg[1] == 0x67 && m_RespMsg[2] == 0x02)
+                                    if (N2S_canResp_TH(ref nMaxNumOfBlock, 50, 0, 0x27))
 #endif
-                                        {
+                                    {
 #if _SecurityAccess
                                         m_ReqMsg = new byte[] { 0x27, 0x09 }; //Security access,request seed
                                         nSendResult = Write_CANMessage(m_ReqMsg, true);
@@ -3677,6 +3693,9 @@ namespace Diag_BUS
         /// <returns>0:status ok, 1:wait for 10 millisecond, -1:over follow</returns>
         public int N2S_ProcessFollowCtrl(byte reqID)
         {
+            if (reqID != 0x28 && reqID != 0x31 && reqID != 0x36)
+                return -1;
+
             int nResult = -1;
             int nWaitCount = 0;
             while (true)
@@ -4678,7 +4697,7 @@ namespace Diag_BUS
                 LINMsg linMsg = new LINMsg();
                 // We get so much data as the Len of the message
                 //
-                iLength = GetLengthFromDLC(msgs.Length, false);
+                iLength = msgs.Length; // GetLengthFromDLC(msgs.Length, false);
 
                 if (nudIdTo.Text.Length > 2 || nudIdFrom.Text.Length > 2)
                 {
@@ -4755,8 +4774,8 @@ namespace Diag_BUS
                     }
                     canMsg.CANMsg.LEN = Convert.ToByte(iLength);
                     canMsg.CANMsg.MSGTYPE = (chbExtended.Checked) ? TPCANMessageType.PCAN_MESSAGE_EXTENDED : TPCANMessageType.PCAN_MESSAGE_STANDARD;   //(nTxIDLen <= 3) ? TPCANMessageType.PCAN_MESSAGE_STANDARD : TPCANMessageType.PCAN_MESSAGE_EXTENDED;
-                    canMsg.CANMsg.MSGTYPE |= (chbFD.Checked) ? TPCANMessageType.PCAN_MESSAGE_FD : TPCANMessageType.PCAN_MESSAGE_STANDARD;
-                    canMsg.CANMsg.MSGTYPE |= (chbBRS.Checked) ? TPCANMessageType.PCAN_MESSAGE_BRS : TPCANMessageType.PCAN_MESSAGE_STANDARD;
+                    //canMsg.CANMsg.MSGTYPE |= (chbFD.Checked) ? TPCANMessageType.PCAN_MESSAGE_FD : TPCANMessageType.PCAN_MESSAGE_STANDARD;
+                    //canMsg.CANMsg.MSGTYPE |= (chbBRS.Checked) ? TPCANMessageType.PCAN_MESSAGE_BRS : TPCANMessageType.PCAN_MESSAGE_STANDARD;
 
                     if (chbRemote.Checked)                        
                     {
@@ -4972,7 +4991,7 @@ namespace Diag_BUS
         {
             // Create and start the tread to read CAN Message using SetRcvEvent()
             //
-            if (m_DisplayAppMsg)
+            if (!m_DisplayAppMsg)
             {
                 m_ReadThread = new Thread(() => CANReadThreadFunc());
                 m_ReadThread.IsBackground = true;
@@ -5019,7 +5038,7 @@ namespace Diag_BUS
                         // in order to interact with Winforms UI (calling the 
                         // function ReadMessages)
                         // 
-                        if (m_DisplayAppMsg)
+                        if (!m_DisplayAppMsg)
                             ReadMessages(ref resp);
                         else
                             this.Invoke(m_ReadDelegate);
@@ -5099,27 +5118,47 @@ namespace Diag_BUS
                 canMsg.Dir = "Rx";
 
                 object CANMSG;
-                nResult = m_canBus.ReceiveMessage(out CANMSG);
+                //Thread.Sleep(10);
 
-                if ((nResult != (int)TPCANStatus.PCAN_ERROR_QRCVEMPTY) || nResult == (int)TPCANStatus.PCAN_ERROR_OK)
+                if (m_IsFD)
+                    stsResult = (TPCANStatus)m_canBus.ReadMessageFD(out CANMSG);
+                else
+                    nResult = m_canBus.ReceiveMessage(out CANMSG);
+                
+                if(CANMSG!=null)
                 {
-                    respMsg = ((CANMsgs)CANMSG).CANMsg.DATA;
-                    canMsg.ID = ((CANMsgs)CANMSG).CANMsg.ID;
-                    canMsg.CANMsg = ((CANMsgs)CANMSG).CANMsg;
-                    m_can_msg.CANMsg = ((CANMsgs)CANMSG).CANMsg;
-
+                    if (!m_IsFD)
+                    {
+                        respMsg = ((CANMsgs)CANMSG).CANMsg.DATA;
+                        canMsg.ID = ((CANMsgs)CANMSG).CANMsg.ID;
+                        canMsg.CANMsg = ((CANMsgs)CANMSG).CANMsg;
+                        m_can_msg.CANMsg = ((CANMsgs)CANMSG).CANMsg;
+                    }
+                    else
+                    {
+                        respMsg = ((CANMsgs)CANMSG).CANFDMsg.DATA;
+                        canMsg.ID = ((CANMsgs)CANMSG).CANFDMsg.ID;
+                        canMsg.CANFDMsg = ((CANMsgs)CANMSG).CANFDMsg;
+                        canMsg.CANFDMsg.MSGTYPE = ((CANMsgs)CANMSG).CANFDMsg.MSGTYPE;
+                        m_can_msg.CANFDMsg = ((CANMsgs)CANMSG).CANFDMsg;
+                    }
+                    
                     if (m_DisplayAppMsg)
-                    {                      
+                    {
                         //**********####$$$$$IMPORTANT(INDISPENSABLE)$$$$$####**********// !!!
                         //tell read dtc thread DTC has be found.
-                        if (canMsg.ID == Convert.ToUInt32(nudIdFrom.Value))
+                        if (m_RespMsg[1] == 0x28)
+                            Thread.Sleep(10);
+
+                        if (canMsg.ID == m_RespID)
                         {
                             _rw.EnterWriteLock();
                             m_RespMsg = respMsg;
                             _rw.ExitWriteLock();
-
                             m_ReadDTCEvent.Set();
                         }
+                        else
+                            m_bAppMsgAlive = true;
 
                         GetMsgTimeStamp(ref T_timestamp);
                         this.Invoke(new MethodInvoker(delegate () { ProcessMessage(canMsg, T_timestamp); }));
@@ -5129,7 +5168,6 @@ namespace Diag_BUS
                         //collectting setting Rsps(h) IDs' message only
                         if (canMsg.ID == Convert.ToUInt32(nudIdFrom.Value))
                         {
-                            uID = canMsg.ID;
                             respMsg = ((CANMsgs)CANMSG).CANMsg.DATA;
 
                             _rw.EnterWriteLock();
@@ -5157,9 +5195,6 @@ namespace Diag_BUS
                     stsResult = PCANBasic.GetValue(PCANBasic.PCAN_NONEBUS, TPCANParameter.PCAN_RECEIVE_STATUS, strTemp, 256);
                     strErr = GetFormatedError(stsResult);
                     Invoke(new MethodInvoker(delegate () { IncludeTextMessage(strErr); }));
-
-                    //flash buffer wether not receive message.
-                    Buffer.BlockCopy(new byte[8], 0, m_RespMsg, 0, 8 * sizeof(byte));
                 }
             }
         }
@@ -5290,22 +5325,33 @@ namespace Diag_BUS
 
                 object CANMSG;
                 stsResult = TPCANStatus.PCAN_ERROR_OK;
-                Thread.Sleep(5);
 
                 if (m_IsFD)
                     stsResult = (TPCANStatus)m_canBus.ReadMessageFD(out CANMSG);
                 else
                     stsResult = (TPCANStatus)m_canBus.ReceiveMessage(out CANMSG);
 
-                if (stsResult == TPCANStatus.PCAN_ERROR_ILLOPERATION)
-                    return (int)TPCANStatus.PCAN_ERROR_ILLOPERATION;
-
-                if (nResult == (int)TPCANStatus.PCAN_ERROR_OK)
+                //if (stsResult == (int)TPCANStatus.PCAN_ERROR_OK)
+                if (CANMSG != null)
                 {
-                    respMsg = ((CANMsgs)CANMSG).CANMsg.DATA;
-                    canMsg.ID = ((CANMsgs)CANMSG).CANMsg.ID;
-                    canMsg.CANMsg = ((CANMsgs)CANMSG).CANMsg;
-                    m_can_msg.CANMsg = ((CANMsgs)CANMSG).CANMsg;
+                    if (!m_IsFD)
+                    {
+                        respMsg = ((CANMsgs)CANMSG).CANMsg.DATA;
+                        canMsg.ID = ((CANMsgs)CANMSG).CANMsg.ID;
+                        canMsg.CANMsg = ((CANMsgs)CANMSG).CANMsg;
+                        canMsg.CANMsg.MSGTYPE = ((CANMsgs)CANMSG).CANMsg.MSGTYPE;
+
+                        m_can_msg.CANMsg = ((CANMsgs)CANMSG).CANMsg;
+                    }
+                    else
+                    {
+                        respMsg = ((CANMsgs)CANMSG).CANFDMsg.DATA;
+                        canMsg.ID = ((CANMsgs)CANMSG).CANFDMsg.ID;
+                        canMsg.CANFDMsg = ((CANMsgs)CANMSG).CANFDMsg;
+                        canMsg.CANFDMsg.MSGTYPE = ((CANMsgs)CANMSG).CANFDMsg.MSGTYPE;
+
+                        m_can_msg.CANFDMsg = ((CANMsgs)CANMSG).CANFDMsg;
+                    }
 
                     if (m_DisplayAppMsg)
                     {
@@ -5315,6 +5361,8 @@ namespace Diag_BUS
 
                         //**********####$$$$$IMPORTANT(INDISPENSABLE)$$$$$####**********// !!!
                         //tell read dtc thread DTC has be found.
+                        if (m_RespMsg[1] == 0x28)
+                            Thread.Sleep(10);
                         if (canMsg.ID == Convert.ToUInt32(nudIdFrom.Value))
                         {
                             m_ReadDTCEvent.Set();
@@ -5329,7 +5377,10 @@ namespace Diag_BUS
                         if (canMsg.ID == Convert.ToUInt32(nudIdFrom.Value))
                         {
                             uID = canMsg.ID;
-                            respMsg = ((CANMsgs)CANMSG).CANMsg.DATA;
+                            if (!m_IsFD)
+                                respMsg = ((CANMsgs)CANMSG).CANMsg.DATA;
+                            else
+                                respMsg = ((CANMsgs)CANMSG).CANFDMsg.DATA;
 
                             _rw.EnterWriteLock();
                             m_RespMsg = respMsg;
@@ -5347,19 +5398,42 @@ namespace Diag_BUS
                         }
                     }
                 }
+                #region marked exception process on receive message
                 else  //if read message failure,then wait ST_MIN time try read again.
                 {
                     Thread.Sleep(ST_MIN);
 
-                    nResult = m_canBus.ReceiveMessage(out CANMSG);
-                    if (nResult == (int)TPCANStatus.PCAN_ERROR_OK)
+                    if (m_IsFD)
+                        stsResult = (TPCANStatus)m_canBus.ReadMessageFD(out CANMSG);
+                    else
+                        stsResult = (TPCANStatus)m_canBus.ReceiveMessage(out CANMSG);
+                    if (nResult == (int)TPCANStatus.PCAN_ERROR_OK ||
+                        nResult == (int)TPCANStatus.PCAN_ERROR_BUSHEAVY)
                     {
-                        _rw.EnterWriteLock();
-                        m_RespMsg = respMsg;
-                        _rw.ExitWriteLock();
+                        if (!m_IsFD)
+                        {
+                            respMsg = ((CANMsgs)CANMSG).CANMsg.DATA;
+                            canMsg.ID = ((CANMsgs)CANMSG).CANMsg.ID;
+                            canMsg.CANMsg = ((CANMsgs)CANMSG).CANMsg;
+                            canMsg.CANMsg.MSGTYPE = ((CANMsgs)CANMSG).CANMsg.MSGTYPE;
 
-                        //**********####$$$$$IMPORTANT(INDISPENSABLE)$$$$$####**********// !!!
+                            m_can_msg.CANMsg = ((CANMsgs)CANMSG).CANMsg;
+                        }
+                        else
+                        {
+                            respMsg = ((CANMsgs)CANMSG).CANFDMsg.DATA;
+                            canMsg.ID = ((CANMsgs)CANMSG).CANFDMsg.ID;
+                            canMsg.CANFDMsg = ((CANMsgs)CANMSG).CANFDMsg;
+                            canMsg.CANFDMsg.MSGTYPE = ((CANMsgs)CANMSG).CANFDMsg.MSGTYPE;
+
+                            m_can_msg.CANFDMsg = ((CANMsgs)CANMSG).CANFDMsg;
+                        }
+
+                        m_RespMsg = respMsg;
+
                         //tell read dtc thread DTC has be found.
+                        if (m_RespMsg[1] == 0x28)
+                            Thread.Sleep(10);
                         if (canMsg.ID == Convert.ToUInt32(nudIdFrom.Value))
                         {
                             m_ReadDTCEvent.Set();
@@ -5368,17 +5442,16 @@ namespace Diag_BUS
                         GetMsgTimeStamp(ref T_timestamp);
                         this.Invoke(new MethodInvoker(delegate () { ProcessMessage(canMsg, T_timestamp); }));
                     }
-                    else if(nResult == (int)TPCANStatus.PCAN_ERROR_QRCVEMPTY)
+                    else if (nResult == (int)TPCANStatus.PCAN_ERROR_QRCVEMPTY)
                     {
                         strTemp = new StringBuilder(256);
                         stsResult = PCANBasic.GetValue(PCANBasic.PCAN_NONEBUS, TPCANParameter.PCAN_RECEIVE_STATUS, strTemp, 256);
                         strErr = GetFormatedError(stsResult);
                         Invoke(new MethodInvoker(delegate () { IncludeTextMessage(strErr); }));
-
-                        //flash buffer wether not receive message.
-                        //Buffer.BlockCopy(new byte[8], 0, m_RespMsg, 0, 8 * sizeof(byte));
-                    }                    
+                    }
                 }
+                
+                #endregion
             }
 
             return  (uint)nResult;
@@ -5486,13 +5559,13 @@ namespace Diag_BUS
             m_IsFD = chbCanFD.Checked;
 
             cbbBaudrates.Visible = !m_IsFD;
-            cbbHwType.Visible = !m_IsFD;
-            cbbInterrupt.Visible = !m_IsFD;
-            cbbIO.Visible = !m_IsFD;
+            //cbbHwType.Visible = !m_IsFD;
+            //cbbInterrupt.Visible = !m_IsFD;
+            //cbbIO.Visible = !m_IsFD;
             laBaudrate.Visible = !m_IsFD;
-            laHwType.Visible = !m_IsFD;
-            laIOPort.Visible = !m_IsFD;
-            laInterrupt.Visible = !m_IsFD;
+            //laHwType.Visible = !m_IsFD;
+            //laIOPort.Visible = !m_IsFD;
+            //laInterrupt.Visible = !m_IsFD;
 
             txtBitrate.Visible = m_IsFD;
             laBitrate.Visible = m_IsFD;
@@ -5643,18 +5716,7 @@ namespace Diag_BUS
             UpdateProgerss(0);
 
             //clear message list and counter while disconnection with hardware
-            //lock (m_LastMsgsList.SyncRoot)
-            //    m_LastMsgsList.Clear();
-
             m_MsgCount=0;
-            //if (m_bus.BusType == Bus.Type.CAN_BUS)
-            //{
-            //    m_lstCANMsg.Clear();
-            //}
-            //if (m_bus.BusType == Bus.Type.LIN_BUS)
-            //{
-            //     m_lstLINMsg.Clear();
-            //}
 
             m_strHexFileName = string.Empty;
             this.lbFilePath.Text = m_strHexFileName;
@@ -6853,6 +6915,7 @@ namespace Diag_BUS
             cbEnAPPMsg.Visible = false;
             btnFlashAddr.Visible = false;
             btnResetECU.Visible = false;
+            chbExtended.Checked = false;
 
             if (cbProject.SelectedIndex == 0) //320v Compresor
             {
@@ -6960,6 +7023,7 @@ namespace Diag_BUS
 
                 PRODUCT_TYPE = PRJTYPE._CANUDS01;
 
+                //chbExtended.Checked = true;
                 nudIdTo.Value = 0x7E0;
                 nudIdFrom.Value = 0x7E8;
                 cbbBaudrates.SelectedIndex = 1;
@@ -9221,6 +9285,25 @@ namespace Diag_BUS
             chbBRS.Enabled = chbFD.Checked;
             if (!chbBRS.Enabled)
                 chbBRS.Checked = false;
+        }
+
+        private void Diag_LIN_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.F1)
+            {
+                string strDocPath;
+                strDocPath = Directory.GetCurrentDirectory() + @"\下线刷写工具使用说明20250930.docx";
+   
+                try
+                {
+                    Process.Start(strDocPath);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                }
+            }
+ 
         }
 
         public class CBFParser : CBFParserBase

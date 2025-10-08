@@ -140,7 +140,7 @@ namespace Diag_BUS
                         if (b36Req)
                         {
                             //Thread.Sleep(m_nx36PackIntervalTimer);
-                            Thread.Sleep(gDiag_Lin.ST_MIN);
+                            Thread.Sleep(P2_ServerTime);
 
                             //if( -1==gDiag_Lin.N2S_ProcessFollowCtrl(0x36))
                             //{
@@ -452,7 +452,7 @@ namespace Diag_BUS
                                 // Send the message
                                 nResult = gDiag_Lin.WriteFrame(new_msgX);
                                 //Thread.Sleep(m_nx36PackIntervalTimer);
-                                Thread.Sleep(gDiag_Lin.ST_MIN);
+                                Thread.Sleep(P2_ServerTime/*gDiag_Lin.ST_MIN*/);
                             }
                             if (nEndBytes > 0) //tail block(less than 7 bytes)
                             {
@@ -659,7 +659,6 @@ namespace Diag_BUS
 
             return nResult;
         }
-
 
 
         ///<summary>
@@ -3030,9 +3029,11 @@ namespace Diag_BUS
                     bResult = false;
                     break;
                 }
-                //gDiag_Lin.N2S_ProcessFollowCtrl(reqID);
-                gDiag_Lin.m_ReadDTCEvent.WaitOne(P2_ServerTime * 5);//must waitted response message here
-  
+                gDiag_Lin.N2S_ProcessFollowCtrl((byte)reqID);
+                //must waitted response message here
+                if (!gDiag_Lin.m_ReadDTCEvent.WaitOne(P2_ServerTime * 5))
+                    break;
+
                 if (reqID == 0x22 || reqID == 0x2E)
                 {
                     Thread.Sleep(50);
@@ -3047,7 +3048,9 @@ namespace Diag_BUS
                 }
                 else
                 {
+                    gDiag_Lin._rw.EnterReadLock();
                     resp = gDiag_Lin.m_RespMsg;
+                    gDiag_Lin._rw.ExitReadLock();
                 }
 
                 //finish 0x31 routine control wait
@@ -3233,7 +3236,7 @@ namespace Diag_BUS
                 m_ReqMsg = new byte[] { 0x10, 0x03 }; //Extension session
                 nSendResult = Write_CANMessage(m_ReqMsg, true);
 
-                 if (Resp_TH(ref nMaxNumOfBlock, 80, 0, 0x1003))
+                 if (Resp_TH(ref nMaxNumOfBlock, 500, 0, 0x1003))
                 {
 #if _DTC_Switch
                     m_ReqMsg = new byte[] { 0x85, 0x02 }; //DTC switch
@@ -3247,8 +3250,7 @@ namespace Diag_BUS
 
                     m_ReqMsg = new byte[] { 0x28, 0x01, 0x01 }; //Disable APP message
                     nSendResult = Write_CANMessage(m_ReqMsg, true);
-                    
-                    if (Resp_TH(ref nMaxNumOfBlock, 500, 0, 0x28))
+                    if (Resp_TH(ref nMaxNumOfBlock, 300, 0, 0x28))
                     {
 #endif
                             m_ReqMsg = new byte[] { 0x10, 0x02 }; //Programe session
@@ -3301,75 +3303,75 @@ namespace Diag_BUS
                                         }
                                         WritelbMessage("Security access pass.", 0x00, true);
 
-                                        #region //write DID 0xF15A(暂时没有需求，先屏蔽)
-                                        ////write DIDs value(F15A) in Programing session
-                                        //bool bDID_Right = false;
-                                        //string strIniFile;
-                                        //byte[] writeDID = new byte[3] { 0x2E, 0xF1, 0x5A };
+                                    #region //write DID 0xF15A(暂时没有需求，先屏蔽)
+                                    ////write DIDs value(F15A) in Programing session
+                                    //bool bDID_Right = false;
+                                    //string strIniFile;
+                                    //byte[] writeDID = new byte[3] { 0x2E, 0xF1, 0x5A };
 
-                                        //strIniFile = Directory.GetCurrentDirectory() + @"\DIDInfo.ini";
-                                        //bDID_Right = gDiag_Lin.Excute_Write_DID(strIniFile, "F15A", writeDID, 9, 1);
-                                        //if (!bDID_Right)
-                                        //{
-                                        //    gDiag_Lin.IncludeTextMessage(string.Format("Write DID::{0} failured.", BitConverter.ToString(writeDID)));
-                                        //    return false;
-                                        //}
-                                        //else
-                                        //{
-                                        //    gDiag_Lin.SetWriteDID_ButtonColor("Write DID", Color.Transparent);
-                                        //    gDiag_Lin.IncludeTextMessage(string.Format("Write DID::{0} succeed.", BitConverter.ToString(writeDID)));
-                                        //}
-                                        ////-
-                                        #endregion
+                                    //strIniFile = Directory.GetCurrentDirectory() + @"\DIDInfo.ini";
+                                    //bDID_Right = gDiag_Lin.Excute_Write_DID(strIniFile, "F15A", writeDID, 9, 1);
+                                    //if (!bDID_Right)
+                                    //{
+                                    //    gDiag_Lin.IncludeTextMessage(string.Format("Write DID::{0} failured.", BitConverter.ToString(writeDID)));
+                                    //    return false;
+                                    //}
+                                    //else
+                                    //{
+                                    //    gDiag_Lin.SetWriteDID_ButtonColor("Write DID", Color.Transparent);
+                                    //    gDiag_Lin.IncludeTextMessage(string.Format("Write DID::{0} succeed.", BitConverter.ToString(writeDID)));
+                                    //}
+                                    ////-
+                                    #endregion
 
-                                        //Earse command(Fixed address / memory size for earse memory)
-                                        m_ReqMsg = new byte[] { 0x31, 0x01, 0xFF, 0x44 };
-                                        //Memory address MEMORY_ADDR, MEMORY_SIZE
-                                        string strDownloadADDR = Convert.ToString(gDiag_Lin.CAN_ADDR, 16);
-                                        byte[] DownloadADDR = gDiag_Lin.HexStringToByteArray(strDownloadADDR);
+                                    //Earse command(Fixed address / memory size for earse memory)
+                                    m_ReqMsg = new byte[] { 0x31, 0x01, 0xFF, 0x44 };
+                                    //Memory address MEMORY_ADDR, MEMORY_SIZE
+                                    string strDownloadADDR = Convert.ToString(gDiag_Lin.CAN_ADDR, 16);
+                                    byte[] DownloadADDR = gDiag_Lin.HexStringToByteArray(strDownloadADDR);
 
-                                        //Memory size
-                                        string strDownloadLEN = Convert.ToString(gDiag_Lin.CAN_SIZE, 16);
-                                        byte[] DownloadLEN = gDiag_Lin.HexStringToByteArray(strDownloadLEN);
+                                    //Memory size
+                                    string strDownloadLEN = Convert.ToString(gDiag_Lin.CAN_SIZE, 16);
+                                    byte[] DownloadLEN = gDiag_Lin.HexStringToByteArray(strDownloadLEN);
 
-                                        byte[] EraseMemory1 = gDiag_Lin.Combine(m_ReqMsg, DownloadADDR);
-                                        byte[] EraseMemory = gDiag_Lin.Combine(EraseMemory1, DownloadLEN);
+                                    byte[] EraseMemory1 = gDiag_Lin.Combine(m_ReqMsg, DownloadADDR);
+                                    byte[] EraseMemory = gDiag_Lin.Combine(EraseMemory1, DownloadLEN);
 
-                                        //Earse whole command
-                                        nSendResult = Write_CANMessage(EraseMemory);
-                                        WritelbMessage("Now earsing flash,please wait for amoument...", 0x00, true);
+                                    //Earse whole command
+                                    nSendResult = Write_CANMessage(EraseMemory);
+                                    WritelbMessage("Now earsing flash,please wait for amoument...", 0x00, true);
 
-                                        int nWaitTime = 0;
-                                        m_ReqMsg = new byte[] { 0x3E, 0x80 };
-                                        while (nWaitTime * REQ_3E_INTERVAL < (gDiag_Lin.m_DisplayAppMsg ? RESP_0x31_WAITTING_TIME:(RESP_0x31_WAITTING_TIME - 1000))) //earsing need expenditure about 5000ms
-                                        {
-                                            Write_CANMessage(m_ReqMsg, true);
-                                            Thread.Sleep(REQ_3E_INTERVAL);
-                                            nWaitTime++;
-                                        }
+                                    int nWaitTime = 0;
+                                    m_ReqMsg = new byte[] { 0x3E, 0x80 };
+                                    while (nWaitTime * REQ_3E_INTERVAL < (gDiag_Lin.m_DisplayAppMsg ? RESP_0x31_WAITTING_TIME:(RESP_0x31_WAITTING_TIME - 1000))) //earsing need expenditure about 5000ms
+                                    {
+                                        Write_CANMessage(m_ReqMsg, true);
+                                        Thread.Sleep(REQ_3E_INTERVAL);
+                                        nWaitTime++;
+                                    }
 
-                                        int nBlocks = 0; ;
-                                        if (Resp_TH(ref nBlocks, 350, 0, 0x31))
-                                        {
-                                            WritelbMessage("Ecu's application be earsed.", 0x00, true);
-                                            WritelbMessage("System will download application file.", 0x00, true);
+                                    int nBlocks = 0; ;
+                                    if (Resp_TH(ref nBlocks, 350, 0, 0x31))
+                                    {
+                                        WritelbMessage("Ecu's application be earsed.", 0x00, true);
+                                        WritelbMessage("System will download application file.", 0x00, true);
 
-                                            bMainFlashOK = Download_Finish();
-                                            if (bMainFlashOK)
-                                                WritelbMessage("Application file has been finished download.", 0x00, true);
-                                            else
-                                            {
-                                                WritelbMessage("Dowload has be interupted.", 0x00, true);
-                                                return false;
-                                            }
-                                        }
+                                        bMainFlashOK = Download_Finish();
+                                        if (bMainFlashOK)
+                                            WritelbMessage("Application file has been finished download.", 0x00, true);
                                         else
                                         {
-                                            WritelbMessage("", 0x31, false);
-                                            WritelbMessage("Some issue occure when earse ecu's application file.", 0x00, true);
+                                            WritelbMessage("Dowload has be interupted.", 0x00, true);
                                             return false;
                                         }
                                     }
+                                    else
+                                    {
+                                        WritelbMessage("", 0x31, false);
+                                        WritelbMessage("Some issue occure when earse ecu's application file.", 0x00, true);
+                                        return false;
+                                    }
+                                   }
         #if _SecurityAccess
                                 }
                                 else
@@ -3380,7 +3382,7 @@ namespace Diag_BUS
                                 WritelbMessage("", 0x10, false);
 
 #if _Com_Switch
-                        }
+                    }
                     else
                         WritelbMessage("", 0x28, false);
 #endif
@@ -3412,19 +3414,19 @@ namespace Diag_BUS
                     Byte[] n2s_checksum = gDiag_Lin.Combine(m_ReqMsg, CheckSumR);
                     Write_CANMessage(n2s_checksum);
 
-                    if (gDiag_Lin.m_RecData.Count > HEX_DATA_SIZE)//wait 3s here,if hex data size greater than 256k(means boot software need spend more time for caclulate checksum)
-                        Thread.Sleep(REQ_3E_INTERVAL);
+                    //if (gDiag_Lin.m_RecData.Count > HEX_DATA_SIZE)//wait 3s here,if hex data size greater than 256k(means boot software need spend more time for caclulate checksum)
+                    //    Thread.Sleep(REQ_3E_INTERVAL);
 
                     int nBlockNum = 0;
-                    if (Resp_TH(ref nBlockNum, 350, 0, 0x31))
+                    Thread.Sleep(200);
+                    if (Resp_TH(ref nBlockNum, 300, 0, 0x31))
                     {
                         WritelbMessage("All of transfer hex data consistency check pass!", 0x00, true);
                         WritelbMessage("ECU will reboot,please wait for a moment.", 0x00, true);
 
                         m_ReqMsg = new byte[] { 0x11, 0x01 }; //ECU reset(SoftReset)
                         Write_CANMessage(m_ReqMsg, true);
-                        Thread.Sleep(200);
-                        bGetPositiveResp = Resp_TH(ref nBlockNum, 50, 0, 0x11);
+                        bGetPositiveResp = Resp_TH(ref nBlockNum, 350, 0, 0x11);
                         if (bGetPositiveResp)
                         {
                             //refresh Trace window message & set all of buttons enable
@@ -3451,17 +3453,17 @@ namespace Diag_BUS
 #endif
 
 #if _Com_Switch
-                                    m_ReqMsg = new byte[] { 0x28, 0x00, 0x01 }; //Enable APP message
-                                    nSendResult = Write_CANMessage(m_ReqMsg, true);
+                                m_ReqMsg = new byte[] { 0x28, 0x00, 0x01 }; //Enable APP message
+                                nSendResult = Write_CANMessage(m_ReqMsg, true);
 
-                                    if (Resp_TH(ref nMaxNumOfBlock, 50, 0, 0x28))
-                                    {
+                                if (Resp_TH(ref nMaxNumOfBlock, 50, 0, 0x28))
+                                {
 #endif
-                                    
+
 #if _Com_Switch
                                 }
-                                    else
-                                        WritelbMessage("", 0x28, false);                                
+                                else
+                                    WritelbMessage("", 0x28, false);
 #endif
 
 #if _DTC_Switch
@@ -3472,7 +3474,14 @@ namespace Diag_BUS
                             }
                         }
                         else
-                            WritelbMessage("", 0x11, false);                        
+                        {                           
+                            //refresh Trace window message & set all of buttons enable
+                            gDiag_Lin.Invoke(new MethodInvoker(delegate () { gDiag_Lin.RefreshDBGridView(); }));
+                            gDiag_Lin.Invoke(new MethodInvoker(delegate () { gDiag_Lin.SetDonwloadingStatus(false); }));
+                            gDiag_Lin.m_bEnable_Trace = false;
+                            Thread.Sleep(REQ_3E_INTERVAL / 2);
+                            WritelbMessage("Fireware download succeed.", 0x00, true);
+                        }
                     }
                     else
                     {
@@ -3691,7 +3700,7 @@ namespace Diag_BUS
                 m_ReqMsg = new byte[] { 0x37 }; //Security access,request seed
 
                 nResult = Write_CANMessage(m_ReqMsg, true);
-                Thread.Sleep(P2_ServerTime);
+                Thread.Sleep(50);
                 if (gDiag_Lin.m_RespMsg[1] == 0x77)
                 {
                     WritelbMessage("Download finished!", 0x00, true);
@@ -3743,19 +3752,23 @@ namespace Diag_BUS
         protected override bool Resp_TH(ref int nMaxNumOfBlockLen, int nBlocks, int nDownloadTimes = 0, ushort reqID = 0x0000)
         {
             bool bResult = false;
-            byte[] resp= { };
+            byte[] resp= new byte[8];
             int nLoop = 0, nNegResp = 0;
             while (true)
-            {               
+            {
                 if (nLoop > nBlocks)
                 {
                     bResult = false;
                     break;
                 }
 
-                if (gDiag_Lin.m_WriteThread.IsAlive)
-                    gDiag_Lin.m_ReadDTCEvent.WaitOne();//must waitted response message here
-                resp = new byte[8];
+                gDiag_Lin.N2S_ProcessFollowCtrl((byte)reqID);
+
+                if (gDiag_Lin.m_WriteThread.IsAlive)  //must waitted response message here
+                    if (!gDiag_Lin.m_ReadDTCEvent.WaitOne(nBlocks * 5))
+                    {
+                        break;
+                    }
 
                 if (reqID == 0x22 || reqID == 0x2E)
                 {
@@ -3854,7 +3867,7 @@ namespace Diag_BUS
                 }
                 else if (resp[1] == 0x50 && resp[2] == 0x02) //service mode switch
                 {
-                    gDiag_Lin.ST_MIN = resp[4];
+                    //gDiag_Lin.ST_MIN = resp[4];
                     P2_ServerTime = gDiag_Lin.ST_MIN;
                     bResult = true;
                     break;
@@ -3862,8 +3875,7 @@ namespace Diag_BUS
                 else if (resp[1] == 0x50 && resp[2] == 0x03) //service mode switch
                 {
                     //Clear current global response buffer,so no influnce next response message estimate
-                    Buffer.BlockCopy(new byte[8], 0, gDiag_Lin.m_RespMsg, 0, resp.Length * sizeof(byte));
-
+                    //Buffer.BlockCopy(new byte[8], 0, gDiag_Lin.m_RespMsg, 0, resp.Length * sizeof(byte));
                     bResult = true;
                     break;
                 }
@@ -3907,34 +3919,16 @@ namespace Diag_BUS
                     break;
 
                 if (resp[1] == 0x7F)
-                {
-                    if (reqID ==0x1002 ||reqID == 0x31)//0x1002, 0x31 request has 2 0x7f response message,if beyong 2 then consider its wrong(Earse command, Consistency check)
-                    {
-                        if (nNegResp++ > 2)
-                            break;                        
-                    }
-                    else if(reqID == 0x28)
-                    {
-                        m_ReqMsg = new byte[] { 0x10, 0x03 }; //Extension session
-                        Write_CANMessage(m_ReqMsg, true);
-
-                        Thread.Sleep(500);
-
-                        m_ReqMsg = new byte[] { 0x28, 0x01, 0x01 }; //Disable APP message
-                        Write_CANMessage(m_ReqMsg, true);
-
-                        nNegResp++;
-                    }
-                    else
-                    {
-                        nNegResp++;
-                    }
+                {                    
+                    //Clear current global response buffer,so no influnce next response message estimate
+                    //Buffer.BlockCopy(new byte[8], 0, gDiag_Lin.m_RespMsg, 0, resp.Length * sizeof(byte));
+                    nNegResp++;                  
                 }
-                gDiag_Lin.m_ReadDTCEvent.Reset();
-
+                
                 Thread.Sleep(10);
                 nLoop++;
             }
+            gDiag_Lin.m_ReadDTCEvent.Reset();
 
             return bResult;
         }
@@ -6428,10 +6422,11 @@ namespace Diag_BUS
                 gDiag_Lin.m_nSourceIndex = 0;
                 gDiag_Lin.m_bEnable_0x3E = false;
                 gDiag_Lin.m_bBreakInDownloading = false;
+                gDiag_Lin.m_bTransferDataOK = true;
                 gDiag_Lin.SetDonwloadingStatus(true);//disable all of button which accoiate with diag message func when download start
 
                 m_ReqMsg = new byte[] { 0x10, 0x01 }; //Default session
-#if _0x7E                
+#if _0x7E 
                 gDiag_Lin.Write_Message(m_ReqMsg, 0x10);
                 Thread.Sleep(10);
 #else
@@ -6597,6 +6592,10 @@ namespace Diag_BUS
                     Thread.Sleep(10);
 
                     gDiag_Lin.IncludeTextMessage("ECU will reboot,please wait for a moment.");
+                    gDiag_Lin.m_bEnable_0x3E = false;
+                    gDiag_Lin.UpdateProgerss(100);
+                    gDiag_Lin.RefreshDBGridView(); //refresh trace grid view for display newest message
+                    gDiag_Lin.SetDonwloadingStatus(false);
 
                     m_ReqMsg = new byte[] { 0x11, 0x01 }; //ECU soft reset
                     gDiag_Lin.Write_Message(m_ReqMsg);
@@ -6606,6 +6605,7 @@ namespace Diag_BUS
                     {
                         gDiag_Lin.IncludeTextMessage("ECU soft reset succeed.");
                         gDiag_Lin.IncludeTextMessage("Fireware download succeed.");
+                        
                         Thread.Sleep(500);
 
                         m_ReqMsg = new byte[] { 0x10, 0x03 }; //Extended Session
@@ -6613,7 +6613,7 @@ namespace Diag_BUS
 #if _0x7E                        
                         Thread.Sleep(10);
 #else
-                        bGetPositiveResp = Resp_TH(ref nBlockNum, 50);
+                        bGetPositiveResp = Resp_TH(ref nBlockNum, 150);
                         if (bGetPositiveResp)
 #endif
                         {
@@ -6626,18 +6626,17 @@ namespace Diag_BUS
                             m_ReqMsg = new byte[] { 0x10, 0x81 }; //Default Session
                             gDiag_Lin.Write_Message(m_ReqMsg, 0x10);
 
-                            gDiag_Lin.m_bEnable_0x3E = false;
 
-                            gDiag_Lin.UpdateProgerss(100);
-                            gDiag_Lin.RefreshDBGridView(); //refresh trace grid view for display newest message
-                            gDiag_Lin.SetDonwloadingStatus(false);
                         }
                     }
                     else
                         gDiag_Lin.NegativeMessage(0x11, gDiag_Lin.m_RespMsg);
                 }
                 else
+                {
+                    gDiag_Lin.IncludeTextMessage("Fireware download failured.");
                     return false;
+                }
             }
             catch (IOException ep)
             {
@@ -6864,11 +6863,11 @@ namespace Diag_BUS
                         gDiag_Lin.IncludeTextMessage(string.Format("Some issue occured::{0:s} when transfer data.", ex.Message));
                         return false;
                     }
-                    finally
-                    {
-                        if (!gDiag_Lin.m_bBreakInDownloading)
-                            gDiag_Lin.IncludeTextMessage(string.Format("Transfer data succeed."));
-                    }
+                    //finally
+                    //{
+                    //    if (!gDiag_Lin.m_bBreakInDownloading)
+                    //        gDiag_Lin.IncludeTextMessage(string.Format("Transfer data succeed."));
+                    //}
                 }
                 else
                 {
@@ -6917,7 +6916,9 @@ namespace Diag_BUS
                         gDiag_Lin.NegativeMessage(0x37, respMsg);
                         return false;
                     }
-                }              
+                }
+                else
+                    return false;
             }
 
             return true;

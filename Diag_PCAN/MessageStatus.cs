@@ -126,7 +126,7 @@ namespace Diag_BUS
             string strTemp = "";
             if(m_Msg != null)
             {
-                for (int i = 0; i < Diag_LIN.GetLengthFromDLC(m_Msg.DLC, false); i++)
+                for (int i = 0; i < m_Msg.DLC /*Diag_LIN.GetLengthFromDLC(m_Msg.DLC, false)*/; i++)
                     strTemp += string.Format("{0:X2} ", m_Msg.data[i]);
             }
             else if(m_MsgCAN != null)

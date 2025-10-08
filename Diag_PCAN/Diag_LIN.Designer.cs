@@ -31,8 +31,8 @@ namespace Diag_BUS
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Diag_LIN));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chbBRS = new System.Windows.Forms.CheckBox();
             this.chbFD = new System.Windows.Forms.CheckBox();
@@ -259,7 +259,7 @@ namespace Diag_BUS
             this.btnRelease.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnRelease.Enabled = false;
             this.btnRelease.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnRelease.Location = new System.Drawing.Point(34, 73);
+            this.btnRelease.Location = new System.Drawing.Point(34, 77);
             this.btnRelease.Margin = new System.Windows.Forms.Padding(4);
             this.btnRelease.Name = "btnRelease";
             this.btnRelease.Size = new System.Drawing.Size(142, 32);
@@ -295,7 +295,7 @@ namespace Diag_BUS
             "Split Flash(CAN)",
             "Chery CBF",
             "DSPIC33"});
-            this.cbProject.Location = new System.Drawing.Point(292, 28);
+            this.cbProject.Location = new System.Drawing.Point(291, 28);
             this.cbProject.Margin = new System.Windows.Forms.Padding(4);
             this.cbProject.Name = "cbProject";
             this.cbProject.Size = new System.Drawing.Size(218, 33);
@@ -400,6 +400,7 @@ namespace Diag_BUS
             this.cbbHwType.Size = new System.Drawing.Size(199, 33);
             this.cbbHwType.TabIndex = 50;
             this.toolTip.SetToolTip(this.cbbHwType, "The type of hardware and operation mode");
+            this.cbbHwType.Visible = false;
             this.cbbHwType.SelectedIndexChanged += new System.EventHandler(this.cbbHwType_SelectedIndexChanged);
             // 
             // laHwType
@@ -410,6 +411,7 @@ namespace Diag_BUS
             this.laHwType.Size = new System.Drawing.Size(112, 61);
             this.laHwType.TabIndex = 54;
             this.laHwType.Text = "Hardware Type:";
+            this.laHwType.Visible = false;
             // 
             // cbbInterrupt
             // 
@@ -430,6 +432,7 @@ namespace Diag_BUS
             this.cbbInterrupt.Size = new System.Drawing.Size(80, 33);
             this.cbbInterrupt.TabIndex = 52;
             this.toolTip.SetToolTip(this.cbbInterrupt, "Interrupt number of the parallel por");
+            this.cbbInterrupt.Visible = false;
             // 
             // laInterrupt
             // 
@@ -439,6 +442,7 @@ namespace Diag_BUS
             this.laInterrupt.Size = new System.Drawing.Size(115, 32);
             this.laInterrupt.TabIndex = 56;
             this.laInterrupt.Text = "Interrupt:";
+            this.laInterrupt.Visible = false;
             // 
             // cbbIO
             // 
@@ -474,6 +478,7 @@ namespace Diag_BUS
             this.cbbIO.Size = new System.Drawing.Size(79, 33);
             this.cbbIO.TabIndex = 51;
             this.toolTip.SetToolTip(this.cbbIO, "The I/O address for the parallel port");
+            this.cbbIO.Visible = false;
             // 
             // laIOPort
             // 
@@ -483,6 +488,7 @@ namespace Diag_BUS
             this.laIOPort.Size = new System.Drawing.Size(105, 32);
             this.laIOPort.TabIndex = 55;
             this.laIOPort.Text = "I/O Port:";
+            this.laIOPort.Visible = false;
             // 
             // txtBitrate
             // 
@@ -983,12 +989,12 @@ namespace Diag_BUS
             this.dgView.AllowUserToAddRows = false;
             this.dgView.AllowUserToDeleteRows = false;
             this.dgView.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.MediumSeaGreen;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.dgView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.MediumSeaGreen;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.dgView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dgView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1003,11 +1009,11 @@ namespace Diag_BUS
             this.dgView.Name = "dgView";
             this.dgView.ReadOnly = true;
             this.dgView.RowHeadersWidth = 62;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.DodgerBlue;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.dgView.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.DodgerBlue;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.dgView.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.dgView.RowTemplate.Height = 30;
             this.dgView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgView.Size = new System.Drawing.Size(1405, 629);
@@ -1078,15 +1084,18 @@ namespace Diag_BUS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1419, 905);
             this.Controls.Add(this.tcDownloader);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "Diag_LIN";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Manhui technology UDS flush tool";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Diag_PCAN_FormClosing);
             this.Load += new System.EventHandler(this.Diag_PCAN_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Diag_LIN_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tcDownloader.ResumeLayout(false);
