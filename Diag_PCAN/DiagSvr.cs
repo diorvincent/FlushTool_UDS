@@ -2043,11 +2043,7 @@ namespace Diag_BUS
 
                     FlashFirmware(x, n0x36PackNum++, nBlockNum, Total36Data);
                     gDiag_Lin.m_b36SvrOneBlockOver = false;
-//#if _CheckSum
-//                    Thread.Sleep(150);
-//#else
-//                    Thread.Sleep(10);
-//#endif
+
                     //wait for single block write response(0x36)
                     bGetPositiveResp = Resp_TH(ref nMaxNumOfBlock, P2_ServerTime * 2, x + 1, 0x36);
                     gDiag_Lin.Invoke(new MethodInvoker(delegate () { gDiag_Lin.IncludeTextMessage(string.Format("Now downloading fireware block::{0:d}", x + 1)); }));
@@ -2171,40 +2167,6 @@ namespace Diag_BUS
                 m_N2SDataPack.All0x36PackData = new byte[gDiag_Lin.m_Total36Data.Length];
                 m_N2SDataPack.All0x36PackData = gDiag_Lin.m_Total36Data;
                 UpgrateFirmware(m_N2SDataPack);
-
-                #region mark start thread at transfer data service 0x36, thread start change to flow start position
-               
-                //try
-                //{
-                //    m_N2SDataPack = new N2S_DataPack();
-                //    m_N2SDataPack.nMaxNumOfBlock = nMaxNumOfBlock;
-                //    m_N2SDataPack.All0x36PackData = new byte[gDiag_Lin.m_Total36Data.Length];
-                //    m_N2SDataPack.All0x36PackData = gDiag_Lin.m_Total36Data;
-                //    gDiag_Lin.m_WriteThread = new System.Threading.Thread(UpgrateFirmware);
-                //    gDiag_Lin.m_WriteThread.IsBackground = true;
-                //    gDiag_Lin.m_WriteThread.Start(m_N2SDataPack);
-                //    bool IfTimesEnd = false;
-                //    bool IfRunOver = false;
-                //    while (!IfRunOver && gDiag_Lin.m_WriteThread != null)
-                //    {
-                //        IfTimesEnd = gDiag_Lin.m_WriteThread.IsAlive;
-                //        Application.DoEvents();
-                //        if (!IfTimesEnd || IfRunOver || !gDiag_Lin.m_bTransferDataOK)
-                //        {
-                //            gDiag_Lin.m_WriteThread.Interrupt();
-                //            gDiag_Lin.m_WriteThread.Abort();
-                //            IfTimesEnd = false;
-                //            gDiag_Lin.gAddrOffset = 0;
-                //            break;
-                //        }
-                //    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    gDiag_Lin.IncludeTextMessage(string.Format("Some issue occured::{0:s} when transfer data.", ex.Message));
-                //}
-
-                #endregion
             }
             else
                 WritelbMessage("Request download block size failure.", 0x34, false);
@@ -7857,6 +7819,703 @@ namespace Diag_BUS
 
     }
 
+    internal class LIN_CBF2_Flahing : FlashBase  //CBF2 file flashing(.hex)
+    {
+        #region member variabels
+
+        int m_nFlashTimes; //marked for flash sequece(1st,send 0x31 01 DD 02 only; 2nd,do following request sequence)
+        byte[] m_ReqMsg;
+
+        byte P2ServerMaxHigh;
+        byte P2ServerMaxLow;
+        byte P2_Star_ServerMaxHigh; //P2*ServerMax (HighByte);
+        byte P2_Star_ServerMaxLow; //P2*ServerMax (LowByte);
+
+        #endregion
+
+        public LIN_CBF2_Flahing()
+        {
+            m_nFlashTimes = 0;
+        }
+
+        public override bool WriteThreadFunc_TH(object diag_lin)
+        {
+            int nBlocks = 0;
+            bool bGetPositiveResp = false;
+            bool bMainFlashOK = false;
+            byte[] respMsg = new byte[8];
+
+            bool bDID_Right = false;
+            string strIniFile = string.Empty;
+            byte[] writeDID = new byte[3];
+
+            try
+            {
+                m_nFlashTimes = 0;
+                gDiag_Lin = (Diag_LIN)diag_lin;
+                gDiag_Lin.m_nSourceIndex = 0;
+                gDiag_Lin.m_bEnable_0x3E = false;
+                gDiag_Lin.m_bBreakInDownloading = false;
+                gDiag_Lin.m_bTransferDataOK = true;
+                gDiag_Lin.SetDonwloadingStatus(true);//disable all of button which accoiate with diag message func when download start
+
+                m_ReqMsg = new byte[] { 0x10, 0x01 }; //Default session
+#if _0x7E 
+                gDiag_Lin.Write_Message(m_ReqMsg, 0x10);
+                Thread.Sleep(10);
+#else
+                if (gDiag_Lin.Send5TimeReqMsg(m_ReqMsg, ref respMsg) == 0)
+                {
+                    gDiag_Lin.IncludeTextMessage("Message ID not correct.");
+                    return false;
+                }
+
+                if (gDiag_Lin.m_RespMsg[0] == 0x50 && gDiag_Lin.m_RespMsg[1] == 0x01)
+#endif
+                {
+                    m_ReqMsg = new byte[] { 0x10, 0x83 }; //Extension session
+                    gDiag_Lin.Write_Message(m_ReqMsg, 0x10);
+                    //During the reprogramming process, a functional addressing message of $10 83 needs to be sent first to 
+                    //request all ECUs in the network to enter the extended session mode. After sending the message, the
+                    //Tester waits for 1s and then performs the subsequent operations.
+                    Thread.Sleep(1000);
+
+                    m_ReqMsg = new byte[] { 0x31, 0x01, 0x02, 0x03 }; // Programming Condition Check
+                    gDiag_Lin.Write_Message(m_ReqMsg);
+
+                    bGetPositiveResp = Resp_TH(ref nBlocks, 20);
+                    if (bGetPositiveResp)
+                    {
+                        m_ReqMsg = new byte[] { 0x85, 0x82 }; //Control DTC setting
+                        gDiag_Lin.Write_Message(m_ReqMsg, 0x85);
+                        Thread.Sleep(10);
+
+                        m_ReqMsg = new byte[] { 0x28, 0x83, 0x03 }; //Communication Control
+                        gDiag_Lin.Write_Message(m_ReqMsg, 0x28);
+                        Thread.Sleep(10);
+
+                        m_ReqMsg = new byte[] { 0x10, 0x02 }; //Programme session
+                        gDiag_Lin.Send5TimeReqMsg(m_ReqMsg, ref respMsg);
+
+                        if (gDiag_Lin.m_RespMsg[0] == 0x50 && gDiag_Lin.m_RespMsg[1] == 0x02)
+                        {
+                            byte[] resp0x27 = new byte[18];
+                            m_ReqMsg = new byte[] { 0x27, 0x11 }; //SubFunc11
+                            gDiag_Lin.Send5TimeReqMsg(m_ReqMsg, ref resp0x27, 0x27, 0x12);
+
+                            if (gDiag_Lin.m_RespMsg[0] == 0x67 && gDiag_Lin.m_RespMsg[1] == 0x11) //SubFunc11
+                            {
+                                byte[] reqKEY = new byte[18];
+                                byte[] SeedArray = new byte[16];
+                                byte[] KeyArray = new byte[16];
+                                for (int i = 0; i < 16; i++)
+                                    SeedArray[i] = resp0x27[i + 2];
+                                KeyArray = fConvert.AES_128_CMAC(SeedArray, 0x11);   //according response seed caculate security access key
+
+                                reqKEY[0] = 0x27;
+                                reqKEY[1] = 0x12;                       // SubFunc12
+                                reqKEY[2] = KeyArray[0];
+                                reqKEY[3] = KeyArray[1];
+                                reqKEY[4] = KeyArray[2];
+                                reqKEY[5] = KeyArray[3];
+
+                                reqKEY[6] = KeyArray[4];
+                                reqKEY[7] = KeyArray[5];
+                                reqKEY[8] = KeyArray[6];
+                                reqKEY[9] = KeyArray[7];
+
+                                reqKEY[10] = KeyArray[8];
+                                reqKEY[11] = KeyArray[9];
+                                reqKEY[12] = KeyArray[10];
+                                reqKEY[13] = KeyArray[11];
+
+                                reqKEY[14] = KeyArray[12];
+                                reqKEY[15] = KeyArray[13];
+                                reqKEY[16] = KeyArray[14];
+                                reqKEY[17] = KeyArray[15];
+
+                                gDiag_Lin.Send5TimeReqMsg(reqKEY, ref respMsg);
+                                if (gDiag_Lin.m_RespMsg[0] == 0x67 && gDiag_Lin.m_RespMsg[1] == 0x12)
+                                {
+                                    gDiag_Lin.IncludeTextMessage("Security access pass.");
+
+                                    //Enable TestPresent 0x3E  & message view rolling
+                                    m_ReqMsg = new byte[] { 0x3E, 0x00 };
+#if _0x7E
+                                    gDiag_Lin.Write_Message(m_ReqMsg, 0x3E);
+                                    Thread.Sleep(10);
+                                    gDiag_Lin.m_bEnable_0x3E = true;
+#else
+                                    gDiag_Lin.Write_Message(m_ReqMsg);
+                                    Thread.Sleep(10);
+                                    gDiag_Lin.ReadMessage(ref respMsg);
+                                    if (respMsg[0] == 0x7E && respMsg[1] == 0x00)
+                                    {
+                                        gDiag_Lin.m_bEnable_0x3E = true;
+                                    }
+                                    else
+                                    {
+                                        gDiag_Lin.IncludeTextMessage("0x3E service not work normally.");
+                                        return false;
+                                    }
+#endif                          
+                                    //write DID( 0x008C, 0xF184)
+                                    strIniFile = Directory.GetCurrentDirectory() + @"\DIDInfo.ini";
+                                    //write DID(F18C, 008C）
+                                    writeDID[0] = 0x2E;
+                                    writeDID[1] = 0x00;
+                                    writeDID[2] = 0x8C;
+                                    bDID_Right = gDiag_Lin.Excute_Write_DID(strIniFile, "008C", writeDID, 36);//36
+
+                                    if (!bDID_Right)
+                                    {
+                                        gDiag_Lin.IncludeTextMessage(string.Format("Write DID::{0} failured.", BitConverter.ToString(writeDID)));
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        gDiag_Lin.SetWriteDID_ButtonColor("Write DID", Color.Transparent);
+                                        gDiag_Lin.IncludeTextMessage(string.Format("Write DID::{0} succeed.", BitConverter.ToString(writeDID)));
+                                    }
+                                    // Fingerprint Data Writing
+                                    writeDID[0] = 0x2E;
+                                    writeDID[1] = 0xF1;
+                                    writeDID[2] = 0x84;
+                                    bDID_Right = gDiag_Lin.Excute_Write_DID(strIniFile, "F184", writeDID, 19);//
+
+                                    if (!bDID_Right)
+                                    {
+                                        gDiag_Lin.IncludeTextMessage(string.Format("Write DID::{0} failured.", BitConverter.ToString(writeDID)));
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        gDiag_Lin.SetWriteDID_ButtonColor("Write DID", Color.Transparent);
+                                        gDiag_Lin.IncludeTextMessage(string.Format("Write DID::{0} succeed.", BitConverter.ToString(writeDID)));
+                                    }
+                                    //_
+
+                                    //Process of downloading traditional component files
+                                    bMainFlashOK = Download_Finish();
+                                    if (bMainFlashOK)
+                                        gDiag_Lin.IncludeTextMessage("Application file has been finished download.");
+                                }
+                                else
+                                    gDiag_Lin.NegativeMessage(0x27, gDiag_Lin.m_RespMsg);
+                            }
+                            else
+                                gDiag_Lin.NegativeMessage(0x27, gDiag_Lin.m_RespMsg);
+                        }
+                    }
+                }
+#if _0x7E
+                
+#else
+                else
+                    gDiag_Lin.NegativeMessage(0x10, gDiag_Lin.m_RespMsg);
+#endif
+                //Back flashing step
+                if (bMainFlashOK)
+                {
+                    if (m_nFlashTimes == 0)
+                        return true;
+
+                    //CommunicationControl switch on
+                    m_ReqMsg = new byte[] { 0x28, 0x80, 0x03 };
+                    gDiag_Lin.Write_Message(m_ReqMsg, 0x28);
+                    Thread.Sleep(10);
+
+                    gDiag_Lin.IncludeTextMessage("ECU will reboot,please wait for a moment.");
+                    gDiag_Lin.m_bEnable_0x3E = false;
+                    gDiag_Lin.UpdateProgerss(100);
+                    gDiag_Lin.RefreshDBGridView(); //refresh trace grid view for display newest message
+                    gDiag_Lin.SetDonwloadingStatus(false);
+
+                    m_ReqMsg = new byte[] { 0x11, 0x01 }; //ECU soft reset
+                    gDiag_Lin.Write_Message(m_ReqMsg);
+                    int nBlockNum = 0;
+                    bGetPositiveResp = Resp_TH(ref nBlockNum, 50);
+                    if (bGetPositiveResp)
+                    {
+                        gDiag_Lin.IncludeTextMessage("ECU soft reset succeed.");
+                        gDiag_Lin.IncludeTextMessage("Fireware download succeed.");
+
+                        Thread.Sleep(500);
+
+                        m_ReqMsg = new byte[] { 0x10, 0x03 }; //Extended Session
+                        gDiag_Lin.Write_Message(m_ReqMsg, 0x10);
+#if _0x7E                        
+                        Thread.Sleep(10);
+#else
+                        bGetPositiveResp = Resp_TH(ref nBlockNum, 50);
+                        if (bGetPositiveResp)
+#endif
+                        {
+                            m_ReqMsg = new byte[] { 0x14, 0xFF, 0xFF, 0xFF }; //Clear DTC
+                            gDiag_Lin.Write_Message(m_ReqMsg, 0x14);
+                            Thread.Sleep(10);
+                            m_ReqMsg = new byte[] { 0x85, 0x81 }; //Enable diagnostic trouble code
+                            gDiag_Lin.Write_Message(m_ReqMsg, 0x85);
+                            Thread.Sleep(10);
+                            m_ReqMsg = new byte[] { 0x10, 0x81 }; //Default Session
+                            gDiag_Lin.Write_Message(m_ReqMsg, 0x10);
+                        }
+                    }
+                    else
+                        gDiag_Lin.NegativeMessage(0x11, gDiag_Lin.m_RespMsg);
+                }
+                else
+                {
+                    gDiag_Lin.IncludeTextMessage("Fireware download failured.");
+                    return false;
+                }
+            }
+            catch (IOException ep)
+            {
+                gDiag_Lin.IncludeTextMessage(ep.Message);
+            }
+            return true;
+        }
+
+        protected override void UpgrateFirmware(object BINADDRINFO)
+        {
+            try
+            {
+                int n0x36PackNum0 = 1;
+                int nMaxNumOfBlock = 0;
+                int nProgressStep = 0;
+                int read_data_num = 0;
+                int AddrOffset = 0;
+                bool bGetPositiveResp = false;
+                byte[] DataBuffer = new Byte[] { };
+                FlashFirewareHandlerForTP90 ffhHandler = new FlashFirewareHandlerForTP90(FlashFirmware_TH_TP90);
+
+                //ECU feedback max number of block size.
+                Diag_LIN._Bin_Addr_Len binAddrInfo = (Diag_LIN._Bin_Addr_Len)BINADDRINFO;
+                PACK_SIZE = (int)binAddrInfo.MaxBlockSize;
+                gDiag_Lin.m_FirmwareFileSize = binAddrInfo.BlockLen;
+
+                int nCurrPackPos = 0;
+                int nMaxBlockSize = 0;
+                byte[] _0x36DataPack = binAddrInfo.TotalData;
+
+                if (_0x36DataPack.Length % PACK_SIZE == 0)
+                {
+                    nMaxBlockSize = _0x36DataPack.Length / PACK_SIZE;
+                }
+                else
+                {
+                    nMaxBlockSize = _0x36DataPack.Length / PACK_SIZE + 1;
+                }
+
+                lock (Diag_LIN.m_obj)
+                {
+                    for (AddrOffset = 0; AddrOffset < gDiag_Lin.m_FirmwareFileSize;)
+                    {
+                        if (nCurrPackPos < nMaxBlockSize - 1)
+                        {
+                            read_data_num = PACK_SIZE;
+                            DataBuffer = new byte[PACK_SIZE];
+                            gDiag_Lin.m_nSourceIndex = nCurrPackPos * PACK_SIZE;
+                            Array.Copy(_0x36DataPack, gDiag_Lin.m_nSourceIndex, DataBuffer, 0, PACK_SIZE);
+                        }
+                        else //last block copy
+                        {
+                            int nLastPackSize = 0;
+                            nLastPackSize = _0x36DataPack.Length % PACK_SIZE;
+                            if (nLastPackSize > 0)
+                            {
+                                read_data_num = nLastPackSize;
+                                DataBuffer = new byte[nLastPackSize];
+                                gDiag_Lin.m_nSourceIndex = nCurrPackPos * PACK_SIZE;
+                                Array.Copy(_0x36DataPack, gDiag_Lin.m_nSourceIndex, DataBuffer, 0, read_data_num);
+                            }
+                            else
+                            {
+                                read_data_num = PACK_SIZE;
+                                DataBuffer = new byte[PACK_SIZE];
+                                gDiag_Lin.m_nSourceIndex = nCurrPackPos * PACK_SIZE;
+                                Array.Copy(_0x36DataPack, gDiag_Lin.m_nSourceIndex, DataBuffer, 0, PACK_SIZE);
+                            }
+                        }
+
+                        if (read_data_num != PACK_SIZE) //if last package size not equal PACK_SIZE(0x80)
+                        {
+                            gDiag_Lin.BeginInvoke(ffhHandler, new object[] { DataBuffer, 100, gDiag_Lin.m_n0x36PackNum++ });
+                        }
+                        else
+                        {
+                            Thread.Sleep(100);
+                            nProgressStep = (int)(((float)(AddrOffset + read_data_num) / (float)gDiag_Lin.m_FirmwareFileSize) * 100.0f);
+                            gDiag_Lin.BeginInvoke(ffhHandler, new object[] { DataBuffer, nProgressStep, gDiag_Lin.m_n0x36PackNum++ });
+                        }
+
+                        //wait for single block write response
+                        gDiag_Lin.Invoke(new MethodInvoker(delegate () { bGetPositiveResp = Resp_TH(ref nMaxNumOfBlock, 10, gDiag_Lin.m_n0x36PackNum); }));
+                        gDiag_Lin.Invoke(new MethodInvoker(delegate () { gDiag_Lin.IncludeTextMessage(string.Format("Now downloading fireware block::{0:d}", n0x36PackNum0++)); }));
+
+                        if (!bGetPositiveResp)
+                        {
+                            gDiag_Lin.m_bTransferDataOK = false;
+                            gDiag_Lin.Invoke(new MethodInvoker(delegate () { gDiag_Lin.IncludeTextMessage("downloading fireware failure."); }));
+                            break;
+                        }
+
+                        if (gDiag_Lin.m_n0x36PackNum > 0xFF)
+                            gDiag_Lin.m_n0x36PackNum = 0;
+
+                        AddrOffset += read_data_num;
+                        nCurrPackPos++;
+
+                    }
+                }
+            }
+            catch (IOException ioEx)
+            {
+                gDiag_Lin.IncludeTextMessage(ioEx.Message);
+                return;
+            }
+        }
+
+        protected override int FlashFirmware_TH_TP90(byte[] buffer, int nCurrIndex, int n0x36PackCnt)
+        {
+            /*A single application software/data block might require multiple TransferData (0x36) request messages to be
+                  completely transmitted (this is the case if the length of the block exceeds the maximum network layer buffer size).*/
+            byte[] _36Svr_Times = new byte[] { 0 };
+            byte bTimes0 = Convert.ToByte(n0x36PackCnt);
+            _36Svr_Times = gDiag_Lin.Combine(new byte[] { 0x36 }, new byte[] { bTimes0 });
+            buffer = gDiag_Lin.Combine(_36Svr_Times, buffer);
+
+            gDiag_Lin.Write_Message(buffer);
+            gDiag_Lin.UpdateProgerss(nCurrIndex);
+
+            return buffer.Length; //read_data_num;
+        }
+
+        protected override bool Download_Finish()
+        {
+            int nMaxNumOfBlock = 0;
+            bool bGetPositiveResp = false;
+            Diag_LIN._Bin_Addr_Len BAL = new Diag_LIN._Bin_Addr_Len();
+            byte[] newBlockSize = new byte[4];
+
+            //'Release' button pressed when downloading
+            if (gDiag_Lin.m_bBreakInDownloading)
+            {
+                gDiag_Lin.IncludeTextMessage("Downloading be interrupted by user.");
+                return false;
+            }
+
+            //Earse command
+            m_ReqMsg = new byte[] { 0x31, 0x01, 0xFF, 0x00, 0x44 };
+            string strEraseAddr = Convert.ToString(gDiag_Lin.CAN_ADDR, 16);
+            byte[] EraseAddr0 = gDiag_Lin.HexStringToByteArray(strEraseAddr);
+            byte[] EraseAddr = gDiag_Lin.Combine(m_ReqMsg, EraseAddr0);
+
+            //download size & address combine
+            string strEraseLEN = Convert.ToString(gDiag_Lin.CAN_SIZE, 16);
+            byte[] EraseMemorySize = gDiag_Lin.HexStringToByteArray(strEraseLEN);
+
+            //request download command + memory address + memory size
+            byte[] Total31EraseReq = gDiag_Lin.Combine(EraseAddr, EraseMemorySize);
+
+            //cause test following diagnostic service,so marked now20240119
+            gDiag_Lin.Write_Message(Total31EraseReq); // new earsing command
+            //waitting for earse finish
+            bGetPositiveResp = Resp_TH(ref nMaxNumOfBlock, 100);
+            if (bGetPositiveResp)
+            {
+                m_nFlashTimes = 1;
+                gDiag_Lin.IncludeTextMessage("Ecu's application be earsed.");
+                gDiag_Lin.IncludeTextMessage("System will download application file.");
+            }
+            else
+            {
+                gDiag_Lin.NegativeMessage(0x31, gDiag_Lin.m_RespMsg);
+                gDiag_Lin.IncludeTextMessage("Some issue occure when earse ecu's application file.");
+                return false;
+            }
+                
+            //memory address for download fireware
+            m_ReqMsg = new byte[] { 0x34, 0x00, 0x44 };
+            string strDownloadAddr = Convert.ToString(gDiag_Lin.MEMORY_ADDR, 16);
+            byte[] DownloadAddr0 = gDiag_Lin.HexStringToByteArray(strDownloadAddr);
+            byte[] DownloadAddr = gDiag_Lin.Combine(m_ReqMsg, DownloadAddr0);
+
+            //download size & address combine
+            string strDownloadLEN = Convert.ToString(gDiag_Lin.MEMORY_SIZE, 16);
+            byte[] MemorySize = gDiag_Lin.HexStringToByteArray(strDownloadLEN);
+
+            //request download command + memory address + memory size
+            byte[] Total34Req = gDiag_Lin.Combine(DownloadAddr, MemorySize);
+            gDiag_Lin.Write_Message(Total34Req);
+
+            bGetPositiveResp = Resp_TH(ref nMaxNumOfBlock, 5);
+            if (bGetPositiveResp)
+            {
+                try
+                {
+                    BAL.StartAddress = gDiag_Lin.MEMORY_ADDR;
+                    BAL.BlockLen = gDiag_Lin.MEMORY_SIZE;
+                    BAL.MaxBlockSize = (uint)nMaxNumOfBlock;
+                    BAL.TotalData = new byte[BAL.BlockLen];
+                    BAL.TotalData = gDiag_Lin.m_Total36Data;
+
+                    gDiag_Lin.m_WriteThread = new System.Threading.Thread(UpgrateFirmware);
+                    gDiag_Lin.m_WriteThread.IsBackground = true;
+                    gDiag_Lin.m_WriteThread.Start(BAL);
+
+                    bool IfTimesEnd = false;
+                    bool IfRunOver = false;
+                    while (!IfRunOver && gDiag_Lin.m_WriteThread != null || !gDiag_Lin.m_bTransferDataOK)
+                    {
+                        IfTimesEnd = gDiag_Lin.m_WriteThread.IsAlive;
+                        Application.DoEvents();
+                        if (!IfTimesEnd || IfRunOver)
+                        {
+                            gDiag_Lin.m_WriteThread.Interrupt();
+                            gDiag_Lin.m_WriteThread.Abort();
+                            IfTimesEnd = false;
+                            gDiag_Lin.gAddrOffset = 0;
+                            break;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    gDiag_Lin.IncludeTextMessage(string.Format("Some issue occured::{0:s} when transfer data.", ex.Message));
+                    return false;
+                }
+            }
+            else
+            {
+                gDiag_Lin.NegativeMessage(0x34, gDiag_Lin.m_RespMsg);
+                return false;
+            }
+
+            //reset 0x36 transfer data sequence number after 1 block transfered.
+            gDiag_Lin.m_n0x36PackNum = 1;
+            gDiag_Lin.m_nTP90_ReadAddr_Times = 0;
+            gDiag_Lin.m_FirmwareFileSize = 0;
+
+            if (gDiag_Lin.m_bTransferDataOK && !gDiag_Lin.m_bBreakInDownloading)
+            {
+                //download finish
+                byte[] respMsg = new byte[] { 0 };
+                m_ReqMsg = new byte[] { 0x37 }; //Security access,request seed
+                gDiag_Lin.Send5TimeReqMsg(m_ReqMsg, ref respMsg);
+
+                if (respMsg[0] == 0x77)
+                {
+                    //Security Signature Verification (CheckSum verify)
+                    m_ReqMsg = new byte[] { 0x31, 0x01, 0xDD, 0x02 };
+                    byte[] LardgeBytes = new byte[32];
+                    m_ReqMsg = gDiag_Lin.Combine(m_ReqMsg, LardgeBytes);
+
+                    gDiag_Lin.Write_Message(m_ReqMsg);
+
+                    bGetPositiveResp = Resp_TH(ref nMaxNumOfBlock, 550);
+                    if (bGetPositiveResp)
+                    {
+                        gDiag_Lin.IncludeTextMessage("Application file download succeed!");
+                    }
+                    else
+                    {
+                        gDiag_Lin.UpdateProgerss(100);
+                        gDiag_Lin.m_bEnable_0x3E = false;
+                        gDiag_Lin.IncludeTextMessage("Security Signature Verification fauilure!");
+                        return false;
+                    }
+                }
+                else
+                {
+                    gDiag_Lin.UpdateProgerss(100);
+                    gDiag_Lin.m_bEnable_0x3E = false;
+                    gDiag_Lin.NegativeMessage(0x37, respMsg);
+                    return false;
+                }
+            }
+            else
+                return false;
+            
+
+            return true;
+        }
+
+        protected override bool Resp_TH(ref int nMaxNumOfBlockLen, int nBlocks, int nDownloadTimes = 0, ushort reqID = 0x00)
+        {
+            byte[] resp = new byte[8];
+            int nLoop = 0, nNegResp = 0;
+
+            while (nLoop < nBlocks)
+            {
+                gDiag_Lin.ReadMessage(ref resp);
+
+                //finish 0x31 routine control wait
+                if (resp[0] == 0x71 && resp[1] == 0x01                                      //Erase complete?
+                    && resp[2] == 0xFF && resp[3] == 0x00)
+                {
+                    if (resp[4] == 0x00)
+                        return true;
+                    else
+                        return false;
+                }
+                else if (resp[0] == 0x71 && resp[1] == 0x01                               //Security Signature Verification
+                        && resp[2] == 0xDD && resp[3] == 0x02)
+                {
+                    if (resp[4] == 0x00)
+                        return true;
+                    else
+                        return false;
+                }
+                else if (resp[0] == 0x71 && resp[1] == 0x01                               // Programming Condition Check
+                    && resp[2] == 0x02 && resp[3] == 0x03)
+                {
+                    if (resp[4] == 0x00)
+                        return true;
+                    else
+                        return false;
+                }
+                else if (resp[0] == 0x74 && resp[1] == 0x40) //get MaxNumberOfBlockLength in 0x34 service response msg
+                {
+                    nMaxNumOfBlockLen = resp[5] - 2; 
+                    return true;
+                }
+                else if (resp[0] == 0x76 /*&& resp[1] == nDownloadTimes*/)//finish file data transfer
+                {
+                    return true;
+                }
+                else if (resp[0] == 0x37 + 0x40)
+                {
+                    return true;
+                }
+                else if (resp[0] == 0x50 && resp[1] == 0x01) //default session switch
+                {
+                    P2ServerMaxHigh = resp[2];
+                    P2ServerMaxLow = resp[3];
+                    P2_Star_ServerMaxHigh = resp[4];
+                    P2_Star_ServerMaxLow = resp[5];
+                    return true;
+                }
+                else if (resp[0] == 0x50 && resp[1] == 0x02) //service mode switch
+                {
+                    return true;
+                }
+                else if (resp[0] == 0x50 && resp[1] == 0x03) //Extension session
+                {
+                    return true;
+                }
+                else if (resp[0] == 0x51 && resp[1] == 0x01) //software reset
+                {
+                    return true;
+                }
+                else if (resp[0] == 0x51 && resp[1] == 0x03) //hard reset
+                {
+                    return true;
+                }
+                else if (resp[0] == 0x54) //clear DTC
+                {
+                    return true;
+                }
+                else if (resp[0] == 0x6E || resp[0] == 0x62) //response read/write DID
+                {
+                    return true;
+                }
+
+                if (resp[0] == 0x7F)
+                {
+                    nNegResp++;
+                }
+                if (nNegResp > 50)//20 waitting time not enough?
+                    return false;
+
+                Thread.Sleep(10);
+                nLoop++;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// manaually read DID response message 
+        /// </summary>
+        /// <param name="ReadDID"></param>
+        /// <param name="respMsg"></param>
+        /// <param name="nRespMsgLen"></param>
+        /// <returns></returns>
+        public int ManauallyReadMessage(byte[] ReadDID, ref byte[] respMsg, int nRespMsgLen)
+        {
+            int nResult = -1;
+            int n = 0;
+            int nResidueBytes = 0;
+            int nMaxNumOfBlock = 0;
+            bool bGetPositiveResp = false;
+            byte[] tmpRespMsg = new byte[nRespMsgLen];
+
+            try
+            {
+                gDiag_Lin.m_bReadWriteDID = true; //read response message manually
+                gDiag_Lin.Write_DID_CANMessage(ReadDID, true);
+
+                bGetPositiveResp = Resp_TH(ref nMaxNumOfBlock, P2_ServerTime, 0, 0x22);
+                if (bGetPositiveResp)
+                {
+                    if (tmpRespMsg.Length > 3)
+                    {
+                        Array.Copy(gDiag_Lin.m_RespMsg, 5, tmpRespMsg, 0, 3);
+                        n += 3;
+                    }
+                    else
+                    {
+                        Array.Copy(gDiag_Lin.m_RespMsg, 5, tmpRespMsg, 0, tmpRespMsg.Length);
+                        n += tmpRespMsg.Length;
+                        respMsg = tmpRespMsg;
+                        nResult = 0;
+                        gDiag_Lin.m_bReadWriteDID = false; //read response message manually
+
+                        return nResult;
+                    }
+
+                    ////follow ctrl frame request for get residue response bytes
+                    byte[] ReadBuf = new byte[8];
+                    byte[] FollowCtrl = new byte[1] { 0x30 };
+                    gDiag_Lin.Write_DID_CANMessage(FollowCtrl, true, true);
+                    Thread.Sleep(P2_ServerTime * 3);
+
+                    int nEndBytes = 0, BlockSize = 7;
+                    nResidueBytes = nRespMsgLen - 3;
+
+                    gDiag_Lin.ReadMessage(ref ReadBuf);
+                    if (nResidueBytes > BlockSize)
+                        nEndBytes = nResidueBytes % BlockSize;
+                    else
+                        nEndBytes = 0; //resedue bytes less than 7 bytes
+
+                    int n7ByteGroups = nResidueBytes / BlockSize;
+                    for (int i = 0; i < n7ByteGroups; i++)
+                    {
+                        Array.Copy(ReadBuf, 1, tmpRespMsg, n, BlockSize);
+                        Thread.Sleep(P2_ServerTime * 3);
+                        gDiag_Lin.ReadMessage(ref ReadBuf);
+                        n += 7;
+                    }
+                    if (nEndBytes > 0)
+                    {
+                        Array.Copy(ReadBuf, 1, tmpRespMsg, n, nEndBytes);
+                    }
+
+                    respMsg = tmpRespMsg;
+                }
+                nResult = 0;
+                gDiag_Lin.m_bReadWriteDID = false; //read response message manually
+            }
+            catch { }
+
+            return nResult;
+        }
+
+    }
+
+
 
     internal class Context : IDisposable
     {
@@ -7910,6 +8569,7 @@ namespace Diag_BUS
             _CheryCBF = 9,
             _DSPIC33 = 10,  //ac7801 core
             _13Kw = 11,
+            _CBF2 = 12,
         }       
         internal Type ProjectType{get; set;}
         FlashBase ps;
@@ -8045,10 +8705,11 @@ namespace Diag_BUS
                     pc = new Context(ps, diag_lin_obj);
                     pc.DoDownload();
                     break;
-
-
-
-
+                case Type._CBF2:
+                    ps = new LIN_CBF2_Flahing();
+                    pc = new Context(ps, diag_lin_obj);
+                    pc.DoDownload();
+                    break;
 
                 default:
                     break;

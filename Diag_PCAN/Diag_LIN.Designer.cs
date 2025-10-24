@@ -33,31 +33,6 @@ namespace Diag_BUS
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Diag_LIN));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chbBRS = new System.Windows.Forms.CheckBox();
-            this.chbFD = new System.Windows.Forms.CheckBox();
-            this.chbRemote = new System.Windows.Forms.CheckBox();
-            this.chbExtended = new System.Windows.Forms.CheckBox();
-            this.cbbChannel = new System.Windows.Forms.ComboBox();
-            this.btnRelease = new System.Windows.Forms.Button();
-            this.chbCanFD = new System.Windows.Forms.CheckBox();
-            this.cbProject = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.cbbBaudrates = new System.Windows.Forms.ComboBox();
-            this.laBaudrate = new System.Windows.Forms.Label();
-            this.laBitrate = new System.Windows.Forms.Label();
-            this.btnHwRefresh = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnInit = new System.Windows.Forms.Button();
-            this.cbbHwType = new System.Windows.Forms.ComboBox();
-            this.laHwType = new System.Windows.Forms.Label();
-            this.cbbInterrupt = new System.Windows.Forms.ComboBox();
-            this.laInterrupt = new System.Windows.Forms.Label();
-            this.cbbIO = new System.Windows.Forms.ComboBox();
-            this.laIOPort = new System.Windows.Forms.Label();
-            this.txtBitrate = new System.Windows.Forms.TextBox();
-            this.tcDownloader = new System.Windows.Forms.TabControl();
-            this.tpDownloader = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnResetECU = new System.Windows.Forms.Button();
@@ -71,8 +46,6 @@ namespace Diag_BUS
             this.pBar = new System.Windows.Forms.ProgressBar();
             this.lbFilePath = new System.Windows.Forms.Label();
             this.lbxInfo = new System.Windows.Forms.ListBox();
-            this.lbPath = new System.Windows.Forms.Label();
-            this.Trace = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.cbWholeTrace = new System.Windows.Forms.CheckBox();
@@ -99,18 +72,41 @@ namespace Diag_BUS
             this.CoCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CoTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CoData = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chbBRS = new System.Windows.Forms.CheckBox();
+            this.chbFD = new System.Windows.Forms.CheckBox();
+            this.chbRemote = new System.Windows.Forms.CheckBox();
+            this.chbExtended = new System.Windows.Forms.CheckBox();
+            this.cbbChannel = new System.Windows.Forms.ComboBox();
+            this.btnRelease = new System.Windows.Forms.Button();
+            this.chbCanFD = new System.Windows.Forms.CheckBox();
+            this.cbProject = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cbbBaudrates = new System.Windows.Forms.ComboBox();
+            this.laBaudrate = new System.Windows.Forms.Label();
+            this.laBitrate = new System.Windows.Forms.Label();
+            this.btnHwRefresh = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnInit = new System.Windows.Forms.Button();
+            this.cbbHwType = new System.Windows.Forms.ComboBox();
+            this.laHwType = new System.Windows.Forms.Label();
+            this.cbbInterrupt = new System.Windows.Forms.ComboBox();
+            this.laInterrupt = new System.Windows.Forms.Label();
+            this.cbbIO = new System.Windows.Forms.ComboBox();
+            this.laIOPort = new System.Windows.Forms.Label();
+            this.txtBitrate = new System.Windows.Forms.TextBox();
+            this.tcDownloader = new System.Windows.Forms.TabControl();
+            this.tpDownloader = new System.Windows.Forms.TabPage();
+            this.lbPath = new System.Windows.Forms.Label();
+            this.Trace = new System.Windows.Forms.TabPage();
             this.tmrDisplay = new System.Windows.Forms.Timer(this.components);
             this.tmrMsg = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBox1.SuspendLayout();
-            this.tcDownloader.SuspendLayout();
-            this.tpDownloader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.Trace.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -123,7 +119,385 @@ namespace Diag_BUS
             ((System.ComponentModel.ISupportInitialize)(this.nudIdTo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudIdFrom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgView)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.tcDownloader.SuspendLayout();
+            this.tpDownloader.SuspendLayout();
+            this.Trace.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // splitContainer2
+            // 
+            resources.ApplyResources(this.splitContainer2, "splitContainer2");
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.panel2);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.lbxInfo);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnResetECU);
+            this.panel2.Controls.Add(this.btnResetDID);
+            this.panel2.Controls.Add(this.btnFlashAddr);
+            this.panel2.Controls.Add(this.btnWriteDID);
+            this.panel2.Controls.Add(this.btnBrowse);
+            this.panel2.Controls.Add(this.btnReadHexFile);
+            this.panel2.Controls.Add(this.tbDownload);
+            this.panel2.Controls.Add(this.btnInfoClear);
+            this.panel2.Controls.Add(this.pBar);
+            this.panel2.Controls.Add(this.lbFilePath);
+            resources.ApplyResources(this.panel2, "panel2");
+            this.panel2.Name = "panel2";
+            // 
+            // btnResetECU
+            // 
+            resources.ApplyResources(this.btnResetECU, "btnResetECU");
+            this.btnResetECU.Name = "btnResetECU";
+            this.toolTip.SetToolTip(this.btnResetECU, resources.GetString("btnResetECU.ToolTip"));
+            this.btnResetECU.UseVisualStyleBackColor = true;
+            this.btnResetECU.Click += new System.EventHandler(this.btnResetECU_Click);
+            // 
+            // btnResetDID
+            // 
+            resources.ApplyResources(this.btnResetDID, "btnResetDID");
+            this.btnResetDID.Name = "btnResetDID";
+            this.toolTip.SetToolTip(this.btnResetDID, resources.GetString("btnResetDID.ToolTip"));
+            this.btnResetDID.UseVisualStyleBackColor = true;
+            this.btnResetDID.Click += new System.EventHandler(this.btnResetDID_Click);
+            // 
+            // btnFlashAddr
+            // 
+            resources.ApplyResources(this.btnFlashAddr, "btnFlashAddr");
+            this.btnFlashAddr.Name = "btnFlashAddr";
+            this.toolTip.SetToolTip(this.btnFlashAddr, resources.GetString("btnFlashAddr.ToolTip"));
+            this.btnFlashAddr.UseVisualStyleBackColor = true;
+            this.btnFlashAddr.Click += new System.EventHandler(this.btnFlashAddr_Click);
+            // 
+            // btnWriteDID
+            // 
+            resources.ApplyResources(this.btnWriteDID, "btnWriteDID");
+            this.btnWriteDID.Name = "btnWriteDID";
+            this.toolTip.SetToolTip(this.btnWriteDID, resources.GetString("btnWriteDID.ToolTip"));
+            this.btnWriteDID.UseVisualStyleBackColor = true;
+            this.btnWriteDID.Click += new System.EventHandler(this.btnWriteDID_Click);
+            // 
+            // btnBrowse
+            // 
+            resources.ApplyResources(this.btnBrowse, "btnBrowse");
+            this.btnBrowse.Name = "btnBrowse";
+            this.toolTip.SetToolTip(this.btnBrowse, resources.GetString("btnBrowse.ToolTip"));
+            this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
+            // 
+            // btnReadHexFile
+            // 
+            resources.ApplyResources(this.btnReadHexFile, "btnReadHexFile");
+            this.btnReadHexFile.Name = "btnReadHexFile";
+            this.toolTip.SetToolTip(this.btnReadHexFile, resources.GetString("btnReadHexFile.ToolTip"));
+            this.btnReadHexFile.UseVisualStyleBackColor = true;
+            this.btnReadHexFile.Click += new System.EventHandler(this.btnReadHexFile_Click);
+            // 
+            // tbDownload
+            // 
+            resources.ApplyResources(this.tbDownload, "tbDownload");
+            this.tbDownload.Name = "tbDownload";
+            this.toolTip.SetToolTip(this.tbDownload, resources.GetString("tbDownload.ToolTip"));
+            this.tbDownload.UseVisualStyleBackColor = true;
+            this.tbDownload.Click += new System.EventHandler(this.tbDownload_Click);
+            // 
+            // btnInfoClear
+            // 
+            resources.ApplyResources(this.btnInfoClear, "btnInfoClear");
+            this.btnInfoClear.Name = "btnInfoClear";
+            this.toolTip.SetToolTip(this.btnInfoClear, resources.GetString("btnInfoClear.ToolTip"));
+            this.btnInfoClear.UseVisualStyleBackColor = true;
+            this.btnInfoClear.Click += new System.EventHandler(this.btnInfoClear_Click);
+            // 
+            // pBar
+            // 
+            this.pBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            resources.ApplyResources(this.pBar, "pBar");
+            this.pBar.Name = "pBar";
+            this.pBar.Step = 1;
+            // 
+            // lbFilePath
+            // 
+            resources.ApplyResources(this.lbFilePath, "lbFilePath");
+            this.lbFilePath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.lbFilePath.Name = "lbFilePath";
+            // 
+            // lbxInfo
+            // 
+            this.lbxInfo.BackColor = System.Drawing.SystemColors.Desktop;
+            resources.ApplyResources(this.lbxInfo, "lbxInfo");
+            this.lbxInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.lbxInfo.FormattingEnabled = true;
+            this.lbxInfo.Items.AddRange(new object[] {
+            resources.GetString("lbxInfo.Items")});
+            this.lbxInfo.Name = "lbxInfo";
+            // 
+            // splitContainer1
+            // 
+            resources.ApplyResources(this.splitContainer1, "splitContainer1");
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.panel1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.dgView);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.cbWholeTrace);
+            this.panel1.Controls.Add(this.cbEnAPPMsg);
+            this.panel1.Controls.Add(this.Test);
+            this.panel1.Controls.Add(this.btnExportTrace);
+            this.panel1.Controls.Add(this.groupBox4);
+            this.panel1.Controls.Add(this.groupBox3);
+            this.panel1.Controls.Add(this.chbShowPeriod);
+            this.panel1.Controls.Add(this.btnClear);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
+            // cbWholeTrace
+            // 
+            resources.ApplyResources(this.cbWholeTrace, "cbWholeTrace");
+            this.cbWholeTrace.Name = "cbWholeTrace";
+            this.toolTip.SetToolTip(this.cbWholeTrace, resources.GetString("cbWholeTrace.ToolTip"));
+            this.cbWholeTrace.UseVisualStyleBackColor = true;
+            this.cbWholeTrace.CheckedChanged += new System.EventHandler(this.cbWholeTrace_CheckedChanged);
+            // 
+            // cbEnAPPMsg
+            // 
+            resources.ApplyResources(this.cbEnAPPMsg, "cbEnAPPMsg");
+            this.cbEnAPPMsg.Checked = true;
+            this.cbEnAPPMsg.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbEnAPPMsg.Name = "cbEnAPPMsg";
+            this.toolTip.SetToolTip(this.cbEnAPPMsg, resources.GetString("cbEnAPPMsg.ToolTip"));
+            this.cbEnAPPMsg.UseVisualStyleBackColor = true;
+            this.cbEnAPPMsg.CheckedChanged += new System.EventHandler(this.cbEnAPPMsg_CheckedChanged);
+            // 
+            // Test
+            // 
+            this.Test.Controls.Add(this.label5);
+            this.Test.Controls.Add(this.btnTest);
+            this.Test.Controls.Add(this.numUpDownNAD);
+            resources.ApplyResources(this.Test, "Test");
+            this.Test.Name = "Test";
+            this.Test.TabStop = false;
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // btnTest
+            // 
+            resources.ApplyResources(this.btnTest, "btnTest");
+            this.btnTest.Name = "btnTest";
+            this.toolTip.SetToolTip(this.btnTest, resources.GetString("btnTest.ToolTip"));
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // numUpDownNAD
+            // 
+            this.numUpDownNAD.Hexadecimal = true;
+            resources.ApplyResources(this.numUpDownNAD, "numUpDownNAD");
+            this.numUpDownNAD.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numUpDownNAD.Name = "numUpDownNAD";
+            this.toolTip.SetToolTip(this.numUpDownNAD, resources.GetString("numUpDownNAD.ToolTip"));
+            this.numUpDownNAD.Value = new decimal(new int[] {
+            66,
+            0,
+            0,
+            0});
+            // 
+            // btnExportTrace
+            // 
+            resources.ApplyResources(this.btnExportTrace, "btnExportTrace");
+            this.btnExportTrace.Name = "btnExportTrace";
+            this.toolTip.SetToolTip(this.btnExportTrace, resources.GetString("btnExportTrace.ToolTip"));
+            this.btnExportTrace.UseVisualStyleBackColor = true;
+            this.btnExportTrace.Click += new System.EventHandler(this.btnExportTrace_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.btnClearDTC);
+            this.groupBox4.Controls.Add(this.btnReadDTC);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
+            // btnClearDTC
+            // 
+            resources.ApplyResources(this.btnClearDTC, "btnClearDTC");
+            this.btnClearDTC.Name = "btnClearDTC";
+            this.toolTip.SetToolTip(this.btnClearDTC, resources.GetString("btnClearDTC.ToolTip"));
+            this.btnClearDTC.UseVisualStyleBackColor = true;
+            this.btnClearDTC.Click += new System.EventHandler(this.btnClearDTC_Click);
+            // 
+            // btnReadDTC
+            // 
+            resources.ApplyResources(this.btnReadDTC, "btnReadDTC");
+            this.btnReadDTC.Name = "btnReadDTC";
+            this.toolTip.SetToolTip(this.btnReadDTC, resources.GetString("btnReadDTC.ToolTip"));
+            this.btnReadDTC.UseVisualStyleBackColor = true;
+            this.btnReadDTC.Click += new System.EventHandler(this.btnReadDTC_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.nudIdTo);
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.nudIdFrom);
+            this.groupBox3.Controls.Add(this.label3);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // nudIdTo
+            // 
+            this.nudIdTo.Hexadecimal = true;
+            resources.ApplyResources(this.nudIdTo, "nudIdTo");
+            this.nudIdTo.Maximum = new decimal(new int[] {
+            536870911,
+            0,
+            0,
+            0});
+            this.nudIdTo.Name = "nudIdTo";
+            this.toolTip.SetToolTip(this.nudIdTo, resources.GetString("nudIdTo.ToolTip"));
+            this.nudIdTo.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.label2.Name = "label2";
+            // 
+            // nudIdFrom
+            // 
+            this.nudIdFrom.Hexadecimal = true;
+            resources.ApplyResources(this.nudIdFrom, "nudIdFrom");
+            this.nudIdFrom.Maximum = new decimal(new int[] {
+            536870911,
+            0,
+            0,
+            0});
+            this.nudIdFrom.Name = "nudIdFrom";
+            this.toolTip.SetToolTip(this.nudIdFrom, resources.GetString("nudIdFrom.ToolTip"));
+            this.nudIdFrom.Value = new decimal(new int[] {
+            61,
+            0,
+            0,
+            0});
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.label3.Name = "label3";
+            // 
+            // chbShowPeriod
+            // 
+            resources.ApplyResources(this.chbShowPeriod, "chbShowPeriod");
+            this.chbShowPeriod.Name = "chbShowPeriod";
+            this.toolTip.SetToolTip(this.chbShowPeriod, resources.GetString("chbShowPeriod.ToolTip"));
+            this.chbShowPeriod.UseVisualStyleBackColor = true;
+            this.chbShowPeriod.CheckedChanged += new System.EventHandler(this.chbShowPeriod_CheckedChanged);
+            // 
+            // btnClear
+            // 
+            resources.ApplyResources(this.btnClear, "btnClear");
+            this.btnClear.Name = "btnClear";
+            this.toolTip.SetToolTip(this.btnClear, resources.GetString("btnClear.ToolTip"));
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // dgView
+            // 
+            this.dgView.AllowUserToAddRows = false;
+            this.dgView.AllowUserToDeleteRows = false;
+            this.dgView.AllowUserToResizeRows = false;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.MediumSeaGreen;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.dgView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            this.dgView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dgView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.CoID,
+            this.CoDir,
+            this.CoLength,
+            this.CoCount,
+            this.CoTime,
+            this.CoData});
+            resources.ApplyResources(this.dgView, "dgView");
+            this.dgView.Name = "dgView";
+            this.dgView.ReadOnly = true;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.DodgerBlue;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.dgView.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            this.dgView.RowTemplate.Height = 30;
+            this.dgView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgView.VirtualMode = true;
+            this.dgView.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dgView_CellValueNeeded);
+            this.dgView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgView_KeyDown);
+            // 
+            // CoID
+            // 
+            resources.ApplyResources(this.CoID, "CoID");
+            this.CoID.Name = "CoID";
+            this.CoID.ReadOnly = true;
+            // 
+            // CoDir
+            // 
+            resources.ApplyResources(this.CoDir, "CoDir");
+            this.CoDir.Name = "CoDir";
+            this.CoDir.ReadOnly = true;
+            // 
+            // CoLength
+            // 
+            resources.ApplyResources(this.CoLength, "CoLength");
+            this.CoLength.Name = "CoLength";
+            this.CoLength.ReadOnly = true;
+            // 
+            // CoCount
+            // 
+            resources.ApplyResources(this.CoCount, "CoCount");
+            this.CoCount.Name = "CoCount";
+            this.CoCount.ReadOnly = true;
+            // 
+            // CoTime
+            // 
+            resources.ApplyResources(this.CoTime, "CoTime");
+            this.CoTime.Name = "CoTime";
+            this.CoTime.ReadOnly = true;
+            // 
+            // CoData
+            // 
+            resources.ApplyResources(this.CoData, "CoData");
+            this.CoData.Name = "CoData";
+            this.CoData.ReadOnly = true;
             // 
             // groupBox1
             // 
@@ -149,134 +523,89 @@ namespace Diag_BUS
             this.groupBox1.Controls.Add(this.cbbIO);
             this.groupBox1.Controls.Add(this.laIOPort);
             this.groupBox1.Controls.Add(this.txtBitrate);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.groupBox1.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(1419, 146);
-            this.groupBox1.TabIndex = 43;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = " Connection ";
             // 
             // chbBRS
             // 
             this.chbBRS.Cursor = System.Windows.Forms.Cursors.Default;
-            this.chbBRS.Enabled = false;
-            this.chbBRS.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.chbBRS.Location = new System.Drawing.Point(1165, 24);
-            this.chbBRS.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.chbBRS, "chbBRS");
             this.chbBRS.Name = "chbBRS";
-            this.chbBRS.Size = new System.Drawing.Size(84, 33);
-            this.chbBRS.TabIndex = 64;
-            this.chbBRS.Text = "BRS";
-            this.toolTip.SetToolTip(this.chbBRS, "The PCAN message represents a FD bit rate switch (CAN data at a higher bit rate)");
-            this.chbBRS.Visible = false;
+            this.toolTip.SetToolTip(this.chbBRS, resources.GetString("chbBRS.ToolTip"));
             // 
             // chbFD
             // 
             this.chbFD.Cursor = System.Windows.Forms.Cursors.Default;
-            this.chbFD.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.chbFD.Location = new System.Drawing.Point(1101, 24);
-            this.chbFD.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.chbFD, "chbFD");
             this.chbFD.Name = "chbFD";
-            this.chbFD.Size = new System.Drawing.Size(56, 33);
-            this.chbFD.TabIndex = 63;
-            this.chbFD.Text = "FD";
-            this.toolTip.SetToolTip(this.chbFD, "The PCAN message represents a FD frame in terms of CiA Specs");
-            this.chbFD.Visible = false;
+            this.toolTip.SetToolTip(this.chbFD, resources.GetString("chbFD.ToolTip"));
             this.chbFD.CheckedChanged += new System.EventHandler(this.chbFD_CheckedChanged);
             // 
             // chbRemote
             // 
             this.chbRemote.Cursor = System.Windows.Forms.Cursors.Default;
-            this.chbRemote.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.chbRemote.Location = new System.Drawing.Point(1015, 24);
-            this.chbRemote.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.chbRemote, "chbRemote");
             this.chbRemote.Name = "chbRemote";
-            this.chbRemote.Size = new System.Drawing.Size(66, 33);
-            this.chbRemote.TabIndex = 62;
-            this.chbRemote.Text = "RTR";
-            this.toolTip.SetToolTip(this.chbRemote, "The PCAN message is a CAN Remote-Transfer-Request Frame");
+            this.toolTip.SetToolTip(this.chbRemote, resources.GetString("chbRemote.ToolTip"));
             // 
             // chbExtended
             // 
             this.chbExtended.Cursor = System.Windows.Forms.Cursors.Default;
-            this.chbExtended.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.chbExtended.Location = new System.Drawing.Point(868, 24);
-            this.chbExtended.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.chbExtended, "chbExtended");
             this.chbExtended.Name = "chbExtended";
-            this.chbExtended.Size = new System.Drawing.Size(131, 33);
-            this.chbExtended.TabIndex = 61;
-            this.chbExtended.Text = "Extended";
-            this.toolTip.SetToolTip(this.chbExtended, "The PCAN message is a CAN Extended Frame (29-bit identifier)");
+            this.toolTip.SetToolTip(this.chbExtended, resources.GetString("chbExtended.ToolTip"));
             // 
             // cbbChannel
             // 
             this.cbbChannel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbbChannel.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            resources.ApplyResources(this.cbbChannel, "cbbChannel");
             this.cbbChannel.Items.AddRange(new object[] {
-            "None",
-            "DNG-Channel 1",
-            "ISA-Channel 1",
-            "ISA-Channel 2",
-            "ISA-Channel 3",
-            "ISA-Channel 4",
-            "ISA-Channel 5",
-            "ISA-Channel 6",
-            "ISA-Channel 7",
-            "ISA-Channel 8",
-            "PCC-Channel 1",
-            "PCC-Channel 2",
-            "PCI-Channel 1",
-            "PCI-Channel 2",
-            "PCI-Channel 3",
-            "PCI-Channel 4",
-            "PCI-Channel 5",
-            "PCI-Channel 6",
-            "PCI-Channel 7",
-            "PCI-Channel 8",
-            "USB-Channel 1",
-            "USB-Channel 2",
-            "USB-Channel 3",
-            "USB-Channel 4",
-            "USB-Channel 5",
-            "USB-Channel 6",
-            "USB-Channel 7",
-            "USB-Channel 8"});
-            this.cbbChannel.Location = new System.Drawing.Point(646, 28);
-            this.cbbChannel.Margin = new System.Windows.Forms.Padding(4);
+            resources.GetString("cbbChannel.Items"),
+            resources.GetString("cbbChannel.Items1"),
+            resources.GetString("cbbChannel.Items2"),
+            resources.GetString("cbbChannel.Items3"),
+            resources.GetString("cbbChannel.Items4"),
+            resources.GetString("cbbChannel.Items5"),
+            resources.GetString("cbbChannel.Items6"),
+            resources.GetString("cbbChannel.Items7"),
+            resources.GetString("cbbChannel.Items8"),
+            resources.GetString("cbbChannel.Items9"),
+            resources.GetString("cbbChannel.Items10"),
+            resources.GetString("cbbChannel.Items11"),
+            resources.GetString("cbbChannel.Items12"),
+            resources.GetString("cbbChannel.Items13"),
+            resources.GetString("cbbChannel.Items14"),
+            resources.GetString("cbbChannel.Items15"),
+            resources.GetString("cbbChannel.Items16"),
+            resources.GetString("cbbChannel.Items17"),
+            resources.GetString("cbbChannel.Items18"),
+            resources.GetString("cbbChannel.Items19"),
+            resources.GetString("cbbChannel.Items20"),
+            resources.GetString("cbbChannel.Items21"),
+            resources.GetString("cbbChannel.Items22"),
+            resources.GetString("cbbChannel.Items23"),
+            resources.GetString("cbbChannel.Items24"),
+            resources.GetString("cbbChannel.Items25"),
+            resources.GetString("cbbChannel.Items26"),
+            resources.GetString("cbbChannel.Items27")});
             this.cbbChannel.Name = "cbbChannel";
-            this.cbbChannel.Size = new System.Drawing.Size(199, 33);
-            this.cbbChannel.TabIndex = 32;
-            this.toolTip.SetToolTip(this.cbbChannel, "The type of hardware ");
+            this.toolTip.SetToolTip(this.cbbChannel, resources.GetString("cbbChannel.ToolTip"));
             this.cbbChannel.SelectedIndexChanged += new System.EventHandler(this.cbbChannel_SelectedIndexChanged);
             // 
             // btnRelease
             // 
             this.btnRelease.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnRelease.Enabled = false;
-            this.btnRelease.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnRelease.Location = new System.Drawing.Point(34, 77);
-            this.btnRelease.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.btnRelease, "btnRelease");
             this.btnRelease.Name = "btnRelease";
-            this.btnRelease.Size = new System.Drawing.Size(142, 32);
-            this.btnRelease.TabIndex = 35;
-            this.btnRelease.Text = "Release";
             this.btnRelease.Click += new System.EventHandler(this.btnRelease_Click);
             // 
             // chbCanFD
             // 
-            this.chbCanFD.AutoSize = true;
-            this.chbCanFD.Location = new System.Drawing.Point(1288, 24);
-            this.chbCanFD.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.chbCanFD, "chbCanFD");
             this.chbCanFD.Name = "chbCanFD";
-            this.chbCanFD.Size = new System.Drawing.Size(117, 29);
-            this.chbCanFD.TabIndex = 59;
-            this.chbCanFD.Text = "CAN-FD";
-            this.toolTip.SetToolTip(this.chbCanFD, "CANFD frame active");
+            this.toolTip.SetToolTip(this.chbCanFD, resources.GetString("chbCanFD.ToolTip"));
             this.chbCanFD.UseVisualStyleBackColor = true;
             this.chbCanFD.CheckedChanged += new System.EventHandler(this.chbCanFD_CheckedChanged);
             // 
@@ -284,791 +613,185 @@ namespace Diag_BUS
             // 
             this.cbProject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbProject.Items.AddRange(new object[] {
-            "320V Compressor",
-            "400V Compressor",
-            "XC2234",
-            "7Kw(BIN)",
-            "N2S",
-            "CAN UDS(7840)",
-            "CAN UDS(7801)",
-            "LIN Hex",
-            "Split Flash(CAN)",
-            "Chery CBF",
-            "DSPIC33"});
-            this.cbProject.Location = new System.Drawing.Point(291, 28);
-            this.cbProject.Margin = new System.Windows.Forms.Padding(4);
+            resources.GetString("cbProject.Items"),
+            resources.GetString("cbProject.Items1"),
+            resources.GetString("cbProject.Items2"),
+            resources.GetString("cbProject.Items3"),
+            resources.GetString("cbProject.Items4"),
+            resources.GetString("cbProject.Items5"),
+            resources.GetString("cbProject.Items6"),
+            resources.GetString("cbProject.Items7"),
+            resources.GetString("cbProject.Items8"),
+            resources.GetString("cbProject.Items9"),
+            resources.GetString("cbProject.Items10"),
+            resources.GetString("cbProject.Items11"),
+            resources.GetString("cbProject.Items12")});
+            resources.ApplyResources(this.cbProject, "cbProject");
             this.cbProject.Name = "cbProject";
-            this.cbProject.Size = new System.Drawing.Size(218, 33);
-            this.cbProject.TabIndex = 49;
-            this.toolTip.SetToolTip(this.cbProject, "The name of project");
+            this.toolTip.SetToolTip(this.cbProject, resources.GetString("cbProject.ToolTip"));
             this.cbProject.SelectedIndexChanged += new System.EventHandler(this.cbProject_SelectedIndexChanged);
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(184, 32);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(94, 28);
-            this.label6.TabIndex = 53;
-            this.label6.Text = "Project";
             // 
             // cbbBaudrates
             // 
             this.cbbBaudrates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbBaudrates.Items.AddRange(new object[] {
-            "1 MBit/sec",
-            "500 kBit/sec",
-            "250 kBit/sec",
-            "125 kBit/sec",
-            "100 kBit/sec",
-            "19.2 kBit/sec"});
-            this.cbbBaudrates.Location = new System.Drawing.Point(291, 76);
-            this.cbbBaudrates.Margin = new System.Windows.Forms.Padding(4);
+            resources.GetString("cbbBaudrates.Items"),
+            resources.GetString("cbbBaudrates.Items1"),
+            resources.GetString("cbbBaudrates.Items2"),
+            resources.GetString("cbbBaudrates.Items3"),
+            resources.GetString("cbbBaudrates.Items4"),
+            resources.GetString("cbbBaudrates.Items5")});
+            resources.ApplyResources(this.cbbBaudrates, "cbbBaudrates");
             this.cbbBaudrates.Name = "cbbBaudrates";
-            this.cbbBaudrates.Size = new System.Drawing.Size(218, 33);
-            this.cbbBaudrates.TabIndex = 49;
-            this.toolTip.SetToolTip(this.cbbBaudrates, "The speed for the communication (BTR0BTR1 code)");
+            this.toolTip.SetToolTip(this.cbbBaudrates, resources.GetString("cbbBaudrates.ToolTip"));
             // 
             // laBaudrate
             // 
-            this.laBaudrate.Location = new System.Drawing.Point(184, 82);
-            this.laBaudrate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            resources.ApplyResources(this.laBaudrate, "laBaudrate");
             this.laBaudrate.Name = "laBaudrate";
-            this.laBaudrate.Size = new System.Drawing.Size(110, 28);
-            this.laBaudrate.TabIndex = 53;
-            this.laBaudrate.Text = "Baudrate";
             // 
             // laBitrate
             // 
-            this.laBitrate.AutoSize = true;
-            this.laBitrate.Location = new System.Drawing.Point(188, 83);
-            this.laBitrate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            resources.ApplyResources(this.laBitrate, "laBitrate");
             this.laBitrate.Name = "laBitrate";
-            this.laBitrate.Size = new System.Drawing.Size(97, 25);
-            this.laBitrate.TabIndex = 46;
-            this.laBitrate.Text = "Bit rate:";
-            this.laBitrate.Visible = false;
             // 
             // btnHwRefresh
             // 
             this.btnHwRefresh.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnHwRefresh.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnHwRefresh.Location = new System.Drawing.Point(1269, 73);
-            this.btnHwRefresh.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.btnHwRefresh, "btnHwRefresh");
             this.btnHwRefresh.Name = "btnHwRefresh";
-            this.btnHwRefresh.Size = new System.Drawing.Size(142, 32);
-            this.btnHwRefresh.TabIndex = 45;
-            this.btnHwRefresh.Text = "Refresh";
-            this.btnHwRefresh.Visible = false;
             this.btnHwRefresh.Click += new System.EventHandler(this.btnHwRefresh_Click);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(527, 30);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 32);
-            this.label1.TabIndex = 40;
-            this.label1.Text = "Hardware:";
             // 
             // btnInit
             // 
             this.btnInit.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnInit.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnInit.Location = new System.Drawing.Point(31, 29);
-            this.btnInit.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.btnInit, "btnInit");
             this.btnInit.Name = "btnInit";
-            this.btnInit.Size = new System.Drawing.Size(142, 32);
-            this.btnInit.TabIndex = 34;
-            this.btnInit.Text = "Initialize";
             this.btnInit.Click += new System.EventHandler(this.btnInit_Click);
             // 
             // cbbHwType
             // 
             this.cbbHwType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbHwType.Items.AddRange(new object[] {
-            "ISA-82C200",
-            "ISA-SJA1000",
-            "ISA-PHYTEC",
-            "DNG-82C200",
-            "DNG-82C200 EPP",
-            "DNG-SJA1000",
-            "DNG-SJA1000 EPP"});
-            this.cbbHwType.Location = new System.Drawing.Point(646, 76);
-            this.cbbHwType.Margin = new System.Windows.Forms.Padding(4);
+            resources.GetString("cbbHwType.Items"),
+            resources.GetString("cbbHwType.Items1"),
+            resources.GetString("cbbHwType.Items2"),
+            resources.GetString("cbbHwType.Items3"),
+            resources.GetString("cbbHwType.Items4"),
+            resources.GetString("cbbHwType.Items5"),
+            resources.GetString("cbbHwType.Items6")});
+            resources.ApplyResources(this.cbbHwType, "cbbHwType");
             this.cbbHwType.Name = "cbbHwType";
-            this.cbbHwType.Size = new System.Drawing.Size(199, 33);
-            this.cbbHwType.TabIndex = 50;
-            this.toolTip.SetToolTip(this.cbbHwType, "The type of hardware and operation mode");
-            this.cbbHwType.Visible = false;
+            this.toolTip.SetToolTip(this.cbbHwType, resources.GetString("cbbHwType.ToolTip"));
             this.cbbHwType.SelectedIndexChanged += new System.EventHandler(this.cbbHwType_SelectedIndexChanged);
             // 
             // laHwType
             // 
-            this.laHwType.Location = new System.Drawing.Point(527, 78);
-            this.laHwType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            resources.ApplyResources(this.laHwType, "laHwType");
             this.laHwType.Name = "laHwType";
-            this.laHwType.Size = new System.Drawing.Size(112, 61);
-            this.laHwType.TabIndex = 54;
-            this.laHwType.Text = "Hardware Type:";
-            this.laHwType.Visible = false;
             // 
             // cbbInterrupt
             // 
             this.cbbInterrupt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbInterrupt.Items.AddRange(new object[] {
-            "3",
-            "4",
-            "5",
-            "7",
-            "9",
-            "10",
-            "11",
-            "12",
-            "15"});
-            this.cbbInterrupt.Location = new System.Drawing.Point(1182, 76);
-            this.cbbInterrupt.Margin = new System.Windows.Forms.Padding(4);
+            resources.GetString("cbbInterrupt.Items"),
+            resources.GetString("cbbInterrupt.Items1"),
+            resources.GetString("cbbInterrupt.Items2"),
+            resources.GetString("cbbInterrupt.Items3"),
+            resources.GetString("cbbInterrupt.Items4"),
+            resources.GetString("cbbInterrupt.Items5"),
+            resources.GetString("cbbInterrupt.Items6"),
+            resources.GetString("cbbInterrupt.Items7"),
+            resources.GetString("cbbInterrupt.Items8")});
+            resources.ApplyResources(this.cbbInterrupt, "cbbInterrupt");
             this.cbbInterrupt.Name = "cbbInterrupt";
-            this.cbbInterrupt.Size = new System.Drawing.Size(80, 33);
-            this.cbbInterrupt.TabIndex = 52;
-            this.toolTip.SetToolTip(this.cbbInterrupt, "Interrupt number of the parallel por");
-            this.cbbInterrupt.Visible = false;
+            this.toolTip.SetToolTip(this.cbbInterrupt, resources.GetString("cbbInterrupt.ToolTip"));
             // 
             // laInterrupt
             // 
-            this.laInterrupt.Location = new System.Drawing.Point(1057, 78);
-            this.laInterrupt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            resources.ApplyResources(this.laInterrupt, "laInterrupt");
             this.laInterrupt.Name = "laInterrupt";
-            this.laInterrupt.Size = new System.Drawing.Size(115, 32);
-            this.laInterrupt.TabIndex = 56;
-            this.laInterrupt.Text = "Interrupt:";
-            this.laInterrupt.Visible = false;
             // 
             // cbbIO
             // 
             this.cbbIO.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbIO.Items.AddRange(new object[] {
-            "0100",
-            "0120",
-            "0140",
-            "0200",
-            "0220",
-            "0240",
-            "0260",
-            "0278",
-            "0280",
-            "02A0",
-            "02C0",
-            "02E0",
-            "02E8",
-            "02F8",
-            "0300",
-            "0320",
-            "0340",
-            "0360",
-            "0378",
-            "0380",
-            "03BC",
-            "03E0",
-            "03E8",
-            "03F8"});
-            this.cbbIO.Location = new System.Drawing.Point(971, 76);
-            this.cbbIO.Margin = new System.Windows.Forms.Padding(4);
+            resources.GetString("cbbIO.Items"),
+            resources.GetString("cbbIO.Items1"),
+            resources.GetString("cbbIO.Items2"),
+            resources.GetString("cbbIO.Items3"),
+            resources.GetString("cbbIO.Items4"),
+            resources.GetString("cbbIO.Items5"),
+            resources.GetString("cbbIO.Items6"),
+            resources.GetString("cbbIO.Items7"),
+            resources.GetString("cbbIO.Items8"),
+            resources.GetString("cbbIO.Items9"),
+            resources.GetString("cbbIO.Items10"),
+            resources.GetString("cbbIO.Items11"),
+            resources.GetString("cbbIO.Items12"),
+            resources.GetString("cbbIO.Items13"),
+            resources.GetString("cbbIO.Items14"),
+            resources.GetString("cbbIO.Items15"),
+            resources.GetString("cbbIO.Items16"),
+            resources.GetString("cbbIO.Items17"),
+            resources.GetString("cbbIO.Items18"),
+            resources.GetString("cbbIO.Items19"),
+            resources.GetString("cbbIO.Items20"),
+            resources.GetString("cbbIO.Items21"),
+            resources.GetString("cbbIO.Items22"),
+            resources.GetString("cbbIO.Items23")});
+            resources.ApplyResources(this.cbbIO, "cbbIO");
             this.cbbIO.Name = "cbbIO";
-            this.cbbIO.Size = new System.Drawing.Size(79, 33);
-            this.cbbIO.TabIndex = 51;
-            this.toolTip.SetToolTip(this.cbbIO, "The I/O address for the parallel port");
-            this.cbbIO.Visible = false;
+            this.toolTip.SetToolTip(this.cbbIO, resources.GetString("cbbIO.ToolTip"));
             // 
             // laIOPort
             // 
-            this.laIOPort.Location = new System.Drawing.Point(858, 78);
-            this.laIOPort.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            resources.ApplyResources(this.laIOPort, "laIOPort");
             this.laIOPort.Name = "laIOPort";
-            this.laIOPort.Size = new System.Drawing.Size(105, 32);
-            this.laIOPort.TabIndex = 55;
-            this.laIOPort.Text = "I/O Port:";
-            this.laIOPort.Visible = false;
             // 
             // txtBitrate
             // 
-            this.txtBitrate.Location = new System.Drawing.Point(292, 74);
-            this.txtBitrate.Margin = new System.Windows.Forms.Padding(4);
-            this.txtBitrate.Multiline = true;
+            resources.ApplyResources(this.txtBitrate, "txtBitrate");
             this.txtBitrate.Name = "txtBitrate";
-            this.txtBitrate.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBitrate.Size = new System.Drawing.Size(544, 65);
-            this.txtBitrate.TabIndex = 48;
             this.toolTip.SetToolTip(this.txtBitrate, resources.GetString("txtBitrate.ToolTip"));
-            this.txtBitrate.Visible = false;
             // 
             // tcDownloader
             // 
             this.tcDownloader.Controls.Add(this.tpDownloader);
             this.tcDownloader.Controls.Add(this.Trace);
-            this.tcDownloader.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcDownloader.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tcDownloader.Location = new System.Drawing.Point(0, 146);
+            resources.ApplyResources(this.tcDownloader, "tcDownloader");
             this.tcDownloader.Name = "tcDownloader";
             this.tcDownloader.SelectedIndex = 0;
-            this.tcDownloader.Size = new System.Drawing.Size(1419, 759);
-            this.tcDownloader.TabIndex = 44;
             // 
             // tpDownloader
             // 
             this.tpDownloader.Controls.Add(this.splitContainer2);
             this.tpDownloader.Controls.Add(this.lbPath);
-            this.tpDownloader.Location = new System.Drawing.Point(4, 34);
+            resources.ApplyResources(this.tpDownloader, "tpDownloader");
             this.tpDownloader.Name = "tpDownloader";
-            this.tpDownloader.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDownloader.Size = new System.Drawing.Size(1411, 721);
-            this.tpDownloader.TabIndex = 0;
-            this.tpDownloader.Text = "Flash";
             this.tpDownloader.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer2.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.panel2);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.lbxInfo);
-            this.splitContainer2.Size = new System.Drawing.Size(1405, 715);
-            this.splitContainer2.SplitterDistance = 83;
-            this.splitContainer2.TabIndex = 64;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.btnResetECU);
-            this.panel2.Controls.Add(this.btnResetDID);
-            this.panel2.Controls.Add(this.btnFlashAddr);
-            this.panel2.Controls.Add(this.btnWriteDID);
-            this.panel2.Controls.Add(this.btnBrowse);
-            this.panel2.Controls.Add(this.btnReadHexFile);
-            this.panel2.Controls.Add(this.tbDownload);
-            this.panel2.Controls.Add(this.btnInfoClear);
-            this.panel2.Controls.Add(this.pBar);
-            this.panel2.Controls.Add(this.lbFilePath);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1405, 83);
-            this.panel2.TabIndex = 64;
-            // 
-            // btnResetECU
-            // 
-            this.btnResetECU.Enabled = false;
-            this.btnResetECU.Location = new System.Drawing.Point(1238, 54);
-            this.btnResetECU.Name = "btnResetECU";
-            this.btnResetECU.Size = new System.Drawing.Size(150, 36);
-            this.btnResetECU.TabIndex = 63;
-            this.btnResetECU.Text = "Reset ECU";
-            this.toolTip.SetToolTip(this.btnResetECU, "Send 0x11 01 to ECU(soft reset)");
-            this.btnResetECU.UseVisualStyleBackColor = true;
-            this.btnResetECU.Visible = false;
-            this.btnResetECU.Click += new System.EventHandler(this.btnResetECU_Click);
-            // 
-            // btnResetDID
-            // 
-            this.btnResetDID.Enabled = false;
-            this.btnResetDID.Location = new System.Drawing.Point(1082, 54);
-            this.btnResetDID.Name = "btnResetDID";
-            this.btnResetDID.Size = new System.Drawing.Size(150, 36);
-            this.btnResetDID.TabIndex = 63;
-            this.btnResetDID.Text = "Reset DID";
-            this.toolTip.SetToolTip(this.btnResetDID, "Reset DID counter,if project changed.");
-            this.btnResetDID.UseVisualStyleBackColor = true;
-            this.btnResetDID.Visible = false;
-            this.btnResetDID.Click += new System.EventHandler(this.btnResetDID_Click);
-            // 
-            // btnFlashAddr
-            // 
-            this.btnFlashAddr.Enabled = false;
-            this.btnFlashAddr.Location = new System.Drawing.Point(1238, 12);
-            this.btnFlashAddr.Name = "btnFlashAddr";
-            this.btnFlashAddr.Size = new System.Drawing.Size(150, 36);
-            this.btnFlashAddr.TabIndex = 63;
-            this.btnFlashAddr.Text = "Flash Addr";
-            this.toolTip.SetToolTip(this.btnFlashAddr, "Flash address setting;\r\nAPP: end address of application\r\nCAL:start address of cal" +
-        "ibration");
-            this.btnFlashAddr.UseVisualStyleBackColor = true;
-            this.btnFlashAddr.Visible = false;
-            this.btnFlashAddr.Click += new System.EventHandler(this.btnFlashAddr_Click);
-            // 
-            // btnWriteDID
-            // 
-            this.btnWriteDID.Location = new System.Drawing.Point(1082, 11);
-            this.btnWriteDID.Name = "btnWriteDID";
-            this.btnWriteDID.Size = new System.Drawing.Size(150, 36);
-            this.btnWriteDID.TabIndex = 63;
-            this.btnWriteDID.Text = "Write DID";
-            this.toolTip.SetToolTip(this.btnWriteDID, "Write DID info into PTC.");
-            this.btnWriteDID.UseVisualStyleBackColor = true;
-            this.btnWriteDID.Visible = false;
-            this.btnWriteDID.Click += new System.EventHandler(this.btnWriteDID_Click);
-            // 
-            // btnBrowse
-            // 
-            this.btnBrowse.Enabled = false;
-            this.btnBrowse.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBrowse.Location = new System.Drawing.Point(768, 11);
-            this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(150, 38);
-            this.btnBrowse.TabIndex = 1;
-            this.btnBrowse.Text = "Browse";
-            this.toolTip.SetToolTip(this.btnBrowse, "Import .hex/.bin file for flash PTC.");
-            this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
-            // 
-            // btnReadHexFile
-            // 
-            this.btnReadHexFile.Enabled = false;
-            this.btnReadHexFile.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReadHexFile.Location = new System.Drawing.Point(768, 55);
-            this.btnReadHexFile.Name = "btnReadHexFile";
-            this.btnReadHexFile.Size = new System.Drawing.Size(150, 35);
-            this.btnReadHexFile.TabIndex = 62;
-            this.btnReadHexFile.Text = "ReadHex";
-            this.toolTip.SetToolTip(this.btnReadHexFile, "Read .hex file info.");
-            this.btnReadHexFile.UseVisualStyleBackColor = true;
-            this.btnReadHexFile.Click += new System.EventHandler(this.btnReadHexFile_Click);
-            // 
-            // tbDownload
-            // 
-            this.tbDownload.Enabled = false;
-            this.tbDownload.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbDownload.Location = new System.Drawing.Point(926, 11);
-            this.tbDownload.Name = "tbDownload";
-            this.tbDownload.Size = new System.Drawing.Size(150, 37);
-            this.tbDownload.TabIndex = 1;
-            this.tbDownload.Text = "Download";
-            this.toolTip.SetToolTip(this.tbDownload, "Excute download .hex/.bin file into PTC.");
-            this.tbDownload.UseVisualStyleBackColor = true;
-            this.tbDownload.Click += new System.EventHandler(this.tbDownload_Click);
-            // 
-            // btnInfoClear
-            // 
-            this.btnInfoClear.Enabled = false;
-            this.btnInfoClear.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnInfoClear.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInfoClear.Location = new System.Drawing.Point(926, 55);
-            this.btnInfoClear.Margin = new System.Windows.Forms.Padding(4);
-            this.btnInfoClear.Name = "btnInfoClear";
-            this.btnInfoClear.Size = new System.Drawing.Size(150, 35);
-            this.btnInfoClear.TabIndex = 61;
-            this.btnInfoClear.Text = "Clear";
-            this.toolTip.SetToolTip(this.btnInfoClear, "Clear past messages in message window.");
-            this.btnInfoClear.UseVisualStyleBackColor = true;
-            this.btnInfoClear.Click += new System.EventHandler(this.btnInfoClear_Click);
-            // 
-            // pBar
-            // 
-            this.pBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.pBar.Location = new System.Drawing.Point(9, 54);
-            this.pBar.Name = "pBar";
-            this.pBar.Size = new System.Drawing.Size(743, 23);
-            this.pBar.Step = 1;
-            this.pBar.TabIndex = 4;
-            // 
-            // lbFilePath
-            // 
-            this.lbFilePath.AutoSize = true;
-            this.lbFilePath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.lbFilePath.Location = new System.Drawing.Point(12, 91);
-            this.lbFilePath.Name = "lbFilePath";
-            this.lbFilePath.Size = new System.Drawing.Size(19, 25);
-            this.lbFilePath.TabIndex = 5;
-            this.lbFilePath.Text = " ";
-            // 
-            // lbxInfo
-            // 
-            this.lbxInfo.BackColor = System.Drawing.SystemColors.Desktop;
-            this.lbxInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbxInfo.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbxInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.lbxInfo.FormattingEnabled = true;
-            this.lbxInfo.HorizontalScrollbar = true;
-            this.lbxInfo.ItemHeight = 22;
-            this.lbxInfo.Items.AddRange(new object[] {
-            " "});
-            this.lbxInfo.Location = new System.Drawing.Point(0, 0);
-            this.lbxInfo.Name = "lbxInfo";
-            this.lbxInfo.ScrollAlwaysVisible = true;
-            this.lbxInfo.Size = new System.Drawing.Size(1405, 628);
-            this.lbxInfo.TabIndex = 6;
             // 
             // lbPath
             // 
-            this.lbPath.AutoSize = true;
-            this.lbPath.Location = new System.Drawing.Point(27, 30);
+            resources.ApplyResources(this.lbPath, "lbPath");
             this.lbPath.Name = "lbPath";
-            this.lbPath.Size = new System.Drawing.Size(0, 25);
-            this.lbPath.TabIndex = 0;
             // 
             // Trace
             // 
             this.Trace.Controls.Add(this.splitContainer1);
-            this.Trace.Location = new System.Drawing.Point(4, 34);
+            resources.ApplyResources(this.Trace, "Trace");
             this.Trace.Name = "Trace";
-            this.Trace.Padding = new System.Windows.Forms.Padding(3);
-            this.Trace.Size = new System.Drawing.Size(1411, 721);
-            this.Trace.TabIndex = 1;
-            this.Trace.Text = "Trace";
             this.Trace.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.panel1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.dgView);
-            this.splitContainer1.Size = new System.Drawing.Size(1405, 715);
-            this.splitContainer1.SplitterDistance = 82;
-            this.splitContainer1.TabIndex = 2;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.cbWholeTrace);
-            this.panel1.Controls.Add(this.cbEnAPPMsg);
-            this.panel1.Controls.Add(this.Test);
-            this.panel1.Controls.Add(this.btnExportTrace);
-            this.panel1.Controls.Add(this.groupBox4);
-            this.panel1.Controls.Add(this.groupBox3);
-            this.panel1.Controls.Add(this.chbShowPeriod);
-            this.panel1.Controls.Add(this.btnClear);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1405, 82);
-            this.panel1.TabIndex = 2;
-            // 
-            // cbWholeTrace
-            // 
-            this.cbWholeTrace.AutoSize = true;
-            this.cbWholeTrace.Location = new System.Drawing.Point(800, 85);
-            this.cbWholeTrace.Name = "cbWholeTrace";
-            this.cbWholeTrace.Size = new System.Drawing.Size(159, 29);
-            this.cbWholeTrace.TabIndex = 83;
-            this.cbWholeTrace.Text = "Whole trace";
-            this.toolTip.SetToolTip(this.cbWholeTrace, "Cause NPOI library limit,when save trace into excel file,\r\nmessages count can not" +
-        " beyond 65535,otherwise save action fail.\r\n");
-            this.cbWholeTrace.UseVisualStyleBackColor = true;
-            this.cbWholeTrace.CheckedChanged += new System.EventHandler(this.cbWholeTrace_CheckedChanged);
-            // 
-            // cbEnAPPMsg
-            // 
-            this.cbEnAPPMsg.AutoSize = true;
-            this.cbEnAPPMsg.Checked = true;
-            this.cbEnAPPMsg.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbEnAPPMsg.Location = new System.Drawing.Point(800, 21);
-            this.cbEnAPPMsg.Name = "cbEnAPPMsg";
-            this.cbEnAPPMsg.Size = new System.Drawing.Size(170, 29);
-            this.cbEnAPPMsg.TabIndex = 83;
-            this.cbEnAPPMsg.Text = "APP message";
-            this.toolTip.SetToolTip(this.cbEnAPPMsg, "Display app message or not.");
-            this.cbEnAPPMsg.UseVisualStyleBackColor = true;
-            this.cbEnAPPMsg.Visible = false;
-            this.cbEnAPPMsg.CheckedChanged += new System.EventHandler(this.cbEnAPPMsg_CheckedChanged);
-            // 
-            // Test
-            // 
-            this.Test.Controls.Add(this.label5);
-            this.Test.Controls.Add(this.btnTest);
-            this.Test.Controls.Add(this.numUpDownNAD);
-            this.Test.Location = new System.Drawing.Point(477, 8);
-            this.Test.Name = "Test";
-            this.Test.Size = new System.Drawing.Size(304, 109);
-            this.Test.TabIndex = 92;
-            this.Test.TabStop = false;
-            this.Test.Text = "Test Diag Service";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 26);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 25);
-            this.label5.TabIndex = 91;
-            this.label5.Text = "NAD";
-            // 
-            // btnTest
-            // 
-            this.btnTest.Enabled = false;
-            this.btnTest.Location = new System.Drawing.Point(147, 50);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(135, 36);
-            this.btnTest.TabIndex = 0;
-            this.btnTest.Text = "Test";
-            this.toolTip.SetToolTip(this.btnTest, "Test UDS supported service,that has template in install path.\r\nwhich name is \'UDS" +
-        "_Service.xlsx\'");
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
-            // 
-            // numUpDownNAD
-            // 
-            this.numUpDownNAD.Hexadecimal = true;
-            this.numUpDownNAD.Location = new System.Drawing.Point(20, 54);
-            this.numUpDownNAD.Margin = new System.Windows.Forms.Padding(4);
-            this.numUpDownNAD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numUpDownNAD.Name = "numUpDownNAD";
-            this.numUpDownNAD.Size = new System.Drawing.Size(104, 32);
-            this.numUpDownNAD.TabIndex = 90;
-            this.toolTip.SetToolTip(this.numUpDownNAD, "NAD value support on LIN bus only");
-            this.numUpDownNAD.Value = new decimal(new int[] {
-            66,
-            0,
-            0,
-            0});
-            // 
-            // btnExportTrace
-            // 
-            this.btnExportTrace.Location = new System.Drawing.Point(1141, 71);
-            this.btnExportTrace.Name = "btnExportTrace";
-            this.btnExportTrace.Size = new System.Drawing.Size(206, 36);
-            this.btnExportTrace.TabIndex = 0;
-            this.btnExportTrace.Text = "Export Trace";
-            this.toolTip.SetToolTip(this.btnExportTrace, "Export trace to excel file.");
-            this.btnExportTrace.UseVisualStyleBackColor = true;
-            this.btnExportTrace.Click += new System.EventHandler(this.btnExportTrace_Click);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.btnClearDTC);
-            this.groupBox4.Controls.Add(this.btnReadDTC);
-            this.groupBox4.Location = new System.Drawing.Point(297, 8);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(172, 109);
-            this.groupBox4.TabIndex = 84;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "DTC";
-            // 
-            // btnClearDTC
-            // 
-            this.btnClearDTC.Enabled = false;
-            this.btnClearDTC.Location = new System.Drawing.Point(17, 64);
-            this.btnClearDTC.Name = "btnClearDTC";
-            this.btnClearDTC.Size = new System.Drawing.Size(135, 35);
-            this.btnClearDTC.TabIndex = 0;
-            this.btnClearDTC.Text = "Clear";
-            this.toolTip.SetToolTip(this.btnClearDTC, "use to clear ECUs\' DTC");
-            this.btnClearDTC.UseVisualStyleBackColor = true;
-            this.btnClearDTC.Click += new System.EventHandler(this.btnClearDTC_Click);
-            // 
-            // btnReadDTC
-            // 
-            this.btnReadDTC.Enabled = false;
-            this.btnReadDTC.Location = new System.Drawing.Point(17, 23);
-            this.btnReadDTC.Name = "btnReadDTC";
-            this.btnReadDTC.Size = new System.Drawing.Size(135, 35);
-            this.btnReadDTC.TabIndex = 0;
-            this.btnReadDTC.Text = "Read";
-            this.toolTip.SetToolTip(this.btnReadDTC, "use to read ECUs\' DTC.");
-            this.btnReadDTC.UseVisualStyleBackColor = true;
-            this.btnReadDTC.Click += new System.EventHandler(this.btnReadDTC_Click);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.nudIdTo);
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.nudIdFrom);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Location = new System.Drawing.Point(6, 8);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(281, 108);
-            this.groupBox3.TabIndex = 83;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Diagnostic ID";
-            // 
-            // nudIdTo
-            // 
-            this.nudIdTo.Hexadecimal = true;
-            this.nudIdTo.Location = new System.Drawing.Point(115, 25);
-            this.nudIdTo.Margin = new System.Windows.Forms.Padding(4);
-            this.nudIdTo.Maximum = new decimal(new int[] {
-            536870911,
-            0,
-            0,
-            0});
-            this.nudIdTo.Name = "nudIdTo";
-            this.nudIdTo.Size = new System.Drawing.Size(151, 32);
-            this.nudIdTo.TabIndex = 82;
-            this.toolTip.SetToolTip(this.nudIdTo, "UDS request message\'s ID.");
-            this.nudIdTo.Value = new decimal(new int[] {
-            60,
-            0,
-            0,
-            0});
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.label2.Location = new System.Drawing.Point(8, 27);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(87, 25);
-            this.label2.TabIndex = 78;
-            this.label2.Text = "Rqst(h)";
-            // 
-            // nudIdFrom
-            // 
-            this.nudIdFrom.Hexadecimal = true;
-            this.nudIdFrom.Location = new System.Drawing.Point(115, 65);
-            this.nudIdFrom.Margin = new System.Windows.Forms.Padding(4);
-            this.nudIdFrom.Maximum = new decimal(new int[] {
-            536870911,
-            0,
-            0,
-            0});
-            this.nudIdFrom.Name = "nudIdFrom";
-            this.nudIdFrom.Size = new System.Drawing.Size(151, 32);
-            this.nudIdFrom.TabIndex = 81;
-            this.toolTip.SetToolTip(this.nudIdFrom, "UDS response message\'s ID.");
-            this.nudIdFrom.Value = new decimal(new int[] {
-            61,
-            0,
-            0,
-            0});
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.label3.Location = new System.Drawing.Point(9, 70);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(89, 25);
-            this.label3.TabIndex = 77;
-            this.label3.Text = "Rsps(h)";
-            // 
-            // chbShowPeriod
-            // 
-            this.chbShowPeriod.AutoSize = true;
-            this.chbShowPeriod.Location = new System.Drawing.Point(800, 53);
-            this.chbShowPeriod.Margin = new System.Windows.Forms.Padding(4);
-            this.chbShowPeriod.Name = "chbShowPeriod";
-            this.chbShowPeriod.Size = new System.Drawing.Size(182, 29);
-            this.chbShowPeriod.TabIndex = 76;
-            this.chbShowPeriod.Text = "TimestampSW";
-            this.toolTip.SetToolTip(this.chbShowPeriod, "Message in trace window,display relative time/real time.");
-            this.chbShowPeriod.UseVisualStyleBackColor = true;
-            this.chbShowPeriod.CheckedChanged += new System.EventHandler(this.chbShowPeriod_CheckedChanged);
-            // 
-            // btnClear
-            // 
-            this.btnClear.Location = new System.Drawing.Point(1139, 19);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(206, 38);
-            this.btnClear.TabIndex = 0;
-            this.btnClear.Text = "Clear message list";
-            this.toolTip.SetToolTip(this.btnClear, "Clear trace window messages record.");
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            // 
-            // dgView
-            // 
-            this.dgView.AllowUserToAddRows = false;
-            this.dgView.AllowUserToDeleteRows = false;
-            this.dgView.AllowUserToResizeRows = false;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.MediumSeaGreen;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.dgView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
-            this.dgView.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dgView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.CoID,
-            this.CoDir,
-            this.CoLength,
-            this.CoCount,
-            this.CoTime,
-            this.CoData});
-            this.dgView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgView.Location = new System.Drawing.Point(0, 0);
-            this.dgView.Name = "dgView";
-            this.dgView.ReadOnly = true;
-            this.dgView.RowHeadersWidth = 62;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.DodgerBlue;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.dgView.RowsDefaultCellStyle = dataGridViewCellStyle8;
-            this.dgView.RowTemplate.Height = 30;
-            this.dgView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgView.Size = new System.Drawing.Size(1405, 629);
-            this.dgView.TabIndex = 2;
-            this.dgView.VirtualMode = true;
-            this.dgView.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dgView_CellValueNeeded);
-            this.dgView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgView_KeyDown);
-            // 
-            // CoID
-            // 
-            this.CoID.HeaderText = "ID";
-            this.CoID.MinimumWidth = 8;
-            this.CoID.Name = "CoID";
-            this.CoID.ReadOnly = true;
-            this.CoID.Width = 160;
-            // 
-            // CoDir
-            // 
-            this.CoDir.HeaderText = "Dir";
-            this.CoDir.MinimumWidth = 8;
-            this.CoDir.Name = "CoDir";
-            this.CoDir.ReadOnly = true;
-            this.CoDir.Width = 60;
-            // 
-            // CoLength
-            // 
-            this.CoLength.HeaderText = "Length";
-            this.CoLength.MinimumWidth = 8;
-            this.CoLength.Name = "CoLength";
-            this.CoLength.ReadOnly = true;
-            this.CoLength.Width = 80;
-            // 
-            // CoCount
-            // 
-            this.CoCount.HeaderText = "Count";
-            this.CoCount.MinimumWidth = 8;
-            this.CoCount.Name = "CoCount";
-            this.CoCount.ReadOnly = true;
-            this.CoCount.Width = 80;
-            // 
-            // CoTime
-            // 
-            this.CoTime.HeaderText = "Time";
-            this.CoTime.MinimumWidth = 8;
-            this.CoTime.Name = "CoTime";
-            this.CoTime.ReadOnly = true;
-            this.CoTime.Width = 140;
-            // 
-            // CoData
-            // 
-            this.CoData.HeaderText = "Data";
-            this.CoData.MinimumWidth = 8;
-            this.CoData.Name = "CoData";
-            this.CoData.ReadOnly = true;
-            this.CoData.Width = 336;
             // 
             // tmrDisplay
             // 
@@ -1082,32 +805,22 @@ namespace Diag_BUS
             // 
             // Diag_LIN
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1419, 905);
             this.Controls.Add(this.tcDownloader);
             this.Controls.Add(this.groupBox1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.KeyPreview = true;
             this.Name = "Diag_LIN";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Manhui technology UDS flush tool";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Diag_PCAN_FormClosing);
             this.Load += new System.EventHandler(this.Diag_PCAN_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Diag_LIN_KeyDown);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.tcDownloader.ResumeLayout(false);
-            this.tpDownloader.ResumeLayout(false);
-            this.tpDownloader.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.Trace.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -1123,6 +836,12 @@ namespace Diag_BUS
             ((System.ComponentModel.ISupportInitialize)(this.nudIdTo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudIdFrom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgView)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.tcDownloader.ResumeLayout(false);
+            this.tpDownloader.ResumeLayout(false);
+            this.tpDownloader.PerformLayout();
+            this.Trace.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

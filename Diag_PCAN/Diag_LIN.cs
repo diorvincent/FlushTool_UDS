@@ -74,6 +74,7 @@ namespace Diag_BUS
             _Chery_CBF = 9,
             _DSPIC33 = 10,
             _13Kw = 11,
+            _CBF2 = 12,
         }
         PRJTYPE PRODUCT_TYPE;
         int P2_ServerTime = 30;
@@ -574,7 +575,7 @@ namespace Diag_BUS
 
             FristEnterRT_ticks = 0;
             cbbChannel.SelectedIndex = 0;
-            cbProject.SelectedIndex = 9; //9;chery cbf  //6;CAN UDS(ac7801)
+            cbProject.SelectedIndex = 12; //_CBF2    //9;chery cbf  //6;CAN UDS(ac7801)
 
             //m_nDynStartAddr = 0;
             m_n36SvrPackNum = 0x21;
@@ -780,9 +781,9 @@ namespace Diag_BUS
                     }
                     else if (PRODUCT_TYPE == PRJTYPE._7Kw && m_strHexBinExtension == ".bin" ||
                                PRODUCT_TYPE == PRJTYPE._Chery_CBF && m_strHexBinExtension == ".cbf" ||
+                                PRODUCT_TYPE == PRJTYPE._CBF2 && (string.Compare(m_strHexBinExtension,".hex", true)==0)     ||   //  == ".hex" || m_strHexBinExtension == ".Hex" || m_strHexBinExtension == ".HEX") ||
                                PRODUCT_TYPE == PRJTYPE._LINHex && m_strHexBinExtension == ".hex")//
                     {
-                        //LINWriteThreadFunc_TP90();
                         falshingObj = new Flashing(this, (byte)PRODUCT_TYPE);
                     }
                     else
@@ -5218,7 +5219,8 @@ namespace Diag_BUS
             if ((m_bus.BusType == Bus.Type.LIN_BUS) &&
                 (PRODUCT_TYPE == PRJTYPE._7Kw || 
                  PRODUCT_TYPE == PRJTYPE._LINHex ||
-                 PRODUCT_TYPE == PRJTYPE._Chery_CBF))
+                 PRODUCT_TYPE == PRJTYPE._Chery_CBF ||
+                 PRODUCT_TYPE == PRJTYPE._CBF2))
             {
                 // We create a LINMsg message structure 
                 //
@@ -5934,7 +5936,7 @@ namespace Diag_BUS
                     }
                 }
 
-                if (m_strHexBinExtension == ".hex")
+                if (string.Compare(m_strHexBinExtension, ".hex", true) == 0)
                 {
                     HexParser HP = new HexParser(m_strHexFileName, (int)PRODUCT_TYPE);
                     m_RecInfo = HP.ReadHex();
@@ -5951,7 +5953,7 @@ namespace Diag_BUS
                         {
                             IncludeTextMessage("Selected flash files not accord with one FlashDriver and one App file rule ,Please confirm then try again.");
                             return;
-                        }                    
+                        }
                         foreach (string strFlashFile in strSelectedFiles)
                         {
                             FileInfo fileinfo = new FileInfo(strFlashFile);
@@ -6078,7 +6080,7 @@ namespace Diag_BUS
                          
                          */
                         #endregion
-                    }
+                    }                   
                 }
 
                 if (m_RecInfo != null)
@@ -6089,7 +6091,8 @@ namespace Diag_BUS
                            PRODUCT_TYPE == PRJTYPE._CANUDS40 ||
                            PRODUCT_TYPE == PRJTYPE._CANUDS01 ||
                            PRODUCT_TYPE == PRJTYPE._DSPIC33 ||
-                           PRODUCT_TYPE == PRJTYPE._LINHex)
+                           PRODUCT_TYPE == PRJTYPE._LINHex ||
+                           PRODUCT_TYPE == PRJTYPE._CBF2)
                         {
                             #region Copy all of .hex file data into global byte array(at end of flash follow,use to check dependency of tansfer data)
 
@@ -6251,12 +6254,10 @@ namespace Diag_BUS
                     if (m_strHexBinExtension == ".bin")
                     {
                         ReadBinFileInfo();
-                        return;
                     }
-                    else if (m_strHexBinExtension == ".hex" && PRODUCT_TYPE != PRJTYPE._xc2234)
+                    else if (string.Compare(m_strHexBinExtension, ".hex", true) == 0 && PRODUCT_TYPE != PRJTYPE._xc2234)
                     {
                         MEMORY_SIZE = (uint)nHexTotalLen;
-                        return;
                     }
                     else if (PRODUCT_TYPE == PRJTYPE._xc2234)
                     {
@@ -6916,6 +6917,10 @@ namespace Diag_BUS
             btnFlashAddr.Visible = false;
             btnResetECU.Visible = false;
             chbExtended.Checked = false;
+            
+            chbCanFD.Visible = false;
+            chbExtended.Visible = false;
+            chbRemote.Visible = false;
 
             if (cbProject.SelectedIndex == 0) //320v Compresor
             {
@@ -7011,6 +7016,10 @@ namespace Diag_BUS
                 btnWriteDID.Visible = true;
                 btnResetDID.Visible = true;
                 cbEnAPPMsg.Visible = true;
+
+                chbCanFD.Visible = true;
+                chbExtended.Visible = true;
+                chbRemote.Visible = true;
             }
             else if (cbProject.SelectedIndex == 6) //CAN UDS(ac7801)
             {
@@ -7030,6 +7039,10 @@ namespace Diag_BUS
                 //btnWriteDID.Visible = true;
                 //btnResetDID.Visible = true;
                 cbEnAPPMsg.Visible = true;
+
+                chbCanFD.Visible = true;
+                chbExtended.Visible = true;
+                chbRemote.Visible = true;
             }
             else if (cbProject.SelectedIndex == 7) //LIN(.hex)
             {
@@ -7112,7 +7125,7 @@ namespace Diag_BUS
                 //btnWriteDID.Visible = true;
                 //btnResetDID.Visible = true
             }
-            else if (cbProject.SelectedIndex == 11)
+            else if (cbProject.SelectedIndex == 11) //_13Kw
             {
                 MEMORY_ADDR = 0x00010000;
                 MEMORY_SIZE = 0x000F0000;
@@ -7129,6 +7142,22 @@ namespace Diag_BUS
                 btnWriteDID.Visible = true;
                 btnResetDID.Visible = true;
                 cbEnAPPMsg.Visible = true;
+            }
+            else if (cbProject.SelectedIndex == 12) //_CBF2
+            {
+                MEMORY_ADDR = 0x00C40000;
+                MEMORY_SIZE = 0x1000;
+
+                //borrow from CAN variables
+                CAN_ADDR = 0x00C10000;
+                CAN_SIZE = 0x11000;
+
+                PRODUCT_TYPE = PRJTYPE._CBF2;
+
+                nudIdTo.Value = 0x3C;
+                nudIdFrom.Value = 0x3D;
+                numUpDownNAD.Value = 0x77;
+                cbbBaudrates.SelectedIndex = 5;
             }
         }
 
@@ -7814,17 +7843,19 @@ namespace Diag_BUS
 
                             if(PRODUCT_TYPE == PRJTYPE._xc2234)       
                                 Thread.Sleep(30);
-                            else if (PRODUCT_TYPE == PRJTYPE._7Kw || PRODUCT_TYPE == PRJTYPE._Chery_CBF) 
+                            else 
                                 Thread.Sleep(10);
 
                             nResult = (int)ReadMessage(ref respMsg);
 
                             if (PRODUCT_TYPE == PRJTYPE._xc2234) 
                                 Thread.Sleep(30);
-                            else if (PRODUCT_TYPE == PRJTYPE._7Kw) 
+                            else
                                 Thread.Sleep(10);
 
-                            if (PRODUCT_TYPE == PRJTYPE._Chery_CBF && respMsg[2] == 0x78)
+                            if ((PRODUCT_TYPE == PRJTYPE._Chery_CBF || 
+                                PRODUCT_TYPE == PRJTYPE._CBF2)
+                                && respMsg[2] == 0x78)
                             { 
                                 Thread.Sleep(500);
                                 nResult = (int)ReadMessage(ref respMsg);
@@ -7837,7 +7868,7 @@ namespace Diag_BUS
 
                         if (PRODUCT_TYPE == PRJTYPE._xc2234)
                             Thread.Sleep(30);
-                        else if (PRODUCT_TYPE == PRJTYPE._7Kw || PRODUCT_TYPE == PRJTYPE._Chery_CBF) 
+                        else 
                             Thread.Sleep(10);
 
                         respLen = Convert.ToByte(nRespMsgLen + 3);
@@ -7848,9 +7879,11 @@ namespace Diag_BUS
                             Thread.Sleep(500);
                             nResult = (int)ReadMessage(ref respMsg, respLen);
                         }
-                        else if (PRODUCT_TYPE == PRJTYPE._Chery_CBF && respMsg[2] == 0x78)
+                        else if ((PRODUCT_TYPE == PRJTYPE._Chery_CBF ||
+                            PRODUCT_TYPE == PRJTYPE._CBF2)
+                            && respMsg[2] == 0x78)
                         {
-                            Thread.Sleep(500);                     
+                            Thread.Sleep(500);
                             nResult = (int)ReadMessage(ref respMsg, respLen);
                         }
 
@@ -9292,7 +9325,7 @@ namespace Diag_BUS
             if(e.KeyCode == Keys.F1)
             {
                 string strDocPath;
-                strDocPath = Directory.GetCurrentDirectory() + @"\下线刷写工具使用说明20250930.docx";
+                strDocPath = Directory.GetCurrentDirectory() + @"\下线刷写工具使用说明20251024.docx";
    
                 try
                 {
