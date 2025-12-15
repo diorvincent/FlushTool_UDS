@@ -128,238 +128,7 @@
   <data name="splitContainer2.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
-  <data name="&gt;&gt;btnResetECU.Name" xml:space="preserve">
-    <value>btnResetECU</value>
-  </data>
-  <data name="&gt;&gt;btnResetECU.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnResetECU.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;btnResetECU.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnResetDID.Name" xml:space="preserve">
-    <value>btnResetDID</value>
-  </data>
-  <data name="&gt;&gt;btnResetDID.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnResetDID.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;btnResetDID.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;btnFlashAddr.Name" xml:space="preserve">
-    <value>btnFlashAddr</value>
-  </data>
-  <data name="&gt;&gt;btnFlashAddr.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnFlashAddr.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;btnFlashAddr.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;btnWriteDID.Name" xml:space="preserve">
-    <value>btnWriteDID</value>
-  </data>
-  <data name="&gt;&gt;btnWriteDID.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnWriteDID.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;btnWriteDID.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;btnBrowse.Name" xml:space="preserve">
-    <value>btnBrowse</value>
-  </data>
-  <data name="&gt;&gt;btnBrowse.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnBrowse.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;btnBrowse.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;btnReadHexFile.Name" xml:space="preserve">
-    <value>btnReadHexFile</value>
-  </data>
-  <data name="&gt;&gt;btnReadHexFile.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnReadHexFile.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;btnReadHexFile.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;tbDownload.Name" xml:space="preserve">
-    <value>tbDownload</value>
-  </data>
-  <data name="&gt;&gt;tbDownload.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tbDownload.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;tbDownload.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;btnInfoClear.Name" xml:space="preserve">
-    <value>btnInfoClear</value>
-  </data>
-  <data name="&gt;&gt;btnInfoClear.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnInfoClear.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;btnInfoClear.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;pBar.Name" xml:space="preserve">
-    <value>pBar</value>
-  </data>
-  <data name="&gt;&gt;pBar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pBar.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;pBar.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;lbFilePath.Name" xml:space="preserve">
-    <value>lbFilePath</value>
-  </data>
-  <data name="&gt;&gt;lbFilePath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lbFilePath.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;lbFilePath.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="panel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1405, 83</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="panel2.TabIndex" type="System.Int32, mscorlib">
-    <value>64</value>
-  </data>
-  <data name="&gt;&gt;panel2.Name" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;panel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel2.Parent" xml:space="preserve">
-    <value>splitContainer2.Panel1</value>
-  </data>
-  <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;splitContainer2.Panel1.Name" xml:space="preserve">
-    <value>splitContainer2.Panel1</value>
-  </data>
-  <data name="&gt;&gt;splitContainer2.Panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;splitContainer2.Panel1.Parent" xml:space="preserve">
-    <value>splitContainer2</value>
-  </data>
-  <data name="&gt;&gt;splitContainer2.Panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lbxInfo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="lbxInfo.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 11pt</value>
-  </data>
-  <data name="lbxInfo.HorizontalScrollbar" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lbxInfo.ItemHeight" type="System.Int32, mscorlib">
-    <value>26</value>
-  </data>
-  <data name="lbxInfo.Items" xml:space="preserve">
-    <value> </value>
-  </data>
-  <data name="lbxInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="lbxInfo.ScrollAlwaysVisible" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lbxInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1405, 628</value>
-  </data>
-  <data name="lbxInfo.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;lbxInfo.Name" xml:space="preserve">
-    <value>lbxInfo</value>
-  </data>
-  <data name="&gt;&gt;lbxInfo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lbxInfo.Parent" xml:space="preserve">
-    <value>splitContainer2.Panel2</value>
-  </data>
-  <data name="&gt;&gt;lbxInfo.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;splitContainer2.Panel2.Name" xml:space="preserve">
-    <value>splitContainer2.Panel2</value>
-  </data>
-  <data name="&gt;&gt;splitContainer2.Panel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;splitContainer2.Panel2.Parent" xml:space="preserve">
-    <value>splitContainer2</value>
-  </data>
-  <data name="&gt;&gt;splitContainer2.Panel2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1405, 715</value>
-  </data>
-  <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>83</value>
-  </data>
-  <data name="splitContainer2.TabIndex" type="System.Int32, mscorlib">
-    <value>64</value>
-  </data>
-  <data name="&gt;&gt;splitContainer2.Name" xml:space="preserve">
-    <value>splitContainer2</value>
-  </data>
-  <data name="&gt;&gt;splitContainer2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;splitContainer2.Parent" xml:space="preserve">
-    <value>tpDownloader</value>
-  </data>
-  <data name="&gt;&gt;splitContainer2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>305, 17</value>
-  </metadata>
   <data name="btnResetECU.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -375,6 +144,9 @@
   <data name="btnResetECU.Text" xml:space="preserve">
     <value>Reset ECU</value>
   </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>305, 17</value>
+  </metadata>
   <data name="btnResetECU.ToolTip" xml:space="preserve">
     <value>Send 0x11 01 to ECU(soft reset)</value>
   </data>
@@ -677,6 +449,114 @@ CAL:start address of calibration</value>
   <data name="&gt;&gt;lbFilePath.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
+  <data name="panel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1405, 83</value>
+  </data>
+  <data name="panel2.TabIndex" type="System.Int32, mscorlib">
+    <value>64</value>
+  </data>
+  <data name="&gt;&gt;panel2.Name" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel2.Parent" xml:space="preserve">
+    <value>splitContainer2.Panel1</value>
+  </data>
+  <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainer2.Panel1.Name" xml:space="preserve">
+    <value>splitContainer2.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer2.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer2.Panel1.Parent" xml:space="preserve">
+    <value>splitContainer2</value>
+  </data>
+  <data name="&gt;&gt;splitContainer2.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lbxInfo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lbxInfo.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 11pt</value>
+  </data>
+  <data name="lbxInfo.HorizontalScrollbar" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lbxInfo.ItemHeight" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="lbxInfo.Items" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="lbxInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="lbxInfo.ScrollAlwaysVisible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lbxInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1405, 628</value>
+  </data>
+  <data name="lbxInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;lbxInfo.Name" xml:space="preserve">
+    <value>lbxInfo</value>
+  </data>
+  <data name="&gt;&gt;lbxInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbxInfo.Parent" xml:space="preserve">
+    <value>splitContainer2.Panel2</value>
+  </data>
+  <data name="&gt;&gt;lbxInfo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainer2.Panel2.Name" xml:space="preserve">
+    <value>splitContainer2.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainer2.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer2.Panel2.Parent" xml:space="preserve">
+    <value>splitContainer2</value>
+  </data>
+  <data name="&gt;&gt;splitContainer2.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1405, 715</value>
+  </data>
+  <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
+    <value>83</value>
+  </data>
+  <data name="splitContainer2.TabIndex" type="System.Int32, mscorlib">
+    <value>64</value>
+  </data>
+  <data name="&gt;&gt;splitContainer2.Name" xml:space="preserve">
+    <value>splitContainer2</value>
+  </data>
+  <data name="&gt;&gt;splitContainer2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer2.Parent" xml:space="preserve">
+    <value>tpDownloader</value>
+  </data>
+  <data name="&gt;&gt;splitContainer2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -685,6 +565,26 @@ CAL:start address of calibration</value>
   </data>
   <data name="splitContainer1.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
+  </data>
+  <data name="cbWholeTrace.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbWholeTrace.Location" type="System.Drawing.Point, System.Drawing">
+    <value>800, 85</value>
+  </data>
+  <data name="cbWholeTrace.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 29</value>
+  </data>
+  <data name="cbWholeTrace.TabIndex" type="System.Int32, mscorlib">
+    <value>83</value>
+  </data>
+  <data name="cbWholeTrace.Text" xml:space="preserve">
+    <value>Whole trace</value>
+  </data>
+  <data name="cbWholeTrace.ToolTip" xml:space="preserve">
+    <value>Cause NPOI library limit,when save trace into excel file,
+messages count can not beyond 65535,otherwise save action fail.
+</value>
   </data>
   <data name="&gt;&gt;cbWholeTrace.Name" xml:space="preserve">
     <value>cbWholeTrace</value>
@@ -698,6 +598,27 @@ CAL:start address of calibration</value>
   <data name="&gt;&gt;cbWholeTrace.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="cbEnAPPMsg.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbEnAPPMsg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>800, 21</value>
+  </data>
+  <data name="cbEnAPPMsg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 29</value>
+  </data>
+  <data name="cbEnAPPMsg.TabIndex" type="System.Int32, mscorlib">
+    <value>83</value>
+  </data>
+  <data name="cbEnAPPMsg.Text" xml:space="preserve">
+    <value>APP message</value>
+  </data>
+  <data name="cbEnAPPMsg.ToolTip" xml:space="preserve">
+    <value>Display app message or not.</value>
+  </data>
+  <data name="cbEnAPPMsg.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;cbEnAPPMsg.Name" xml:space="preserve">
     <value>cbEnAPPMsg</value>
   </data>
@@ -709,6 +630,103 @@ CAL:start address of calibration</value>
   </data>
   <data name="&gt;&gt;cbEnAPPMsg.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 26</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 25</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>91</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>NAD</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnTest.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="btnTest.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 50</value>
+  </data>
+  <data name="btnTest.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 36</value>
+  </data>
+  <data name="btnTest.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnTest.Text" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="btnTest.ToolTip" xml:space="preserve">
+    <value>Test UDS supported service,that has template in install path.
+which name is 'UDS_Service.xlsx'</value>
+  </data>
+  <data name="&gt;&gt;btnTest.Name" xml:space="preserve">
+    <value>btnTest</value>
+  </data>
+  <data name="&gt;&gt;btnTest.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnTest.Parent" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="&gt;&gt;btnTest.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="numUpDownNAD.Location" type="System.Drawing.Point, System.Drawing">
+    <value>20, 54</value>
+  </data>
+  <data name="numUpDownNAD.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="numUpDownNAD.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 32</value>
+  </data>
+  <data name="numUpDownNAD.TabIndex" type="System.Int32, mscorlib">
+    <value>90</value>
+  </data>
+  <data name="numUpDownNAD.ToolTip" xml:space="preserve">
+    <value>NAD value support on LIN bus only</value>
+  </data>
+  <data name="&gt;&gt;numUpDownNAD.Name" xml:space="preserve">
+    <value>numUpDownNAD</value>
+  </data>
+  <data name="&gt;&gt;numUpDownNAD.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numUpDownNAD.Parent" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="&gt;&gt;numUpDownNAD.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="Test.Location" type="System.Drawing.Point, System.Drawing">
+    <value>477, 8</value>
+  </data>
+  <data name="Test.Size" type="System.Drawing.Size, System.Drawing">
+    <value>304, 109</value>
+  </data>
+  <data name="Test.TabIndex" type="System.Int32, mscorlib">
+    <value>92</value>
+  </data>
+  <data name="Test.Text" xml:space="preserve">
+    <value>Test Diag Service</value>
   </data>
   <data name="&gt;&gt;Test.Name" xml:space="preserve">
     <value>Test</value>
@@ -722,6 +740,21 @@ CAL:start address of calibration</value>
   <data name="&gt;&gt;Test.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="btnExportTrace.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1141, 71</value>
+  </data>
+  <data name="btnExportTrace.Size" type="System.Drawing.Size, System.Drawing">
+    <value>206, 36</value>
+  </data>
+  <data name="btnExportTrace.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnExportTrace.Text" xml:space="preserve">
+    <value>Export Trace</value>
+  </data>
+  <data name="btnExportTrace.ToolTip" xml:space="preserve">
+    <value>Export trace to excel file.</value>
+  </data>
   <data name="&gt;&gt;btnExportTrace.Name" xml:space="preserve">
     <value>btnExportTrace</value>
   </data>
@@ -733,6 +766,78 @@ CAL:start address of calibration</value>
   </data>
   <data name="&gt;&gt;btnExportTrace.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="btnClearDTC.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="btnClearDTC.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 64</value>
+  </data>
+  <data name="btnClearDTC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 35</value>
+  </data>
+  <data name="btnClearDTC.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnClearDTC.Text" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="btnClearDTC.ToolTip" xml:space="preserve">
+    <value>use to clear ECUs' DTC</value>
+  </data>
+  <data name="&gt;&gt;btnClearDTC.Name" xml:space="preserve">
+    <value>btnClearDTC</value>
+  </data>
+  <data name="&gt;&gt;btnClearDTC.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnClearDTC.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;btnClearDTC.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnReadDTC.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="btnReadDTC.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 23</value>
+  </data>
+  <data name="btnReadDTC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 35</value>
+  </data>
+  <data name="btnReadDTC.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnReadDTC.Text" xml:space="preserve">
+    <value>Read</value>
+  </data>
+  <data name="btnReadDTC.ToolTip" xml:space="preserve">
+    <value>use to read ECUs' DTC.</value>
+  </data>
+  <data name="&gt;&gt;btnReadDTC.Name" xml:space="preserve">
+    <value>btnReadDTC</value>
+  </data>
+  <data name="&gt;&gt;btnReadDTC.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnReadDTC.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;btnReadDTC.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 8</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 109</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>84</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>DTC</value>
   </data>
   <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
     <value>groupBox4</value>
@@ -746,6 +851,126 @@ CAL:start address of calibration</value>
   <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="nudIdTo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>115, 25</value>
+  </data>
+  <data name="nudIdTo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="nudIdTo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 32</value>
+  </data>
+  <data name="nudIdTo.TabIndex" type="System.Int32, mscorlib">
+    <value>82</value>
+  </data>
+  <data name="nudIdTo.ToolTip" xml:space="preserve">
+    <value>UDS request message's ID.</value>
+  </data>
+  <data name="&gt;&gt;nudIdTo.Name" xml:space="preserve">
+    <value>nudIdTo</value>
+  </data>
+  <data name="&gt;&gt;nudIdTo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudIdTo.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;nudIdTo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 27</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 25</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>78</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Rqst(h)</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="nudIdFrom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>115, 65</value>
+  </data>
+  <data name="nudIdFrom.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="nudIdFrom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 32</value>
+  </data>
+  <data name="nudIdFrom.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="nudIdFrom.ToolTip" xml:space="preserve">
+    <value>UDS response message's ID.</value>
+  </data>
+  <data name="&gt;&gt;nudIdFrom.Name" xml:space="preserve">
+    <value>nudIdFrom</value>
+  </data>
+  <data name="&gt;&gt;nudIdFrom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudIdFrom.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;nudIdFrom.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 70</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 25</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>77</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Rsps(h)</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 8</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>281, 108</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>83</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Diagnostic ID</value>
+  </data>
   <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
     <value>groupBox3</value>
   </data>
@@ -758,6 +983,27 @@ CAL:start address of calibration</value>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="chbShowPeriod.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chbShowPeriod.Location" type="System.Drawing.Point, System.Drawing">
+    <value>800, 53</value>
+  </data>
+  <data name="chbShowPeriod.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="chbShowPeriod.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 29</value>
+  </data>
+  <data name="chbShowPeriod.TabIndex" type="System.Int32, mscorlib">
+    <value>76</value>
+  </data>
+  <data name="chbShowPeriod.Text" xml:space="preserve">
+    <value>TimestampSW</value>
+  </data>
+  <data name="chbShowPeriod.ToolTip" xml:space="preserve">
+    <value>Message in trace window,display relative time/real time.</value>
+  </data>
   <data name="&gt;&gt;chbShowPeriod.Name" xml:space="preserve">
     <value>chbShowPeriod</value>
   </data>
@@ -769,6 +1015,21 @@ CAL:start address of calibration</value>
   </data>
   <data name="&gt;&gt;chbShowPeriod.ZOrder" xml:space="preserve">
     <value>6</value>
+  </data>
+  <data name="btnClear.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1139, 19</value>
+  </data>
+  <data name="btnClear.Size" type="System.Drawing.Size, System.Drawing">
+    <value>206, 38</value>
+  </data>
+  <data name="btnClear.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnClear.Text" xml:space="preserve">
+    <value>Clear message list</value>
+  </data>
+  <data name="btnClear.ToolTip" xml:space="preserve">
+    <value>Clear trace window messages record.</value>
   </data>
   <data name="&gt;&gt;btnClear.Name" xml:space="preserve">
     <value>btnClear</value>
@@ -949,591 +1210,6 @@ CAL:start address of calibration</value>
   </data>
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="cbWholeTrace.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="cbWholeTrace.Location" type="System.Drawing.Point, System.Drawing">
-    <value>800, 85</value>
-  </data>
-  <data name="cbWholeTrace.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 29</value>
-  </data>
-  <data name="cbWholeTrace.TabIndex" type="System.Int32, mscorlib">
-    <value>83</value>
-  </data>
-  <data name="cbWholeTrace.Text" xml:space="preserve">
-    <value>Whole trace</value>
-  </data>
-  <data name="cbWholeTrace.ToolTip" xml:space="preserve">
-    <value>Cause NPOI library limit,when save trace into excel file,
-messages count can not beyond 65535,otherwise save action fail.
-</value>
-  </data>
-  <data name="&gt;&gt;cbWholeTrace.Name" xml:space="preserve">
-    <value>cbWholeTrace</value>
-  </data>
-  <data name="&gt;&gt;cbWholeTrace.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbWholeTrace.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;cbWholeTrace.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="cbEnAPPMsg.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="cbEnAPPMsg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>800, 21</value>
-  </data>
-  <data name="cbEnAPPMsg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 29</value>
-  </data>
-  <data name="cbEnAPPMsg.TabIndex" type="System.Int32, mscorlib">
-    <value>83</value>
-  </data>
-  <data name="cbEnAPPMsg.Text" xml:space="preserve">
-    <value>APP message</value>
-  </data>
-  <data name="cbEnAPPMsg.ToolTip" xml:space="preserve">
-    <value>Display app message or not.</value>
-  </data>
-  <data name="cbEnAPPMsg.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;cbEnAPPMsg.Name" xml:space="preserve">
-    <value>cbEnAPPMsg</value>
-  </data>
-  <data name="&gt;&gt;cbEnAPPMsg.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbEnAPPMsg.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;cbEnAPPMsg.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>Test</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnTest.Name" xml:space="preserve">
-    <value>btnTest</value>
-  </data>
-  <data name="&gt;&gt;btnTest.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnTest.Parent" xml:space="preserve">
-    <value>Test</value>
-  </data>
-  <data name="&gt;&gt;btnTest.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;numUpDownNAD.Name" xml:space="preserve">
-    <value>numUpDownNAD</value>
-  </data>
-  <data name="&gt;&gt;numUpDownNAD.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numUpDownNAD.Parent" xml:space="preserve">
-    <value>Test</value>
-  </data>
-  <data name="&gt;&gt;numUpDownNAD.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="Test.Location" type="System.Drawing.Point, System.Drawing">
-    <value>477, 8</value>
-  </data>
-  <data name="Test.Size" type="System.Drawing.Size, System.Drawing">
-    <value>304, 109</value>
-  </data>
-  <data name="Test.TabIndex" type="System.Int32, mscorlib">
-    <value>92</value>
-  </data>
-  <data name="Test.Text" xml:space="preserve">
-    <value>Test Diag Service</value>
-  </data>
-  <data name="&gt;&gt;Test.Name" xml:space="preserve">
-    <value>Test</value>
-  </data>
-  <data name="&gt;&gt;Test.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Test.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;Test.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 26</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 25</value>
-  </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>91</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>NAD</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>Test</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btnTest.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="btnTest.Location" type="System.Drawing.Point, System.Drawing">
-    <value>147, 50</value>
-  </data>
-  <data name="btnTest.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 36</value>
-  </data>
-  <data name="btnTest.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnTest.Text" xml:space="preserve">
-    <value>Test</value>
-  </data>
-  <data name="btnTest.ToolTip" xml:space="preserve">
-    <value>Test UDS supported service,that has template in install path.
-which name is 'UDS_Service.xlsx'</value>
-  </data>
-  <data name="&gt;&gt;btnTest.Name" xml:space="preserve">
-    <value>btnTest</value>
-  </data>
-  <data name="&gt;&gt;btnTest.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnTest.Parent" xml:space="preserve">
-    <value>Test</value>
-  </data>
-  <data name="&gt;&gt;btnTest.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="numUpDownNAD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 54</value>
-  </data>
-  <data name="numUpDownNAD.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="numUpDownNAD.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 32</value>
-  </data>
-  <data name="numUpDownNAD.TabIndex" type="System.Int32, mscorlib">
-    <value>90</value>
-  </data>
-  <data name="numUpDownNAD.ToolTip" xml:space="preserve">
-    <value>NAD value support on LIN bus only</value>
-  </data>
-  <data name="&gt;&gt;numUpDownNAD.Name" xml:space="preserve">
-    <value>numUpDownNAD</value>
-  </data>
-  <data name="&gt;&gt;numUpDownNAD.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numUpDownNAD.Parent" xml:space="preserve">
-    <value>Test</value>
-  </data>
-  <data name="&gt;&gt;numUpDownNAD.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btnExportTrace.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1141, 71</value>
-  </data>
-  <data name="btnExportTrace.Size" type="System.Drawing.Size, System.Drawing">
-    <value>206, 36</value>
-  </data>
-  <data name="btnExportTrace.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnExportTrace.Text" xml:space="preserve">
-    <value>Export Trace</value>
-  </data>
-  <data name="btnExportTrace.ToolTip" xml:space="preserve">
-    <value>Export trace to excel file.</value>
-  </data>
-  <data name="&gt;&gt;btnExportTrace.Name" xml:space="preserve">
-    <value>btnExportTrace</value>
-  </data>
-  <data name="&gt;&gt;btnExportTrace.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnExportTrace.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;btnExportTrace.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;btnClearDTC.Name" xml:space="preserve">
-    <value>btnClearDTC</value>
-  </data>
-  <data name="&gt;&gt;btnClearDTC.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnClearDTC.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;btnClearDTC.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnReadDTC.Name" xml:space="preserve">
-    <value>btnReadDTC</value>
-  </data>
-  <data name="&gt;&gt;btnReadDTC.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnReadDTC.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;btnReadDTC.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 8</value>
-  </data>
-  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 109</value>
-  </data>
-  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>84</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>DTC</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="btnClearDTC.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="btnClearDTC.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 64</value>
-  </data>
-  <data name="btnClearDTC.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 35</value>
-  </data>
-  <data name="btnClearDTC.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnClearDTC.Text" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="btnClearDTC.ToolTip" xml:space="preserve">
-    <value>use to clear ECUs' DTC</value>
-  </data>
-  <data name="&gt;&gt;btnClearDTC.Name" xml:space="preserve">
-    <value>btnClearDTC</value>
-  </data>
-  <data name="&gt;&gt;btnClearDTC.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnClearDTC.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;btnClearDTC.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btnReadDTC.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="btnReadDTC.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 23</value>
-  </data>
-  <data name="btnReadDTC.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 35</value>
-  </data>
-  <data name="btnReadDTC.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnReadDTC.Text" xml:space="preserve">
-    <value>Read</value>
-  </data>
-  <data name="btnReadDTC.ToolTip" xml:space="preserve">
-    <value>use to read ECUs' DTC.</value>
-  </data>
-  <data name="&gt;&gt;btnReadDTC.Name" xml:space="preserve">
-    <value>btnReadDTC</value>
-  </data>
-  <data name="&gt;&gt;btnReadDTC.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnReadDTC.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;btnReadDTC.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;nudIdTo.Name" xml:space="preserve">
-    <value>nudIdTo</value>
-  </data>
-  <data name="&gt;&gt;nudIdTo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;nudIdTo.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;nudIdTo.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;nudIdFrom.Name" xml:space="preserve">
-    <value>nudIdFrom</value>
-  </data>
-  <data name="&gt;&gt;nudIdFrom.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;nudIdFrom.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;nudIdFrom.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 8</value>
-  </data>
-  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 108</value>
-  </data>
-  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>83</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Diagnostic ID</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="nudIdTo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 25</value>
-  </data>
-  <data name="nudIdTo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="nudIdTo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 32</value>
-  </data>
-  <data name="nudIdTo.TabIndex" type="System.Int32, mscorlib">
-    <value>82</value>
-  </data>
-  <data name="nudIdTo.ToolTip" xml:space="preserve">
-    <value>UDS request message's ID.</value>
-  </data>
-  <data name="&gt;&gt;nudIdTo.Name" xml:space="preserve">
-    <value>nudIdTo</value>
-  </data>
-  <data name="&gt;&gt;nudIdTo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;nudIdTo.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;nudIdTo.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 27</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 25</value>
-  </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>78</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Rqst(h)</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="nudIdFrom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 65</value>
-  </data>
-  <data name="nudIdFrom.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="nudIdFrom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 32</value>
-  </data>
-  <data name="nudIdFrom.TabIndex" type="System.Int32, mscorlib">
-    <value>81</value>
-  </data>
-  <data name="nudIdFrom.ToolTip" xml:space="preserve">
-    <value>UDS response message's ID.</value>
-  </data>
-  <data name="&gt;&gt;nudIdFrom.Name" xml:space="preserve">
-    <value>nudIdFrom</value>
-  </data>
-  <data name="&gt;&gt;nudIdFrom.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;nudIdFrom.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;nudIdFrom.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 70</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 25</value>
-  </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>77</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Rsps(h)</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="chbShowPeriod.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chbShowPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>800, 53</value>
-  </data>
-  <data name="chbShowPeriod.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="chbShowPeriod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 29</value>
-  </data>
-  <data name="chbShowPeriod.TabIndex" type="System.Int32, mscorlib">
-    <value>76</value>
-  </data>
-  <data name="chbShowPeriod.Text" xml:space="preserve">
-    <value>TimestampSW</value>
-  </data>
-  <data name="chbShowPeriod.ToolTip" xml:space="preserve">
-    <value>Message in trace window,display relative time/real time.</value>
-  </data>
-  <data name="&gt;&gt;chbShowPeriod.Name" xml:space="preserve">
-    <value>chbShowPeriod</value>
-  </data>
-  <data name="&gt;&gt;chbShowPeriod.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chbShowPeriod.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;chbShowPeriod.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="btnClear.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1139, 19</value>
-  </data>
-  <data name="btnClear.Size" type="System.Drawing.Size, System.Drawing">
-    <value>206, 38</value>
-  </data>
-  <data name="btnClear.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnClear.Text" xml:space="preserve">
-    <value>Clear message list</value>
-  </data>
-  <data name="btnClear.ToolTip" xml:space="preserve">
-    <value>Clear trace window messages record.</value>
-  </data>
-  <data name="&gt;&gt;btnClear.Name" xml:space="preserve">
-    <value>btnClear</value>
-  </data>
-  <data name="&gt;&gt;btnClear.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnClear.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;btnClear.ZOrder" xml:space="preserve">
-    <value>7</value>
   </data>
   <data name="chbBRS.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2522,55 +2198,16 @@ which name is 'UDS_Service.xlsx'</value>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;tpDownloader.Name" xml:space="preserve">
-    <value>tpDownloader</value>
+  <data name="lbPath.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="&gt;&gt;tpDownloader.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="lbPath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 30</value>
   </data>
-  <data name="&gt;&gt;tpDownloader.Parent" xml:space="preserve">
-    <value>tcDownloader</value>
+  <data name="lbPath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 25</value>
   </data>
-  <data name="&gt;&gt;tpDownloader.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Trace.Name" xml:space="preserve">
-    <value>Trace</value>
-  </data>
-  <data name="&gt;&gt;Trace.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Trace.Parent" xml:space="preserve">
-    <value>tcDownloader</value>
-  </data>
-  <data name="&gt;&gt;Trace.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tcDownloader.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tcDownloader.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 10pt</value>
-  </data>
-  <data name="tcDownloader.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 146</value>
-  </data>
-  <data name="tcDownloader.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1419, 759</value>
-  </data>
-  <data name="tcDownloader.TabIndex" type="System.Int32, mscorlib">
-    <value>44</value>
-  </data>
-  <data name="&gt;&gt;tcDownloader.Name" xml:space="preserve">
-    <value>tcDownloader</value>
-  </data>
-  <data name="&gt;&gt;tcDownloader.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tcDownloader.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tcDownloader.ZOrder" xml:space="preserve">
+  <data name="lbPath.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="&gt;&gt;lbPath.Name" xml:space="preserve">
@@ -2612,30 +2249,6 @@ which name is 'UDS_Service.xlsx'</value>
   <data name="&gt;&gt;tpDownloader.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="lbPath.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lbPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>27, 30</value>
-  </data>
-  <data name="lbPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 25</value>
-  </data>
-  <data name="lbPath.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;lbPath.Name" xml:space="preserve">
-    <value>lbPath</value>
-  </data>
-  <data name="&gt;&gt;lbPath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lbPath.Parent" xml:space="preserve">
-    <value>tpDownloader</value>
-  </data>
-  <data name="&gt;&gt;lbPath.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="Trace.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 34</value>
   </data>
@@ -2663,14 +2276,38 @@ which name is 'UDS_Service.xlsx'</value>
   <data name="&gt;&gt;Trace.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="tcDownloader.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tcDownloader.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 10pt</value>
+  </data>
+  <data name="tcDownloader.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 146</value>
+  </data>
+  <data name="tcDownloader.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1419, 759</value>
+  </data>
+  <data name="tcDownloader.TabIndex" type="System.Int32, mscorlib">
+    <value>44</value>
+  </data>
+  <data name="&gt;&gt;tcDownloader.Name" xml:space="preserve">
+    <value>tcDownloader</value>
+  </data>
+  <data name="&gt;&gt;tcDownloader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tcDownloader.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tcDownloader.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="tmrDisplay.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <metadata name="tmrMsg.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>174, 17</value>
-  </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>305, 17</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -3521,7 +3158,7 @@ which name is 'UDS_Service.xlsx'</value>
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Manhui technology UDS flush tool</value>
+    <value>ManHui Tech UDS flush tool</value>
   </data>
   <data name="&gt;&gt;CoID.Name" xml:space="preserve">
     <value>CoID</value>

@@ -136,20 +136,7 @@ namespace Diag_BUS
 
                         // Send the message
                         nResult = gDiag_Lin.Write_Message(new_msg);
-
-                        if (b36Req)
-                        {
-                            //Thread.Sleep(m_nx36PackIntervalTimer);
-                            Thread.Sleep(P2_ServerTime);
-
-                            //if( -1==gDiag_Lin.N2S_ProcessFollowCtrl(0x36))
-                            //{
-                            //    gDiag_Lin.Invoke(new MethodInvoker(delegate () { gDiag_Lin.IncludeTextMessage(string.Format("Issue occured when process FollowCtrl message.")); }));
-                            //    //return -1;
-                            //}
-                        }
-                        else
-                            Thread.Sleep(P2_ServerTime);
+                        Thread.Sleep(P2_ServerTime);
                     }
                     //backward frame
                     {
@@ -450,9 +437,8 @@ namespace Diag_BUS
                                     }
                                 }
                                 // Send the message
-                                nResult = gDiag_Lin.WriteFrame(new_msgX);
-                                //Thread.Sleep(m_nx36PackIntervalTimer);
-                                Thread.Sleep(P2_ServerTime/*gDiag_Lin.ST_MIN*/);
+                                nResult = gDiag_Lin.WriteFrame(new_msgX); 
+                                Thread.Sleep(P2_ServerTime);
                             }
                             if (nEndBytes > 0) //tail block(less than 7 bytes)
                             {
@@ -620,7 +606,6 @@ namespace Diag_BUS
                                 }
                                 // Send the message
                                 nResult = gDiag_Lin.WriteFrame(new_msgX, svrID, 0xF);
-                                //Thread.Sleep(m_nx36PackIntervalTimer);
                                 Thread.Sleep(gDiag_Lin.ST_MIN);
                             }
                             if (nEndBytes > 0) //tail block(less than 7 bytes)
@@ -2439,7 +2424,7 @@ namespace Diag_BUS
                 m_ReqMsg = new byte[] { 0x10, 0x03 }; //Extension session
                 nSendResult = Write_CANMessage(m_ReqMsg, true);
 
-                if (Resp_TH(ref nMaxNumOfBlock, 50, 0, 0x10))
+                if (Resp_TH(ref nMaxNumOfBlock, 300, 0, 0x10))
                 {
 #if _DTC_Switch
                     m_ReqMsg = new byte[] { 0x85, 0x02 }; //DTC switch
@@ -2453,7 +2438,7 @@ namespace Diag_BUS
                         m_ReqMsg = new byte[] { 0x28, 0x01, 0x01 }; //Disable APP message
                         nSendResult = Write_CANMessage(m_ReqMsg, true);
 
-                        if (Resp_TH(ref nMaxNumOfBlock, 50, 0, 0x28))
+                        if (Resp_TH(ref nMaxNumOfBlock, 300, 0, 0x28))
                         {
 #endif
                             m_ReqMsg = new byte[] { 0x10, 0x02}; //Programe session
@@ -2992,23 +2977,27 @@ namespace Diag_BUS
                     break;
                 }
                 gDiag_Lin.N2S_ProcessFollowCtrl((byte)reqID);
-                //must waitted response message here
-                if (!gDiag_Lin.m_ReadDTCEvent.WaitOne(P2_ServerTime * 5))
-                    break;
+                if (gDiag_Lin.m_WriteThread.IsAlive)  //must waitted response message here                                
+                    if (!gDiag_Lin.m_ReadDTCEvent.WaitOne(10))
+                    {
+                        gDiag_Lin.ReadMessage(ref resp);
+                        gDiag_Lin.m_RespMsg = resp;
+                        continue;
+                    }
 
-                if (reqID == 0x22 || reqID == 0x2E)
-                {
-                    Thread.Sleep(50);
-                    gDiag_Lin.ReadMessage(ref resp);
-                    gDiag_Lin.m_RespMsg = resp;
-                }
-                else if (reqID == 0x19)
-                {
-                    Thread.Sleep(P2_ServerTime);
-                     gDiag_Lin.ReadMessage(ref resp);
-                    gDiag_Lin.m_RespMsg = resp;
-                }
-                else
+                //if (reqID == 0x22 || reqID == 0x2E)
+                //{
+                //    Thread.Sleep(50);
+                //    gDiag_Lin.ReadMessage(ref resp);
+                //    gDiag_Lin.m_RespMsg = resp;
+                //}
+                //else if (reqID == 0x19)
+                //{
+                //    Thread.Sleep(P2_ServerTime);
+                //     gDiag_Lin.ReadMessage(ref resp);
+                //    gDiag_Lin.m_RespMsg = resp;
+                //}
+                //else
                 {
                     gDiag_Lin._rw.EnterReadLock();
                     resp = gDiag_Lin.m_RespMsg;
@@ -3086,7 +3075,8 @@ namespace Diag_BUS
                 }
                 else if (resp[1] == 0x50 && resp[2] == 0x02) //service mode switch
                 {
-                    gDiag_Lin.ST_MIN = resp[4];
+                    //gDiag_Lin.ST_MIN = resp[4];
+                    P2_ServerTime = gDiag_Lin.ST_MIN;
                     bResult = true;
                     break;
                 }
@@ -3137,7 +3127,7 @@ namespace Diag_BUS
                 }
 
                 Thread.Sleep(10);
-                nLoop++;            
+                nLoop++;   
             }
             gDiag_Lin.m_ReadDTCEvent.Reset();
             return bResult;
@@ -3212,7 +3202,7 @@ namespace Diag_BUS
 
                     m_ReqMsg = new byte[] { 0x28, 0x01, 0x01 }; //Disable APP message
                     nSendResult = Write_CANMessage(m_ReqMsg, true);
-                    if (Resp_TH(ref nMaxNumOfBlock, 300, 0, 0x28))
+                    if (Resp_TH(ref nMaxNumOfBlock, 500, 0, 0x28))
                     {
 #endif
                             m_ReqMsg = new byte[] { 0x10, 0x02 }; //Programe session
@@ -3642,7 +3632,28 @@ namespace Diag_BUS
                     m_N2SDataPack.nMaxNumOfBlock = nMaxNumOfBlock;
                     m_N2SDataPack.All0x36PackData = new byte[gDiag_Lin.m_Total36Data.Length];
                     m_N2SDataPack.All0x36PackData = gDiag_Lin.m_Total36Data;
+
                     UpgrateFirmware(m_N2SDataPack);
+
+                    //gDiag_Lin.m_WriteThread = new System.Threading.Thread(UpgrateFirmware);
+                    //gDiag_Lin.m_WriteThread.IsBackground = true;
+                    //gDiag_Lin.m_WriteThread.Start(m_N2SDataPack);
+
+                    //bool IfTimesEnd = false;
+                    //bool IfRunOver = false;
+                    //while (!IfRunOver && gDiag_Lin.m_WriteThread != null)
+                    //{
+                    //    IfTimesEnd = gDiag_Lin.m_WriteThread.IsAlive;
+                    //    Application.DoEvents();
+                    //    if (!IfTimesEnd || IfRunOver || !gDiag_Lin.m_bTransferDataOK)
+                    //    {
+                    //        gDiag_Lin.m_WriteThread.Interrupt();
+                    //        gDiag_Lin.m_WriteThread.Abort();
+                    //        IfTimesEnd = false;
+                    //        gDiag_Lin.gAddrOffset = 0;
+                    //        break;
+                    //    }
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -3727,35 +3738,23 @@ namespace Diag_BUS
                 gDiag_Lin.N2S_ProcessFollowCtrl((byte)reqID);
 
                 if (gDiag_Lin.m_WriteThread.IsAlive)  //must waitted response message here
-                    if (!gDiag_Lin.m_ReadDTCEvent.WaitOne(nBlocks * 5))
+                    if (!gDiag_Lin.m_ReadDTCEvent.WaitOne(10))
                     {
-                        break;
+                        gDiag_Lin.ReadMessage(ref resp);
+                        gDiag_Lin.m_RespMsg = resp;
+                        continue ;
                     }
-
-                if (reqID == 0x22 || reqID == 0x2E)
-                {
-                    Thread.Sleep(50);
+                
+                
+                if (!gDiag_Lin.m_DisplayAppMsg)
                     gDiag_Lin.ReadMessage(ref resp);
-                    gDiag_Lin.m_RespMsg = resp;
-                }
-                else if (reqID == 0x19)
-                {
-                    Thread.Sleep(P2_ServerTime);
-                    gDiag_Lin.ReadMessage(ref resp);
-                    gDiag_Lin.m_RespMsg = resp;
-                }
                 else
                 {
-                    if (!gDiag_Lin.m_DisplayAppMsg)
-                        gDiag_Lin.ReadMessage(ref resp);
-                    else
-                    {
-                        gDiag_Lin._rw.EnterReadLock();
-                        resp = gDiag_Lin.m_RespMsg;
-                        gDiag_Lin._rw.ExitReadLock();
-                    }
+                    gDiag_Lin._rw.EnterReadLock();
+                    resp = gDiag_Lin.m_RespMsg;
+                    gDiag_Lin._rw.ExitReadLock();
                 }
-
+                
                 //finish 0x31 routine control wait(earse memory command)
                 if (resp[1] == 0x71 && resp[2] == 0x01 && resp[3] == 0xFF
                     && resp[4] == 0x44 && resp[5] == 0xFF)
@@ -3799,7 +3798,6 @@ namespace Diag_BUS
                 else if (resp[1] == 0x7E && resp[2] == 0x00) //0x3E
                 {
                     bResult = true;
-                    Buffer.BlockCopy(gDiag_Lin.m_RespMsg, 0, resp, 0, resp.Length * sizeof(byte));
                     break;
                 }
                 else if (resp[1] == 0x67 && resp[2] == 0x01) //request seed(do not clear m_RespMsg here, cause 0x27 02s' parameter need use seed caculate key)
@@ -3829,15 +3827,12 @@ namespace Diag_BUS
                 }
                 else if (resp[1] == 0x50 && resp[2] == 0x02) //service mode switch
                 {
-                    //gDiag_Lin.ST_MIN = resp[4];
                     P2_ServerTime = gDiag_Lin.ST_MIN;
                     bResult = true;
                     break;
                 }
                 else if (resp[1] == 0x50 && resp[2] == 0x03) //service mode switch
                 {
-                    //Clear current global response buffer,so no influnce next response message estimate
-                    //Buffer.BlockCopy(new byte[8], 0, gDiag_Lin.m_RespMsg, 0, resp.Length * sizeof(byte));
                     bResult = true;
                     break;
                 }
@@ -3881,9 +3876,7 @@ namespace Diag_BUS
                     break;
 
                 if (resp[1] == 0x7F)
-                {                    
-                    //Clear current global response buffer,so no influnce next response message estimate
-                    //Buffer.BlockCopy(new byte[8], 0, gDiag_Lin.m_RespMsg, 0, resp.Length * sizeof(byte));
+                {
                     nNegResp++;                  
                 }
                 
@@ -4478,23 +4471,28 @@ namespace Diag_BUS
                 }
 
                 if (gDiag_Lin.m_WriteThread.IsAlive)
-                    gDiag_Lin.m_ReadDTCEvent.WaitOne(nBlocks);//must waitted response message here
+                    if (!gDiag_Lin.m_ReadDTCEvent.WaitOne(nBlocks))      //must waitted response message here
+                    {
+                        Thread.Sleep(P2_ServerTime);
+                        gDiag_Lin.ReadMessage(ref resp);
+                        gDiag_Lin.m_RespMsg = resp;
+                    }
 
                 resp = new byte[8];
 
-                if (reqID == 0x22 || reqID == 0x2E)
-                {
-                    Thread.Sleep(50);
-                    gDiag_Lin.ReadMessage(ref resp);
-                    gDiag_Lin.m_RespMsg = resp;
-                }
-                else if (reqID == 0x19)
-                {
-                    Thread.Sleep(P2_ServerTime);
-                    gDiag_Lin.ReadMessage(ref resp);
-                    gDiag_Lin.m_RespMsg = resp;
-                }
-                else
+                //if (reqID == 0x22 || reqID == 0x2E)
+                //{
+                //    Thread.Sleep(50);
+                //    gDiag_Lin.ReadMessage(ref resp);
+                //    gDiag_Lin.m_RespMsg = resp;
+                //}
+                //else if (reqID == 0x19)
+                //{
+                //    Thread.Sleep(P2_ServerTime);
+                //    gDiag_Lin.ReadMessage(ref resp);
+                //    gDiag_Lin.m_RespMsg = resp;
+                //}
+                //else
                 {
                     if (!gDiag_Lin.m_DisplayAppMsg)
                         gDiag_Lin.ReadMessage(ref resp);

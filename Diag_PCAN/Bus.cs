@@ -217,7 +217,7 @@ namespace Diag_BUS
             // We execute the "Read" function of the PCANBasic
             //
             status = PCANBasic.Read(m_PcanHandle, out CANMsg, out CANTimeStamp);
-            //if (status != TPCANStatus.PCAN_ERROR_QRCVEMPTY)
+            if (!Convert.ToBoolean(status & TPCANStatus.PCAN_ERROR_QRCVEMPTY))
             {
                 m_CANMsg = new CANMsgs();
                 m_CANMsg.CANMsg = CANMsg;
@@ -225,8 +225,8 @@ namespace Diag_BUS
                 m_CANMsg.stsResult = status;
                 BusMsg = (object)m_CANMsg;
             }
-            //else
-            //    BusMsg = null;
+            else
+                BusMsg = null;
 
             return (int)status;      //base.ReceiveMessage(out BusMsg);
         }
