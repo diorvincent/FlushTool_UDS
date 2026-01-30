@@ -135,7 +135,7 @@ namespace Diag_BUS
         /// <summary>
         /// global synchronization object
         /// </summary>
-        public static object m_obj;
+       // public static readonly object m_obj;
         /// <summary>
         /// Thread for message writting
         /// </summary>
@@ -310,6 +310,10 @@ namespace Diag_BUS
         /// </summary>
         public System.Threading.ManualResetEvent m_ReadDTCEvent;
         /// <summary>
+        /// flow ctrl frame signal
+        /// </summary>
+        public System.Threading.ManualResetEvent m_ReadFlowCtrlEvent;
+        /// <summary>
         /// Thread for read dtc message sending (using evens)
         /// </summary>
         private Thread m_ReadDTCThread;
@@ -372,9 +376,23 @@ namespace Diag_BUS
         /// record message count
         /// </summary>
         private uint m_MsgCount;
+
+        /// <summary>
+        /// flow ctrl frame mark
+        /// </summary>
+        public int g_nFlowCtrl;
+
+
+
         #endregion
 
         #endregion
+
+        //sychornazition lock
+        public class PublicLock
+        {
+            public static readonly object Lock = new object();
+        }
 
         public Diag_LIN()
         {
@@ -527,13 +545,16 @@ namespace Diag_BUS
             m_ReadDelegate = new ReadDelegateHandler(ReadMessages);
             //Creates the synchronization object for thread(send/receive)
             //
-            m_obj = new object();
+            ////m_obj = new object();
             // Creates the event used for signalize incomming messages 
             //
             m_ReceiveEvent = new AutoResetEvent(false);
             //Create the event used for recieve read DTC response message
             //
             m_ReadDTCEvent = new ManualResetEvent(false);
+            //Create the envent used for signal when receive flow control frame
+            //
+            m_ReadFlowCtrlEvent = new ManualResetEvent(false);
             //Create the delegate used for N2S and CANUDS flashing
             //
             m_CANUDS_ffHandler = new N2S_FlashFirewareHandler(N2S_canFlashFirmware_TH);
@@ -575,7 +596,7 @@ namespace Diag_BUS
 
             FristEnterRT_ticks = 0;
             cbbChannel.SelectedIndex = 0;
-            cbProject.SelectedIndex = 6; //_CBF2    //9;chery cbf  //6;CAN UDS(ac7801)
+            cbProject.SelectedIndex = 5; //ac7840    //9;chery cbf  //6;CAN UDS(ac7801)
 
             //m_nDynStartAddr = 0;
             m_n36SvrPackNum = 0x21;
@@ -598,6 +619,8 @@ namespace Diag_BUS
             m_bBreakInDownloading = false;
             ST_MIN = 5;
             m_bAppMsgAlive = false;
+
+            g_nFlowCtrl = 0x0F;
         }
 
         /// <summary>
@@ -1475,7 +1498,7 @@ namespace Diag_BUS
                     m_FirmwareFileSize = binAddrInfo.BlockLen;
                 }
 
-                lock (m_obj)
+                lock (PublicLock.Lock)
                 {
                     for (AddrOffset = 0; AddrOffset < m_FirmwareFileSize;)
                     {
@@ -2005,7 +2028,8 @@ namespace Diag_BUS
             Console.WriteLine(string.Format("BlockNum::{0:d}", nBlockNum));
 
             FlashFirewareHandler ffHandler = new FlashFirewareHandler(canFlashFirmware_TH);
-            lock (m_obj)
+            //lock (m_obj)
+            lock(PublicLock.Lock)
             {
                 for (int x = gCurrPackPos; x < nBlockNum; x++)
                 {
@@ -2619,7 +2643,7 @@ namespace Diag_BUS
             Console.WriteLine(string.Format("BlockNum::{0:d}", nBlockNum));
 
             N2S_FlashFirewareHandler ffHandler = new N2S_FlashFirewareHandler(N2S_canFlashFirmware_TH);
-            lock (m_obj)
+            lock (PublicLock.Lock)
             {
                 for (int x = gCurrPackPos; x < nBlockNum; x++)
                 {
@@ -3705,15 +3729,15 @@ namespace Diag_BUS
                 m_BlockSize = m_RespMsg[1];
                 m_WaitTime = m_RespMsg[2];
 
-                m_FC0 = Convert.ToByte((m_FollowControl & 0xF0));
-                m_FC1 = Convert.ToByte((m_FollowControl & 0x0F));
+                m_FC0 = Convert.ToByte((m_FollowControl /*& 0xF0*/));
+                m_FC1 = Convert.ToByte((m_FollowControl /*& 0x0F*/));
 
                 if (nWaitCount > ST_MIN)//wait time greater than st_min(50ms)，return false;
                     break;
 
                 if (m_FC0 == 0x30) //continue send
                 {
-                    ST_MIN = m_RespMsg[2];
+                    //ST_MIN = m_RespMsg[2];
                     nResult = 0;
                     break;
                 }
@@ -3725,7 +3749,7 @@ namespace Diag_BUS
                 else if (m_FC0 == 0x32) //over flow
                 {
                     IncludeTextMessage("Current send data over flollow(Resp:0x30 0x02...)");
-                    nResult = 0;
+                    nResult = 2;
                     break;
                 }
                 Thread.Sleep(1);
@@ -5058,8 +5082,8 @@ namespace Diag_BUS
             byte[] respMsg = new byte[8];
 
             TPCANStatus stsResult;
-            StringBuilder strTemp;
-            string strErr;
+            //StringBuilder strTemp;
+            //string strErr;
             stsResult = TPCANStatus.PCAN_ERROR_OK;
 
             if (m_bus.BusType == Bus.Type.LIN_BUS)
@@ -5145,6 +5169,7 @@ namespace Diag_BUS
                     {
                         //**********####$$$$$IMPORTANT(INDISPENSABLE)$$$$$####**********// !!!
                         //tell read dtc thread DTC has be found.
+                        g_nFlowCtrl = N2S_ProcessFollowCtrl(0x00);
 
                         if (canMsg.ID == m_RespID)
                         {
@@ -5158,6 +5183,9 @@ namespace Diag_BUS
                                                     
                         GetMsgTimeStamp(ref T_timestamp);
                         this.Invoke(new MethodInvoker(delegate () { ProcessMessage(canMsg, T_timestamp); }));
+
+                        if (g_nFlowCtrl == 0x00)
+                            m_ReadFlowCtrlEvent.Set();
                     }
                     else
                     {
@@ -5227,12 +5255,12 @@ namespace Diag_BUS
                     //else if (nResult == (int)TPCANStatus.PCAN_ERROR_QRCVEMPTY)
                     #endregion
 
-                    {
-                        strTemp = new StringBuilder(256);
-                        stsResult = PCANBasic.GetValue(PCANBasic.PCAN_NONEBUS, TPCANParameter.PCAN_RECEIVE_STATUS, strTemp, 256);
-                        strErr = GetFormatedError(stsResult);
-                        Invoke(new MethodInvoker(delegate () { IncludeTextMessage(strErr); }));
-                    }
+                    //{
+                    //    strTemp = new StringBuilder(256);
+                    //    stsResult = PCANBasic.GetValue(PCANBasic.PCAN_NONEBUS, TPCANParameter.PCAN_RECEIVE_STATUS, strTemp, 256);
+                    //    strErr = GetFormatedError(stsResult);
+                    //    Invoke(new MethodInvoker(delegate () { IncludeTextMessage(strErr); }));
+                    //}
                 }
             }
         }
@@ -5399,8 +5427,12 @@ namespace Diag_BUS
 
                         //**********####$$$$$IMPORTANT(INDISPENSABLE)$$$$$####**********// !!!
                         //tell read dtc thread DTC has be found.
-                        //if (m_RespMsg[1] == 0x28)
-                        //    Thread.Sleep(10);
+                        g_nFlowCtrl = N2S_ProcessFollowCtrl(0x00);
+                        if(g_nFlowCtrl == 0x00)
+                        {
+                            m_ReadFlowCtrlEvent.Set();
+                        }
+
                         if (canMsg.ID == Convert.ToUInt32(nudIdFrom.Value))
                         {
                             m_ReadDTCEvent.Set();
@@ -6568,7 +6600,7 @@ namespace Diag_BUS
                         for (int i = 0; i < n7ByteGroups; i++)
                         {
                             m_ReadDTCEvent.WaitOne(P2_ServerTime * 5);
-                            lock (m_obj)
+                            lock (PublicLock.Lock)
                             {
                                 Array.Copy(m_RespMsg, 1, tmpRespMsg, n, BlockSize);
                                 n += 7;
@@ -6578,7 +6610,7 @@ namespace Diag_BUS
                         }
                         if (nEndBytes > 0)
                         {
-                            lock (m_obj)
+                            lock (PublicLock.Lock)
                             {
                                 Array.Copy(respFrm, 1, tmpRespMsg, n, nEndBytes);
                             }
@@ -6973,7 +7005,7 @@ namespace Diag_BUS
 
                 nudIdTo.Value = 0x7E0;
                 nudIdFrom.Value = 0x7E8;
-                cbbBaudrates.SelectedIndex = 1;
+                cbbBaudrates.SelectedIndex = 2;
                 //cbEnAPPMsg.Visible = true;
             }
             else if (cbProject.SelectedIndex == 1)//400v Compresor
@@ -7044,16 +7076,16 @@ namespace Diag_BUS
                 MEMORY_SIZE = 0x000F0000;
 
                 //AC7840
-                CAN_ADDR = 0x00010000;
-                CAN_SIZE = 0x000F0000;
+                CAN_ADDR = 0x00020000;
+                CAN_SIZE = 0x000E0000;
 
                 PRODUCT_TYPE = PRJTYPE._CANUDS40;
 
                 nudIdTo.Value = 0x7E0;
                 nudIdFrom.Value = 0x7E8;
-                cbbBaudrates.SelectedIndex = 1;
-                btnWriteDID.Visible = true;
-                btnResetDID.Visible = true;
+                cbbBaudrates.SelectedIndex = 2;
+                btnWriteDID.Visible = false;
+                btnResetDID.Visible = false;
                 cbEnAPPMsg.Visible = true;
 
                 chbCanFD.Visible = true;
@@ -7178,8 +7210,8 @@ namespace Diag_BUS
                 nudIdTo.Value = 0x18DB45FA;
                 nudIdFrom.Value = 0x18DAFA45;
                 cbbBaudrates.SelectedIndex = 1;
-                btnWriteDID.Visible = true;
-                btnResetDID.Visible = true;
+                btnWriteDID.Visible = false;
+                btnResetDID.Visible = false;
                 cbEnAPPMsg.Visible = true;
             }
             else if (cbProject.SelectedIndex == 12) //_CBF2
@@ -9364,7 +9396,7 @@ namespace Diag_BUS
             if(e.KeyCode == Keys.F1)
             {
                 string strDocPath;
-                strDocPath = Directory.GetCurrentDirectory() + @"\下线刷写工具使用说明20251024.docx";
+                strDocPath = Directory.GetCurrentDirectory() + @"\下线刷写工具使用说明.docx";
    
                 try
                 {

@@ -3158,7 +3158,7 @@ which name is 'UDS_Service.xlsx'</value>
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>ManHui Tech UDS flush tool</value>
+    <value>ManHui Tech UDS flush tool(v2.0 for help press F1)</value>
   </data>
   <data name="&gt;&gt;CoID.Name" xml:space="preserve">
     <value>CoID</value>
