@@ -102,7 +102,7 @@ namespace Diag_BUS
         public UInt32 CAN_SIZE1 = 0x00017000;
 
         //st_min intever response time throhold
-        public int ST_MIN = 10;
+        public int ST_MIN = 3;
 
         public int m_nWriteDID_Times = 0;
         /// <summary>
